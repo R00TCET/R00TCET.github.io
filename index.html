@@ -11,9 +11,11 @@
   --accent:#00f0ff;
   --menu-bg:#161b22;
   --shadow: rgba(0,0,0,0.6);
-  --transition:0.3s;
+  --transition:0.4s;
+  --burger-size:25px;
 }
 
+/* Reset & base */
 * {margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif;}
 body {background:var(--bg);color:var(--text);display:flex;flex-direction:column;min-height:100vh;transition:background var(--transition);}
 a {text-decoration:none;color:inherit;}
@@ -28,13 +30,239 @@ header {
   display:flex;
   justify-content:space-between;
   align-items:center;
-  padding:15px 40px;
-  box-shadow:0 4px 15px var(--shadow);
+  padding:15px 50px;
+  box-shadow:0 6px 20px var(--shadow);
   z-index:1000;
+  backdrop-filter: blur(10px);
 }
 
 header h1 {
-  font-size:22px;
+  font-size:24px;
+  color:var(--accent);
+  letter-spacing:3px;
+  transform: translateY(-10px);
+  animation:fadeDown 0.8s forwards;
+}
+
+@keyframes fadeDown {
+  to {transform:translateY(0); opacity:1;}
+}
+
+/* Navigation */
+nav ul {
+  list-style:none;
+  display:flex;
+  gap:30px;
+  align-items:center;
+  transition: all 0.5s ease;
+}
+
+nav ul li {position:relative;}
+
+nav ul li a {
+  font-weight:600;
+  padding:5px 8px;
+  transition: all 0.3s ease;
+}
+
+nav ul li a:hover {
+  color:var(--accent);
+  transform:scale(1.15);
+  text-shadow:0 0 10px var(--accent);
+}
+
+/* Dropdown */
+nav ul li ul {
+  display:none;
+  position:absolute;
+  top:40px;
+  left:0;
+  background:var(--menu-bg);
+  flex-direction:column;
+  min-width:180px;
+  border-radius:10px;
+  box-shadow:0 8px 30px var(--shadow);
+  overflow:hidden;
+  animation:fadeIn 0.4s ease;
+}
+
+nav ul li:hover ul {display:flex;}
+
+nav ul li ul li a {
+  padding:12px 20px;
+  transition: all 0.3s;
+}
+
+nav ul li ul li a:hover {
+  background:var(--accent);
+  color:var(--menu-bg);
+  transform:scale(1.05);
+}
+
+/* Burger menu */
+.burger {
+  display:none;
+  flex-direction:column;
+  gap:5px;
+  cursor:pointer;
+  z-index:1100;
+}
+
+.burger div {
+  width:var(--burger-size);
+  height:3px;
+  background:var(--accent);
+  border-radius:2px;
+  transition: all 0.5s ease;
+}
+
+/* Main content */
+main {
+  margin-top:110px;
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:60px 20px;
+  animation:fadeUp 1s ease forwards;
+}
+
+@keyframes fadeUp {
+  from {opacity:0; transform:translateY(20px);}
+  to {opacity:1; transform:translateY(0);}
+}
+
+main img {
+  width:220px;
+  height:220px;
+  border-radius:50%;
+  object-fit:cover;
+  box-shadow:0 15px 35px var(--shadow);
+  transition:0.8s all;
+  animation:zoomIn 1s ease forwards;
+}
+
+main img:hover {
+  transform:scale(1.1) rotate(5deg);
+  box-shadow:0 25px 50px var(--accent);
+}
+
+@keyframes zoomIn {
+  from {opacity:0; transform:scale(0.8);}
+  to {opacity:1; transform:scale(1);}
+}
+
+h2 {
+  font-size:38px;
+  color:var(--accent);
+  margin:25px 0;
+  animation:fadeUp 1s 0.3s ease forwards;
+}
+
+p {
+  max-width:700px;
+  font-size:18px;
+  line-height:1.7;
+  color:#c9d1d9;
+  animation:fadeUp 1s 0.5s ease forwards;
+}
+
+/* Footer */
+footer {
+  background:var(--menu-bg);
+  text-align:center;
+  padding:18px;
+  color:#777;
+  font-size:14px;
+  letter-spacing:1px;
+  box-shadow:0 -4px 15px var(--shadow);
+  animation:fadeUp 1s 0.7s ease forwards;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {opacity:0; transform:translateY(-10px);}
+  to {opacity:1; transform:translateY(0);}
+}
+
+/* Responsive */
+@media (max-width:900px){
+  nav ul {
+    position:fixed;
+    top:0;
+    right:-100%;
+    flex-direction:column;
+    background:var(--menu-bg);
+    width:250px;
+    height:100%;
+    gap:25px;
+    padding:80px 30px;
+    transition:right 0.5s ease;
+  }
+  nav ul.active {right:0;}
+  .burger {display:flex;}
+  nav ul li ul {position:relative; top:0; left:0;}
+}
+
+/* Burger toggle animation */
+.burger.active div:nth-child(1) {
+  transform:rotate(45deg) translate(5px,5px);
+}
+.burger.active div:nth-child(2) {
+  opacity:0;
+}
+.burger.active div:nth-child(3) {
+  transform:rotate(-45deg) translate(5px,-5px);
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>R00T code</h1>
+  <div class="burger" onclick="toggleMenu()">
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+  <nav>
+    <ul>
+      <li><a href="index.html">Головна</a></li>
+      <li><a href="about.html">Про мене</a></li>
+      <li>
+        <a href="#">Проекти ▾</a>
+        <ul>
+          <li><a href="ideas.html">Ідеї</a></li>
+          <li><a href="ready.html">Готові</a></li>
+        </ul>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+<main>
+  <img src="https://via.placeholder.com/220" alt="Моє фото">
+  <h2>Вітаю у R00T zone 🚀</h2>
+  <p>Мій персональний сайт на GitHub Pages. Тут представлені мої проекти, ідеї та готові роботи. Сайт адаптивний, сучасний і мінімалістичний з плавними анімаціями.</p>
+</main>
+
+<footer>
+  &copy; R00T 2025
+</footer>
+
+<script>
+function toggleMenu(){
+  const menu = document.querySelector('nav ul');
+  const burger = document.querySelector('.burger');
+  menu.classList.toggle('active');
+  burger.classList.toggle('active');
+}
+</script>
+
+</body>
+</html>  font-size:22px;
   color:var(--accent);
   letter-spacing:2px;
 }
