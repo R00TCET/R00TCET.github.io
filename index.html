@@ -182,33 +182,61 @@
 
         .dropdown-content a:hover::before { left: 100%; }
 
-        /* --- Бургер-меню --- */
+        /* --- НОВИЙ СТИЛЬ БУРГЕР-МЕНЮ (Повністю переписаний) --- */
         .burger-container {
-            display: none;
-            width: 40px; height: 40px;
-            justify-content: center; align-items: center;
+            display: none; /* Залишаємо логіку появи на мобільних */
+            width: 50px;   /* Зробимо трохи більшу область кліку */
+            height: 50px;
+            justify-content: center;
+            align-items: center;
             cursor: pointer;
             z-index: 1100;
+            position: relative; /* Потрібно для позиціонування ліній */
         }
-        .burger {
-            width: 28px; height: 2px;
-            background: #fff; /* ВИПРАВЛЕНО: Колір іконки - білий */
-            position: relative;
-            transition: all 0.4s var(--transition-curve);
-        }
-        .burger::before, .burger::after {
-            content: ''; position: absolute;
-            width: 100%; height: 2px;
-            background: #fff; /* ВИПРАВЛЕНО: Колір іконки - білий */
-            left: 0;
-            transition: all 0.4s var(--transition-curve);
-        }
-        .burger::before { top: -8px; }
-        .burger::after { top: 8px; }
 
-        .burger-container.active .burger { background: transparent; }
-        .burger-container.active .burger::before { top: 0; transform: rotate(45deg); }
-        .burger-container.active .burger::after { top: 0; transform: rotate(-45deg); }
+        .burger,
+        .burger::before,
+        .burger::after {
+            content: '';
+            position: absolute;
+            width: 30px; /* Ширина ліній */
+            height: 3px;  /* Товщина ліній */
+            background-color: #fff; /* Білий колір */
+            border-radius: 3px; /* Закруглені кінці */
+            /* Нова, більш еластична анімація */
+            transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55), 
+                        top 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55),
+                        bottom 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55),
+                        background-color 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+
+        /* Позиціонування верхньої та нижньої лінії */
+        .burger::before {
+            top: -10px;
+        }
+        .burger::after {
+            bottom: -10px;
+        }
+
+        /* Анімація при активації (додаванні класу .active) */
+
+        /* 1. Центральна лінія зникає, обертаючись */
+        .burger-container.active .burger {
+            transform: rotate(225deg);
+            background-color: transparent; /* Робимо її прозорою */
+        }
+
+        /* 2. Верхня лінія летить в центр і обертається */
+        .burger-container.active .burger::before {
+            top: 0;
+            transform: rotate(90deg);
+        }
+
+        /* 3. Нижня лінія летить в центр */
+        .burger-container.active .burger::after {
+            bottom: 0;
+            /* Обертання не потрібне, бо вона накладається на ::before */
+        }
 
         main {
             display: flex; flex-direction: column;
@@ -329,9 +357,8 @@
             nav ul li { width: 100%; }
             nav ul li a { font-size: 1.2rem; }
             
-            /* ВИПРАВЛЕНО: Нова логіка для розкриття підменю */
+            /* Логіка для розкриття підменю */
             .dropdown-content {
-                /* Скидаємо десктопні стилі позиціонування */
                 position: static;
                 visibility: visible;
                 opacity: 1;
@@ -339,23 +366,18 @@
                 box-shadow: none;
                 background: transparent;
                 border: none;
-                
-                /* Нова логіка для плавної анімації висоти */
                 display: grid;
                 grid-template-rows: 0fr; /* Початковий стан - висота 0 */
                 transition: grid-template-rows 0.4s ease-out;
-                
                 padding: 0;
-                padding-left: 20px; /* Відступ для вкладених елементів */
+                padding-left: 20px;
                 width: 100%;
             }
 
-            /* Коли батьківський елемент має клас .open, розкриваємо блок */
             .dropdown.open .dropdown-content {
                 grid-template-rows: 1fr; /* Кінцевий стан - висота вмісту */
             }
             
-            /* Внутрішній блок потрібен для коректної роботи grid-анімації */
             .dropdown-content .dropdown-content-inner {
                  overflow: hidden;
             }
@@ -364,14 +386,12 @@
                 padding: 12px 0;
             }
 
-            /* Додаємо іконку "+" до пункту меню, що розкривається */
             .dropdown > a::after {
                 content: '+';
                 display: inline-block;
                 margin-left: 10px;
                 transition: transform 0.3s ease;
             }
-            /* Повертаємо іконку, коли меню відкрите */
             .dropdown.open > a::after {
                 transform: rotate(45deg);
             }
@@ -389,10 +409,8 @@
           <li data-aos="fade-in" data-aos-delay="100ms"><a href="#"><span class="nav-text" data-text="Головна">Головна</span></a></li>
           <li data-aos="fade-in" data-aos-delay="200ms"><a href="#"><span class="nav-text" data-text="Про мене">Про мене</span></a></li>
           <li class="dropdown" data-aos="fade-in" data-aos-delay="300ms">
-            <!-- Змінено: забрано href="#" щоб уникнути стрибка сторінки -->
             <a href="javascript:void(0);"><span class="nav-text" data-text="Проекти">Проекти</span></a>
             <div class="dropdown-content">
-              <!-- Додано внутрішній блок-обгортку -->
               <div class="dropdown-content-inner">
                 <a href="#">Ідеї</a>
                 <a href="#">Готові</a>
@@ -428,34 +446,28 @@
         const header = document.querySelector('header');
         const body = document.body;
 
-        // Відкриття/закриття бургер-меню
         burger.addEventListener('click', () => {
             burger.classList.toggle('active');
             navMenu.classList.toggle('active');
             body.classList.toggle('menu-open');
         });
 
-        // ВИПРАВЛЕНО: Логіка для розкриття підменю на мобільних
         const dropdownToggles = document.querySelectorAll('.dropdown > a');
         dropdownToggles.forEach(toggle => {
             toggle.addEventListener('click', (e) => {
-                // Ця логіка спрацьовує тільки на мобільних пристроях
                 if (window.innerWidth <= 850) {
-                    e.preventDefault(); // Запобігаємо переходу за посиланням
-                    // Додаємо/забираємо клас 'open' у батьківського елемента 'li.dropdown'
+                    e.preventDefault();
                     toggle.parentElement.classList.toggle('open');
                 }
             });
         });
 
-        // Ефект для хедера при скролі
         const handleScroll = () => {
             header.classList.toggle('scrolled', window.scrollY > 50);
         };
         window.addEventListener('scroll', handleScroll, { passive: true });
         handleScroll();
 
-        // Проста реалізація AOS для анімацій появи
         const aosElements = document.querySelectorAll('[data-aos]');
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
