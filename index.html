@@ -1,265 +1,449 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>R00T code - Home Page</title>
-<style>
-:root {
-  --bg:#0f1115;
-  --text:#e6edf3;
-  --accent:#00f0ff;
-  --menu-bg:#161b22;
-  --shadow: rgba(0,0,0,0.6);
-  --transition:0.4s;
-  --burger-size:25px;
-}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>R00T code - Welcome</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Montserrat:wght@300;400;600&display=swap');
 
-/* Reset & base */
-* {margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif;}
-body {background:var(--bg);color:var(--text);display:flex;flex-direction:column;min-height:100vh;transition:background var(--transition);}
-a {text-decoration:none;color:inherit;}
+        :root {
+            --bg-dark: #0a0a10;
+            --bg-medium: #10121b;
+            --bg-light: #1a1d2b;
+            --text-primary: #e6edf3;
+            --text-secondary: #a0a8b4;
+            --accent-primary: #00f0ff;
+            --accent-secondary: #7a00ff;
+            --shadow-color: rgba(0, 240, 255, 0.2);
+            --transition-speed: 0.5s;
+        }
 
-/* Header */
-header {
-  position: fixed;
-  top:0;
-  left:0;
-  width:100%;
-  background:var(--menu-bg);
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:15px 50px;
-  box-shadow:0 6px 20px var(--shadow);
-  z-index:1000;
-  backdrop-filter: blur(10px);
-}
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-header h1 {
-  font-size:24px;
-  color:var(--accent);
-  letter-spacing:3px;
-  transform: translateY(-10px);
-  animation:fadeDown 0.8s forwards;
-}
+        html {
+            scroll-behavior: smooth;
+        }
 
-@keyframes fadeDown {
-  to {transform:translateY(0); opacity:1;}
-}
+        body {
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            font-family: 'Montserrat', sans-serif;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
 
-/* Navigation */
-nav ul {
-  list-style:none;
-  display:flex;
-  gap:30px;
-  align-items:center;
-  transition: all 0.5s ease;
-}
+        /* --- Custom Scrollbar --- */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-dark);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(var(--accent-primary), var(--accent-secondary));
+            border-radius: 10px;
+        }
 
-nav ul li {position:relative;}
+        /* --- Header & Navigation --- */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: rgba(16, 18, 27, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all var(--transition-speed) ease;
+        }
 
-nav ul li a {
-  font-weight:600;
-  padding:5px 8px;
-  transition: all 0.3s ease;
-}
+        header.scrolled {
+            padding: 15px 5%;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+        }
 
-nav ul li a:hover {
-  color:var(--accent);
-  transform:scale(1.15);
-  text-shadow:0 0 10px var(--accent);
-}
+        .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 28px;
+            color: var(--accent-primary);
+            text-shadow: 0 0 15px var(--accent-primary);
+            animation: fadeInDown 1s ease-out;
+            letter-spacing: 2px;
+        }
 
-/* Dropdown */
-nav ul li ul {
-  display:none;
-  position:absolute;
-  top:40px;
-  left:0;
-  background:var(--menu-bg);
-  flex-direction:column;
-  min-width:180px;
-  border-radius:10px;
-  box-shadow:0 8px 30px var(--shadow);
-  overflow:hidden;
-  animation:fadeIn 0.4s ease;
-}
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 40px;
+        }
 
-nav ul li:hover ul {display:flex;}
+        nav ul li a {
+            font-weight: 600;
+            color: var(--text-primary);
+            text-decoration: none;
+            position: relative;
+            padding: 5px 0;
+            transition: color var(--transition-speed) ease;
+        }
 
-nav ul li ul li a {
-  padding:12px 20px;
-  transition: all 0.3s;
-}
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+            transition: width var(--transition-speed) ease;
+        }
 
-nav ul li ul li a:hover {
-  background:var(--accent);
-  color:var(--menu-bg);
-  transform:scale(1.05);
-}
+        nav ul li a:hover {
+            color: var(--accent-primary);
+        }
 
-/* Burger menu */
-.burger {
-  display:none;
-  flex-direction:column;
-  gap:5px;
-  cursor:pointer;
-  z-index:1100;
-}
+        nav ul li a:hover::after {
+            width: 100%;
+        }
 
-.burger div {
-  width:var(--burger-size);
-  height:3px;
-  background:var(--accent);
-  border-radius:2px;
-  transition: all 0.5s ease;
-}
+        .dropdown {
+            position: relative;
+        }
 
-/* Main content */
-main {
-  margin-top:110px;
-  flex:1;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  padding:60px 20px;
-  animation:fadeUp 1s ease forwards;
-}
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 150%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--bg-light);
+            min-width: 200px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+            overflow: hidden;
+            opacity: 0;
+            visibility: hidden;
+            transition: all var(--transition-speed) ease;
+        }
 
-@keyframes fadeUp {
-  from {opacity:0; transform:translateY(20px);}
-  to {opacity:1; transform:translateY(0);}
-}
+        .dropdown:hover .dropdown-content {
+            display: block;
+            top: 100%;
+            opacity: 1;
+            visibility: visible;
+        }
 
-main img {
-  width:220px;
-  height:220px;
-  border-radius:50%;
-  object-fit:cover;
-  box-shadow:0 15px 35px var(--shadow);
-  transition:0.8s all;
-  animation:zoomIn 1s ease forwards;
-}
+        .dropdown-content a {
+            display: block;
+            padding: 15px 25px;
+            color: var(--text-primary);
+            width: 100%;
+            transition: all 0.3s ease;
+        }
 
-main img:hover {
-  transform:scale(1.1) rotate(5deg);
-  box-shadow:0 25px 50px var(--accent);
-}
+        .dropdown-content a:hover {
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+            color: var(--bg-dark);
+            transform: translateX(10px);
+        }
+        .dropdown-content a::after { display: none; }
 
-@keyframes zoomIn {
-  from {opacity:0; transform:scale(0.8);}
-  to {opacity:1; transform:scale(1);}
-}
 
-h2 {
-  font-size:38px;
-  color:var(--accent);
-  margin:25px 0;
-  animation:fadeUp 1s 0.3s ease forwards;
-}
+        /* --- Burger Menu --- */
+        .burger {
+            display: none;
+            cursor: pointer;
+            width: 30px;
+            height: 22px;
+            position: relative;
+            z-index: 1100;
+        }
 
-p {
-  max-width:700px;
-  font-size:18px;
-  line-height:1.7;
-  color:#c9d1d9;
-  animation:fadeUp 1s 0.5s ease forwards;
-}
+        .burger span {
+            display: block;
+            position: absolute;
+            height: 3px;
+            width: 100%;
+            background: var(--accent-primary);
+            border-radius: 9px;
+            opacity: 1;
+            left: 0;
+            transform: rotate(0deg);
+            transition: .25s ease-in-out;
+        }
 
-/* Footer */
-footer {
-  background:var(--menu-bg);
-  text-align:center;
-  padding:18px;
-  color:#777;
-  font-size:14px;
-  letter-spacing:1px;
-  box-shadow:0 -4px 15px var(--shadow);
-  animation:fadeUp 1s 0.7s ease forwards;
-}
+        .burger span:nth-child(1) { top: 0px; }
+        .burger span:nth-child(2), .burger span:nth-child(3) { top: 9px; }
+        .burger span:nth-child(4) { top: 18px; }
 
-/* Animations */
-@keyframes fadeIn {
-  from {opacity:0; transform:translateY(-10px);}
-  to {opacity:1; transform:translateY(0);}
-}
+        .burger.active span:nth-child(1), .burger.active span:nth-child(4) {
+            top: 9px;
+            width: 0%;
+            left: 50%;
+        }
 
-/* Responsive */
-@media (max-width:900px){
-  nav ul {
-    position:fixed;
-    top:0;
-    right:-100%;
-    flex-direction:column;
-    background:var(--menu-bg);
-    width:250px;
-    height:100%;
-    gap:25px;
-    padding:80px 30px;
-    transition:right 0.5s ease;
-  }
-  nav ul.active {right:0;}
-  .burger {display:flex;}
-  nav ul li ul {position:relative; top:0; left:0;}
-}
+        .burger.active span:nth-child(2) {
+            transform: rotate(45deg);
+        }
 
-/* Burger toggle animation */
-.burger.active div:nth-child(1) {
-  transform:rotate(45deg) translate(5px,5px);
-}
-.burger.active div:nth-child(2) {
-  opacity:0;
-}
-.burger.active div:nth-child(3) {
-  transform:rotate(-45deg) translate(5px,-5px);
-}
-</style>
+        .burger.active span:nth-child(3) {
+            transform: rotate(-45deg);
+        }
+
+        /* --- Main Content --- */
+        main {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 100px 5%;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Animated Background */
+        .background-blobs {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--accent-primary), var(--accent-secondary));
+            filter: blur(100px);
+            opacity: 0.2;
+        }
+
+        .blob1 {
+            width: 400px;
+            height: 400px;
+            top: 10%;
+            left: 15%;
+            animation: moveBlob 15s infinite alternate;
+        }
+
+        .blob2 {
+            width: 300px;
+            height: 300px;
+            bottom: 5%;
+            right: 10%;
+            animation: moveBlob 20s infinite alternate-reverse;
+        }
+
+        @keyframes moveBlob {
+            from { transform: translate(-50px, -50px) rotate(0deg) scale(1.2); }
+            to { transform: translate(50px, 80px) rotate(180deg) scale(1); }
+        }
+
+
+        .content-wrapper {
+            max-width: 800px;
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        .avatar {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid var(--accent-primary);
+            box-shadow: 0 0 30px var(--shadow-color), 0 0 60px var(--shadow-color) inset;
+            transition: all var(--transition-speed) ease;
+            animation: pulse 3s infinite;
+        }
+
+        .avatar:hover {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 0 50px var(--shadow-color), 0 0 80px var(--shadow-color) inset;
+            animation-play-state: paused;
+        }
+
+        h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(2rem, 6vw, 3.5rem);
+            margin: 30px 0 15px;
+            background: linear-gradient(90deg, var(--accent-primary), var(--text-primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
+        }
+
+        p {
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
+            line-height: 1.8;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* --- Footer --- */
+        footer {
+            padding: 20px;
+            text-align: center;
+            color: var(--text-secondary);
+            background: var(--bg-medium);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 14px;
+        }
+
+        /* --- Keyframe Animations --- */
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 768px) {
+            .burger {
+                display: block;
+            }
+
+            nav ul {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 70%;
+                max-width: 300px;
+                height: 100vh;
+                background: var(--bg-medium);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 30px;
+                transition: right 0.5s cubic-bezier(0.77, 0, 0.175, 1);
+                box-shadow: -10px 0 30px rgba(0,0,0,0.5);
+            }
+
+            nav ul.active {
+                right: 0;
+            }
+
+            nav ul li {
+                opacity: 0;
+                transform: translateX(20px);
+                animation: navLinkFade 0.5s ease forwards;
+            }
+
+            nav ul.active li:nth-child(1) { animation-delay: 0.2s; }
+            nav ul.active li:nth-child(2) { animation-delay: 0.3s; }
+            nav ul.active li:nth-child(3) { animation-delay: 0.4s; }
+
+
+            @keyframes navLinkFade {
+                to {
+                    opacity: 1;
+                    transform: translateX(0);
+                }
+            }
+
+            .dropdown:hover .dropdown-content {
+                display: none; /* Disable hover on mobile, handle with JS if needed */
+            }
+
+            .dropdown-content {
+                position: static;
+                transform: none;
+                box-shadow: none;
+                opacity: 1;
+                visibility: visible;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                background: transparent;
+                min-width: auto;
+            }
+        }
+    </style>
 </head>
 <body>
 
-<header>
-  <h1>R00T code</h1>
-  <div class="burger" onclick="toggleMenu()">
-    <div></div>
-    <div></div>
-    <div></div>
-  </div>
-  <nav>
-    <ul>
-      <li><a href="index.html">Головна</a></li>
-      <li><a href="about.html">Про мене</a></li>
-      <li>
-        <a href="#">Проекти ▾</a>
-        <ul>
-          <li><a href="ideas.html">Ідеї</a></li>
-          <li><a href="ready.html">Готові</a></li>
+    <header>
+      <div class="logo">R00T code</div>
+      <nav>
+        <ul id="nav-menu">
+          <li><a href="index.html">Головна</a></li>
+          <li><a href="about.html">Про мене</a></li>
+          <li class="dropdown">
+            <a href="#">Проекти ▾</a>
+            <div class="dropdown-content">
+              <a href="ideas.html">Ідеї</a>
+              <a href="ready.html">Готові</a>
+            </div>
+          </li>
         </ul>
-      </li>
-    </ul>
-  </nav>
-</header>
+      </nav>
+      <div class="burger" id="burger-menu">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </header>
 
-<main>
-  <img src="https://via.placeholder.com/220" alt="Моє фото">
-  <h2>Вітаю у R00T zone 🚀</h2>
-  <p>Мій персональний сайт на GitHub Pages. Тут представлені мої проекти, ідеї та готові роботи. Сайт адаптивний, сучасний і мінімалістичний з плавними анімаціями.</p>
-</main>
+    <main>
+      <div class="background-blobs">
+        <div class="blob blob1"></div>
+        <div class="blob blob2"></div>
+      </div>
+      <div class="content-wrapper">
+        <img src="https://i.pravatar.cc/300" alt="Моє фото" class="avatar">
+        <h2>Вітаю у R00T zone 🚀</h2>
+        <p>Мій персональний сайт на GitHub Pages. Тут представлені мої проекти, ідеї та готові роботи. Сайт адаптивний, сучасний і мінімалістичний з плавними анімаціями.</p>
+      </div>
+    </main>
 
-<footer>
-  &copy; R00T 2025
-</footer>
+    <footer>
+      &copy; R00T 2025. All Rights Reserved.
+    </footer>
 
-<script>
-function toggleMenu(){
-  const menu = document.querySelector('nav ul');
-  const burger = document.querySelector('.burger');
-  menu.classList.toggle('active');
-  burger.classList.toggle('active');
-}
-</script>
+    <script>
+      const burger = document.getElementById('burger-menu');
+      const navMenu = document.getElementById('nav-menu');
+      const header = document.querySelector('header');
+
+      // Toggle mobile menu
+      burger.addEventListener('click', () => {
+        burger.classList.toggle('active');
+        navMenu.classList.toggle('active');
+      });
+
+      // Close menu when a link is clicked
+      document.querySelectorAll('#nav-menu li a').forEach(link => {
+        link.addEventListener('click', () => {
+          if (navMenu.classList.contains('active')) {
+            burger.classList.remove('active');
+            navMenu.classList.remove('active');
+          }
+        });
+      });
+
+      // Header scroll effect
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+          header.classList.add('scrolled');
+        } else {
+          header.classList.remove('scrolled');
+        }
+      });
+    </script>
 
 </body>
 </html>
