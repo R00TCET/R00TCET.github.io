@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>R00T code - The Experience</title>
+    <title>R00T code - The Experience | Покращена версія</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;700&family=Exo+2:wght@700;900&display=swap');
 
+        /* --- Змінні для кольорів та анімацій --- */
         :root {
             --bg-primary: #010409;
             --bg-secondary: #0d1117;
@@ -36,7 +37,12 @@
             overflow-x: hidden;
         }
 
-        /* --- Custom Scrollbar --- */
+        /* --- Стан тіла, коли мобільне меню відкрите --- */
+        body.menu-open {
+            overflow: hidden;
+        }
+
+        /* --- Кастомний скролбар --- */
         ::-webkit-scrollbar { width: 10px; }
         ::-webkit-scrollbar-track { background: var(--bg-primary); }
         ::-webkit-scrollbar-thumb {
@@ -45,7 +51,7 @@
             border: 2px solid var(--bg-primary);
         }
 
-        /* --- Animated Grid Background --- */
+        /* --- Анімований фон-сітка --- */
         #background-grid {
             position: fixed;
             top: 0;
@@ -65,7 +71,7 @@
             100% { background-position: 400px 400px; }
         }
 
-        /* --- Header & Navigation --- */
+        /* --- Хедер та навігація --- */
         header {
             position: fixed;
             top: 0;
@@ -96,12 +102,21 @@
                 0 0 10px var(--accent-glow),
                 0 0 20px var(--accent-glow),
                 0 0 40px var(--accent-hot);
-            animation: flicker 3s infinite alternate;
+            animation: flicker 5s infinite alternate; /* Пом'якшена анімація */
             letter-spacing: -1px;
         }
-
+        
+        /* Пом'якшена анімація мерехтіння для логотипу */
         @keyframes flicker {
-            0%, 18%, 22%, 25%, 53%, 57%, 100% {
+            70%, 100% {
+                text-shadow:
+                0 0 4px #fff,
+                0 0 11px var(--accent-glow),
+                0 0 19px var(--accent-glow),
+                0 0 40px var(--accent-hot),
+                0 0 80px var(--accent-hot);
+            }
+             0%, 69% {
                 text-shadow:
                 0 0 4px #fff,
                 0 0 10px var(--accent-glow),
@@ -109,7 +124,6 @@
                 0 0 38px var(--accent-hot),
                 0 0 70px var(--accent-hot);
             }
-            20%, 24%, 55% { text-shadow: none; }
         }
 
         nav ul {
@@ -133,7 +147,8 @@
             color: var(--text-primary);
         }
 
-        nav ul li a .nav-text::before {
+        /* Ефект підсвічування тексту в навігації */
+        .nav-text::before {
             content: attr(data-text);
             position: absolute;
             top: 0;
@@ -150,7 +165,7 @@
         }
 
 
-        /* --- THE ULTIMATE DROPDOWN MENU --- */
+        /* --- Випадаюче меню --- */
         .dropdown {
             position: relative;
         }
@@ -168,11 +183,12 @@
             opacity: 0;
             visibility: hidden;
             transform-origin: top center;
-            transition: all 0.5s var(--transition-curve);
+            transition: opacity 0.4s ease, visibility 0.4s ease, transform 0.4s var(--transition-curve), top 0.4s var(--transition-curve);
             padding: 10px;
             display: flex;
             flex-direction: column;
             gap: 5px;
+            min-width: 150px;
         }
 
         .dropdown:hover .dropdown-content {
@@ -189,13 +205,15 @@
             border-radius: 8px;
             position: relative;
             overflow: hidden;
-            transition: color 0.4s ease;
+            transition: color 0.4s ease, background-color 0.4s ease;
         }
         
         .dropdown-content a:hover {
             color: #fff;
+            background-color: rgba(255, 255, 255, 0.05);
         }
 
+        /* Ефект проблиску при наведенні */
         .dropdown-content a::before {
             content: '';
             position: absolute;
@@ -213,7 +231,7 @@
         }
 
 
-        /* --- Elite Burger Menu --- */
+        /* --- Бургер-меню --- */
         .burger-container {
             display: none;
             width: 40px;
@@ -255,14 +273,14 @@
         }
 
 
-        /* --- Main Content --- */
+        /* --- Основний контент --- */
         main {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             min-height: 100vh;
-            padding: 100px 5%;
+            padding: 120px 5% 100px;
             text-align: center;
             position: relative;
         }
@@ -300,12 +318,12 @@
             bottom: -20px;
             border: 2px solid var(--accent-glow);
             border-radius: 50%;
-            animation: rotate-ring 8s linear infinite;
+            animation: rotate-ring 12s linear infinite; /* Сповільнена анімація */
         }
 
         .avatar-rings::after {
             animation-direction: reverse;
-            animation-duration: 10s;
+            animation-duration: 15s; /* Сповільнена анімація */
             border-color: var(--accent-hot);
             opacity: 0.6;
         }
@@ -327,38 +345,41 @@
             margin-bottom: 20px;
             color: #fff;
             text-transform: uppercase;
+            position: relative;
         }
 
+        /* --- Спрощений і менш нав'язливий глітч-ефект --- */
         .glitch-text {
-            animation: glitch 1s linear infinite;
+            position: relative;
         }
-
-        @keyframes glitch{
-          2%,64%{ transform: translate(2px,0) skew(0deg); }
-          4%,60%{ transform: translate(-2px,0) skew(0deg); }
-          62%{ transform: translate(0,0) skew(5deg); }
-        }
-        .glitch-text:before, .glitch-text:after{
+        .glitch-text::before, .glitch-text::after{
           content: attr(data-text);
           position: absolute;
+          top: 0;
           left: 0;
           width: 100%;
           height: 100%;
+          background: var(--bg-primary);
+          overflow: hidden;
         }
-        .glitch-text:before{
+        .glitch-text::before{
           left: 2px;
-          text-shadow: -2px 0 var(--accent-hot);
-          clip: rect(44px, 450px, 56px, 0);
-          animation: glitch-anim 5s infinite linear alternate-reverse;
+          text-shadow: -1px 0 var(--accent-hot);
+          animation: glitch-anim-1 2s infinite linear alternate-reverse;
         }
-        .glitch-text:after{
+        .glitch-text::after{
           left: -2px;
-          text-shadow: -2px 0 var(--accent-glow), 2px 2px var(--accent-hot);
-          clip: rect(85px, 450px, 90px, 0);
-          animation: glitch-anim-2 5s infinite linear alternate-reverse;
+          text-shadow: -1px 0 var(--accent-glow);
+          animation: glitch-anim-2 3s infinite linear alternate-reverse;
         }
-        @keyframes glitch-anim{ 0%{clip:rect(2px,9999px,82px,0)} /* ... ( shortened for brevity ) */ }
-        @keyframes glitch-anim-2{ 0%{clip:rect(30px,9999px,20px,0)} /* ... ( shortened for brevity ) */ }
+        @keyframes glitch-anim-1 {
+            0% { clip-path: inset(5% 0 90% 0); }
+            100% { clip-path: inset(80% 0 5% 0); }
+        }
+        @keyframes glitch-anim-2 {
+            0% { clip-path: inset(70% 0 10% 0); }
+            100% { clip-path: inset(10% 0 85% 0); }
+        }
 
         p {
             font-size: clamp(1rem, 2.5vw, 1.1rem);
@@ -369,7 +390,7 @@
             text-shadow: 0 0 5px rgba(0,0,0,0.5);
         }
 
-        /* --- Footer --- */
+        /* --- Футер --- */
         footer {
             padding: 25px;
             text-align: center;
@@ -379,10 +400,12 @@
             position: relative;
         }
 
-        /* --- Animations on elements via JS --- */
+        /* --- Логіка анімацій при прокручуванні (AOS) --- */
         [data-aos] {
             opacity: 0;
             transition-property: transform, opacity;
+            transition-duration: 1s;
+            transition-timing-function: var(--transition-curve);
         }
         [data-aos="fade-up"] {
             transform: translateY(50px);
@@ -390,13 +413,15 @@
         [data-aos="fade-in"] {
             transform: scale(0.95);
         }
-        body.is-loaded [data-aos] {
+        
+        /* ВИПРАВЛЕНО: Цей клас додається JS, коли елемент з'являється у viewport */
+        [data-aos].aos-animate {
             opacity: 1;
             transform: none;
         }
 
 
-        /* --- Responsive Supremacy --- */
+        /* --- Адаптивність --- */
         @media (max-width: 850px) {
             .burger-container {
                 display: flex;
@@ -407,7 +432,7 @@
                 top: 0;
                 right: -100%;
                 width: min(75vw, 400px);
-                height: 100vh;
+                height: 100%;
                 background-color: rgba(1, 4, 9, 0.9);
                 backdrop-filter: blur(25px);
                 border-left: 1px solid var(--border-color);
@@ -417,17 +442,19 @@
                 padding: 100px 50px;
                 gap: 20px;
                 transition: transform 0.6s var(--transition-curve);
+                transform: translateX(100%);
             }
 
             nav ul.active {
-                transform: translateX(-100%);
+                transform: translateX(0);
             }
             
             nav ul li { width: 100%; }
             nav ul li a { font-size: 1.2rem; }
 
+            /* Логіка для випадаючого меню на мобільних */
             .dropdown-content {
-                position: relative;
+                position: relative; /* Змінено з absolute */
                 opacity: 1;
                 visibility: visible;
                 transform: none;
@@ -435,7 +462,17 @@
                 background: transparent;
                 border: none;
                 padding: 10px 0 0 20px;
-                display: none; /* Initially hidden */
+                display: none; /* Сховано за замовчуванням */
+                flex-direction: column;
+                gap: 10px;
+                width: 100%;
+                top: auto;
+                left: auto;
+            }
+
+            /* ВИПРАВЛЕНО: Показуємо контент, коли батьківський елемент має клас .open */
+            .dropdown.open .dropdown-content {
+                display: flex;
             }
 
             .dropdown > a::after {
@@ -449,17 +486,17 @@
         }
     </style>
 </head>
-<body class="is-loading">
+<body>
 
     <div id="background-grid"></div>
 
     <header>
-      <div class="logo" data-aos="fade-in" data-aos-delay="100">R00T code</div>
+      <div class="logo" data-aos="fade-in">R00T code</div>
       <nav>
         <ul id="nav-menu">
-          <li data-aos="fade-in" data-aos-delay="200"><a href="index.html"><span class="nav-text" data-text="Головна">Головна</span></a></li>
-          <li data-aos="fade-in" data-aos-delay="300"><a href="about.html"><span class="nav-text" data-text="Про мене">Про мене</span></a></li>
-          <li class="dropdown" data-aos="fade-in" data-aos-delay="400">
+          <li data-aos="fade-in" data-aos-delay="100ms"><a href="index.html"><span class="nav-text" data-text="Головна">Головна</span></a></li>
+          <li data-aos="fade-in" data-aos-delay="200ms"><a href="about.html"><span class="nav-text" data-text="Про мене">Про мене</span></a></li>
+          <li class="dropdown" data-aos="fade-in" data-aos-delay="300ms">
             <a href="#"><span class="nav-text" data-text="Проекти">Проекти</span></a>
             <div class="dropdown-content">
               <a href="ideas.html">Ідеї</a>
@@ -474,83 +511,75 @@
     </header>
 
     <main>
-      <div class="avatar-container" data-aos="fade-up" data-aos-delay="200">
+      <div class="avatar-container" data-aos="fade-up" data-aos-delay="200ms">
         <div class="avatar-rings"></div>
         <img src="https://i.pravatar.cc/400" alt="Моє фото" class="avatar">
       </div>
-      <h2 class="glitch-text" data-text="Вітаю у R00T zone 🚀" data-aos="fade-up" data-aos-delay="400">Вітаю у R00T zone 🚀</h2>
-      <p data-aos="fade-up" data-aos-delay="600">
+      <h2 class="glitch-text" data-text="Вітаю у R00T zone 🚀" data-aos="fade-up" data-aos-delay="400ms">Вітаю у R00T zone 🚀</h2>
+      <p data-aos="fade-up" data-aos-delay="600ms">
         Мій персональний сайт на GitHub Pages. Тут представлені мої проекти, ідеї та готові роботи. Сайт адаптивний, сучасний і мінімалістичний з плавними анімаціями.
       </p>
     </main>
 
-    <footer data-aos="fade-up" data-aos-delay="200">
+    <footer data-aos="fade-up" data-aos-delay="200ms">
       &copy; R00T 2025. All Rights Reserved.
     </footer>
 
     <script>
     document.addEventListener('DOMContentLoaded', () => {
 
-        // --- Basic Setup ---
         const burger = document.getElementById('burger-menu');
         const navMenu = document.getElementById('nav-menu');
         const header = document.querySelector('header');
+        const body = document.body;
 
-        // --- Mobile Menu Toggle ---
+        // --- Перемикач мобільного меню ---
         burger.addEventListener('click', () => {
             burger.classList.toggle('active');
             navMenu.classList.toggle('active');
+            // ПОКРАЩЕНО: Блокуємо скрол, коли меню відкрите
+            body.classList.toggle('menu-open');
         });
 
-        // --- Mobile Dropdown Toggle ---
-        const dropdowns = document.querySelectorAll('.dropdown > a');
-        dropdowns.forEach(dropdownToggle => {
-            dropdownToggle.addEventListener('click', (e) => {
+        // --- Перемикач випадаючого меню на мобільних пристроях ---
+        const dropdownToggles = document.querySelectorAll('.dropdown > a');
+        dropdownToggles.forEach(toggle => {
+            toggle.addEventListener('click', (e) => {
+                // Спрацьовує тільки на екранах <= 850px
                 if (window.innerWidth <= 850) {
                     e.preventDefault();
-                    const parent = dropdownToggle.parentElement;
-                    const content = parent.querySelector('.dropdown-content');
+                    const parent = toggle.parentElement;
+                    // ПОКРАЩЕНО: Просто перемикаємо клас, решту робить CSS
                     parent.classList.toggle('open');
-                    
-                    if (content.style.display === 'flex') {
-                        content.style.display = 'none';
-                    } else {
-                        content.style.display = 'flex';
-                    }
                 }
             });
         });
 
-        // --- Header Scroll Effect ---
+        // --- Ефект для хедера при прокручуванні ---
         const handleScroll = () => {
             header.classList.toggle('scrolled', window.scrollY > 50);
         };
         window.addEventListener('scroll', handleScroll, { passive: true });
-        handleScroll(); // Initial check
+        handleScroll(); // Перевірка при завантаженні сторінки
 
-        // --- Animation on Scroll (AOS) Logic ---
+        // --- Логіка для анімацій при прокручуванні (AOS) ---
+        // ВИПРАВЛЕНО: Код тепер правильно знаходить елементи та додає клас для анімації
         const aosElements = document.querySelectorAll('[data-aos]');
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
+                    // Встановлюємо затримку з атрибута data-aos-delay
                     entry.target.style.transitionDelay = entry.target.dataset.aosDelay || '0ms';
+                    // Додаємо клас для запуску анімації
                     entry.target.classList.add('aos-animate');
+                    // Перестаємо спостерігати за елементом після анімації
                     observer.unobserve(entry.target);
                 }
             });
         }, { threshold: 0.1 });
 
+        // Починаємо спостереження за кожним елементом
         aosElements.forEach(el => observer.observe(el));
-        
-        // Add loaded class to body to trigger initial animations
-        setTimeout(() => {
-            document.body.classList.remove('is-loading');
-            document.body.classList.add('is-loaded');
-            aosElements.forEach(el => {
-                el.style.transitionDuration = '1s';
-                el.style.transitionTimingFunction = 'var(--transition-curve)';
-            });
-        }, 100);
     });
     </script>
 </body>
