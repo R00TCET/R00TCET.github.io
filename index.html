@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>R00T code - The Experience | Покращена версія</title>
+    <title>R00T code - The Experience | Виправлена версія</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;700&family=Exo+2:wght@700;900&display=swap');
 
@@ -102,11 +102,10 @@
                 0 0 10px var(--accent-glow),
                 0 0 20px var(--accent-glow),
                 0 0 40px var(--accent-hot);
-            animation: flicker 5s infinite alternate; /* Пом'якшена анімація */
+            animation: flicker 5s infinite alternate;
             letter-spacing: -1px;
         }
         
-        /* Пом'якшена анімація мерехтіння для логотипу */
         @keyframes flicker {
             70%, 100% {
                 text-shadow:
@@ -147,7 +146,6 @@
             color: var(--text-primary);
         }
 
-        /* Ефект підсвічування тексту в навігації */
         .nav-text::before {
             content: attr(data-text);
             position: absolute;
@@ -163,7 +161,6 @@
         nav ul li a:hover .nav-text::before {
             width: 100%;
         }
-
 
         /* --- Випадаюче меню --- */
         .dropdown {
@@ -213,7 +210,6 @@
             background-color: rgba(255, 255, 255, 0.05);
         }
 
-        /* Ефект проблиску при наведенні */
         .dropdown-content a::before {
             content: '';
             position: absolute;
@@ -230,16 +226,15 @@
             left: 100%;
         }
 
-
         /* --- Бургер-меню --- */
         .burger-container {
-            display: none;
+            display: none; /* Ховаємо на десктопі */
             width: 40px;
             height: 40px;
             justify-content: center;
             align-items: center;
             cursor: pointer;
-            z-index: 1100;
+            z-index: 1100; /* Має бути вище, ніж z-index хедера */
         }
         .burger {
             width: 28px;
@@ -271,7 +266,6 @@
             top: 0;
             transform: rotate(-45deg);
         }
-
 
         /* --- Основний контент --- */
         main {
@@ -318,12 +312,12 @@
             bottom: -20px;
             border: 2px solid var(--accent-glow);
             border-radius: 50%;
-            animation: rotate-ring 12s linear infinite; /* Сповільнена анімація */
+            animation: rotate-ring 12s linear infinite;
         }
 
         .avatar-rings::after {
             animation-direction: reverse;
-            animation-duration: 15s; /* Сповільнена анімація */
+            animation-duration: 15s;
             border-color: var(--accent-hot);
             opacity: 0.6;
         }
@@ -347,8 +341,7 @@
             text-transform: uppercase;
             position: relative;
         }
-
-        /* --- Спрощений і менш нав'язливий глітч-ефект --- */
+        
         .glitch-text {
             position: relative;
         }
@@ -414,25 +407,24 @@
             transform: scale(0.95);
         }
         
-        /* ВИПРАВЛЕНО: Цей клас додається JS, коли елемент з'являється у viewport */
         [data-aos].aos-animate {
             opacity: 1;
             transform: none;
         }
 
-
         /* --- Адаптивність --- */
         @media (max-width: 850px) {
             .burger-container {
-                display: flex;
+                display: flex; /* Показуємо бургер на мобільних */
             }
 
+            /* ВИПРАВЛЕНО: Правила для мобільної навігації */
             nav ul {
                 position: fixed;
                 top: 0;
-                right: -100%;
+                right: 0; /* Притискаємо до правого краю */
                 width: min(75vw, 400px);
-                height: 100%;
+                height: 100vh;
                 background-color: rgba(1, 4, 9, 0.9);
                 backdrop-filter: blur(25px);
                 border-left: 1px solid var(--border-color);
@@ -441,10 +433,12 @@
                 align-items: flex-start;
                 padding: 100px 50px;
                 gap: 20px;
+                /* ВИПРАВЛЕНО: Ховаємо меню за допомогою transform */
+                transform: translateX(100%); 
                 transition: transform 0.6s var(--transition-curve);
-                transform: translateX(100%);
             }
 
+            /* ВИПРАВЛЕНО: Показуємо меню, коли є клас .active */
             nav ul.active {
                 transform: translateX(0);
             }
@@ -454,7 +448,7 @@
 
             /* Логіка для випадаючого меню на мобільних */
             .dropdown-content {
-                position: relative; /* Змінено з absolute */
+                position: relative;
                 opacity: 1;
                 visibility: visible;
                 transform: none;
@@ -470,7 +464,6 @@
                 left: auto;
             }
 
-            /* ВИПРАВЛЕНО: Показуємо контент, коли батьківський елемент має клас .open */
             .dropdown.open .dropdown-content {
                 display: flex;
             }
@@ -537,7 +530,6 @@
         burger.addEventListener('click', () => {
             burger.classList.toggle('active');
             navMenu.classList.toggle('active');
-            // ПОКРАЩЕНО: Блокуємо скрол, коли меню відкрите
             body.classList.toggle('menu-open');
         });
 
@@ -545,11 +537,9 @@
         const dropdownToggles = document.querySelectorAll('.dropdown > a');
         dropdownToggles.forEach(toggle => {
             toggle.addEventListener('click', (e) => {
-                // Спрацьовує тільки на екранах <= 850px
                 if (window.innerWidth <= 850) {
                     e.preventDefault();
                     const parent = toggle.parentElement;
-                    // ПОКРАЩЕНО: Просто перемикаємо клас, решту робить CSS
                     parent.classList.toggle('open');
                 }
             });
@@ -560,25 +550,20 @@
             header.classList.toggle('scrolled', window.scrollY > 50);
         };
         window.addEventListener('scroll', handleScroll, { passive: true });
-        handleScroll(); // Перевірка при завантаженні сторінки
+        handleScroll();
 
         // --- Логіка для анімацій при прокручуванні (AOS) ---
-        // ВИПРАВЛЕНО: Код тепер правильно знаходить елементи та додає клас для анімації
         const aosElements = document.querySelectorAll('[data-aos]');
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    // Встановлюємо затримку з атрибута data-aos-delay
                     entry.target.style.transitionDelay = entry.target.dataset.aosDelay || '0ms';
-                    // Додаємо клас для запуску анімації
                     entry.target.classList.add('aos-animate');
-                    // Перестаємо спостерігати за елементом після анімації
                     observer.unobserve(entry.target);
                 }
             });
         }, { threshold: 0.1 });
 
-        // Починаємо спостереження за кожним елементом
         aosElements.forEach(el => observer.observe(el));
     });
     </script>
