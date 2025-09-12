@@ -67,7 +67,7 @@
     .page {
       width: 100%; height: 100%; position: absolute; top: 0; left: 0;
       padding: 0 10px; overflow-y: auto;
-      transition: opacity 0.4s ease-in-out; /* Плавний перехід без накладання */
+      transition: opacity 0.4s ease-in-out;
       visibility: hidden; opacity: 0;
     }
     .page.active { visibility: visible; opacity: 1; }
@@ -77,17 +77,15 @@
     .placeholder-page { display: flex; justify-content: center; align-items: center; height: 100%; font-size: 24px; color: #555; }
     
     /* --- Слайдер документів --- */
-    .slider-container { width: 100%; max-width: 400px; margin: 0 auto; overflow: hidden; perspective: 1000px; }
+    .slider-container { width: 100%; max-width: 400px; margin: 0 auto; overflow: visible; perspective: 1000px; } /* Зміна на visible, щоб уникнути обрізання */
     .slider-wrapper { display: flex; transition: transform 0.3s ease-in-out; }
-    .slide { flex: 0 0 100%; padding: 5px; transition: transform 0.3s ease-in-out; }
-    .slide.active-slide .flip-card { transform: translateY(-10px); /* Легке підняття без масштабування */ }
-    .slide:not(.active-slide) .flip-card { transform: translateY(10px); /* Легке опускання */ }
+    .slide { flex: 0 0 100%; padding: 5px; transition: transform 0.3s ease-in-out; height: 490px; } /* Фіксована висота для всіх слайдів */
     
     /* --- Анімація перевертання картки --- */
     .flip-card {
         background-color: transparent;
         width: 100%;
-        height: 490px;
+        height: 490px; /* Фіксована висота для всіх карток */
         perspective: 1000px;
         cursor: pointer;
         transition: transform 0.3s ease-in-out;
@@ -131,6 +129,7 @@
         -webkit-backdrop-filter: blur(25px);
         border: 1px solid rgba(255, 255, 255, 0.3);
         overflow: hidden;
+        height: 490px; /* Фіксована висота для всіх контейнерів */
     }
     .empty-card { height: 490px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: #888; }
     .document-content { padding: 20px; }
@@ -311,17 +310,7 @@
       let currentIndex = 0, isDragging = false, startPos = 0, currentTranslate = 0, prevTranslate = 0, animationID = 0;
 
       const updateActiveSlide = i => {
-        slides.forEach((s, idx) => {
-          s.classList.toggle('active-slide', idx === i);
-          const flipCard = s.querySelector('.flip-card');
-          if (idx === i) {
-            flipCard.style.transition = 'transform 0.3s ease-in-out';
-            flipCard.style.transform = 'translateY(-10px)';
-          } else {
-            flipCard.style.transition = 'transform 0.3s ease-in-out';
-            flipCard.style.transform = 'translateY(10px)';
-          }
-        });
+        slides.forEach((s, idx) => s.classList.toggle('active-slide', idx === i));
         dots.forEach((d, idx) => d.classList.toggle('active', idx === i));
       };
       const setSliderPosition = () => sliderWrapper.style.transform = `translateX(${currentTranslate}px)`;
@@ -333,23 +322,29 @@
         sliderWrapper.style.transition = 'none';
         animationID = requestAnimationFrame(animation);
         sliderContainer.style.cursor = 'grabbing';
-        slides.forEach(s => {
-          const flipCard = s.querySelector('.flip-card');
-          flipCard.style.transition = 'none';
-        });
       }
 
       function dragMove(e) {
         if (isDragging) {
-          currentTranslate = prevTranslate + getPositionX(e) - startPos;
+          const currentPosition = getPositionX(e);
+          currentTranslate = prevTranslate + currentPosition - startPos;
           setSliderPosition();
-          const dragDistance = Math.abs(getPositionX(e) - startPos);
+
+          // Піксельна анімація підняття/опускання
+          const dragDistance = (currentPosition - startPos) / sliderContainer.offsetWidth; // Нормалізована відстань
+          const potentialIndex = -Math.round(currentTranslate / sliderContainer.offsetWidth);
+
           slides.forEach((s, idx) => {
             const flipCard = s.querySelector('.flip-card');
-            const distanceFactor = Math.abs(idx - currentIndex) * 10;
-            if (dragDistance > distanceFactor) {
-              flipCard.style.transform = idx === currentIndex ? 'translateY(0)' : 'translateY(10px)';
+            let yOffset = 0;
+            if (idx === currentIndex) {
+              yOffset = dragDistance * 10; // Плавне опускання при перетягуванні
+            } else if (idx === potentialIndex) {
+              yOffset = -dragDistance * 10; // Плавне підняття наступної
+            } else {
+              yOffset = 10; // Інші опущені
             }
+            flipCard.style.transform = `translateY(${yOffset}px)`;
           });
         }
       }
@@ -368,6 +363,11 @@
         sliderWrapper.style.transition = 'transform 0.3s ease-in-out';
         setSliderPosition();
         updateActiveSlide(currentIndex);
+        slides.forEach(s => {
+          const flipCard = s.querySelector('.flip-card');
+          flipCard.style.transition = 'transform 0.3s ease-in-out';
+          flipCard.style.transform = s.classList.contains('active-slide') ? 'translateY(-10px)' : 'translateY(10px)';
+        });
         sliderContainer.style.cursor = 'grab';
       }
 
