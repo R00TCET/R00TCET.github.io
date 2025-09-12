@@ -567,7 +567,7 @@
       </nav>
   </div>
 
-    <script>
+      <script>
     document.addEventListener('DOMContentLoaded', () => {
 
       // --- ЛОГІКА СТАРТОВОГО ЕКРАНУ ТА ЕКРАНУ ВХОДУ ---
@@ -576,32 +576,23 @@
       const appContainer = document.querySelector('.app-container');
       const lottiePlayer = document.getElementById('lottie-player');
 
-      // ВИПРАВЛЕНО: Повністю контролюємо анімацію
-      // Подія 'ready' спрацьовує, коли анімація готова до відтворення
       lottiePlayer.addEventListener('ready', () => {
-          // Чітко вказуємо, що анімація НЕ повинна повторюватися
           lottiePlayer.loop = false;
-          // І тепер запускаємо її програмно
           lottiePlayer.play();
       });
 
-      // Додаємо слухача події 'complete', яка спрацьовує, коли анімація завершилася
       lottiePlayer.addEventListener('complete', () => {
-          // Примусово зупиняємо плеєр на останньому кадрі
           lottiePlayer.stop();
       });
-
 
       setTimeout(() => {
           splashScreen.classList.add('hidden');
           loginScreen.classList.add('visible');
-          
           setTimeout(() => {
               if (splashScreen) {
                 splashScreen.remove();
               }
           }, 500);
-
       }, 4000);
 
       // --- ЛОГІКА ВВОДУ ПАРОЛЮ ---
@@ -629,7 +620,6 @@
           passcode += key;
           updateDots();
         }
-
         if (passcode.length === 4) {
           setTimeout(() => {
             if (passcode === correctPasscode) {
@@ -691,64 +681,50 @@
       document.querySelector('.page.active')?.classList.remove('active');
       document.querySelector('.nav-item.active')?.classList.remove('active');
 
-
-      // --- ЛОГІКА СЛАЙДЕРА (ІНТЕРАКТИВНА АНІМАЦІЯ) ---
+      // --- ЛОГІКА СЛАЙДЕРА ---
       const sliderContainer = document.querySelector('.slider-container');
       const sliderWrapper = document.querySelector('.slider-wrapper');
       const slides = document.querySelectorAll('.slide');
       const dots = document.querySelectorAll('.page-indicator .dot');
       const slideCount = slides.length;
-
       let currentIndex = 0;
       let isDragging = false;
       let startPos = 0;
       let currentTranslate = 0;
       let prevTranslate = 0;
       let animationID;
-
       const getPositionX = (e) => e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
-      
       const updateSliderDots = () => {
           dots.forEach((dot, index) => dot.classList.toggle('active', index === currentIndex));
       };
-
       const animation = () => {
         sliderWrapper.style.transform = `translateX(${currentTranslate}px)`;
-        
         const containerCenter = sliderContainer.offsetWidth / 2;
         slides.forEach(slide => {
             const slideCenter = slide.offsetLeft + slide.offsetWidth / 2 + currentTranslate;
             const distance = Math.abs(containerCenter - slideCenter);
             const slideWidth = slide.offsetWidth;
             const distanceFactor = Math.min(distance / slideWidth, 1);
-            
             const scale = 1 - (0.1 * distanceFactor);
             const opacity = 1 - (0.3 * distanceFactor);
-
             slide.style.transform = `scale(${scale})`;
             slide.style.opacity = `${opacity}`;
             slide.style.pointerEvents = scale > 0.99 ? 'auto' : 'none';
         });
-
         if (isDragging) requestAnimationFrame(animation);
       }
-      
       const setFinalSliderPosition = () => {
         sliderWrapper.style.transition = 'transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
         slides.forEach(slide => {
             slide.style.transition = 'transform 0.4s ease, opacity 0.4s ease';
         });
-
         const targetSlide = slides[currentIndex];
         if (!targetSlide) return;
         const containerCenter = sliderContainer.offsetWidth / 2;
         const slideCenter = targetSlide.offsetLeft + targetSlide.offsetWidth / 2;
-        
         currentTranslate = containerCenter - slideCenter;
         prevTranslate = currentTranslate;
-        
         sliderWrapper.style.transform = `translateX(${currentTranslate}px)`;
-
         slides.forEach((slide, index) => {
             const scale = index === currentIndex ? 1 : 0.9;
             const opacity = index === currentIndex ? 1 : 0.7;
@@ -756,14 +732,9 @@
             slide.style.opacity = `${opacity}`;
             slide.style.pointerEvents = index === currentIndex ? 'auto' : 'none';
         });
-        
         updateSliderDots();
       }
-
-      const positionSliderByIndex = () => {
-        setFinalSliderPosition();
-      }
-
+      const positionSliderByIndex = () => { setFinalSliderPosition(); }
       const dragStart = (e) => {
         isDragging = true;
         startPos = getPositionX(e);
@@ -772,50 +743,34 @@
         animationID = requestAnimationFrame(animation);
         sliderContainer.style.cursor = 'grabbing';
       };
-
       const dragMove = (e) => {
         if (!isDragging) return;
         const currentPosition = getPositionX(e);
         currentTranslate = prevTranslate + currentPosition - startPos;
       };
-
       const dragEnd = () => {
         if (!isDragging) return;
         isDragging = false;
         cancelAnimationFrame(animationID);
         sliderContainer.style.cursor = 'grab';
-
         const movedBy = currentTranslate - prevTranslate;
-        
-        if (movedBy < -80 && currentIndex < slideCount - 1) {
-          currentIndex++;
-        }
-        if (movedBy > 80 && currentIndex > 0) {
-          currentIndex--;
-        }
-
+        if (movedBy < -80 && currentIndex < slideCount - 1) currentIndex++;
+        if (movedBy > 80 && currentIndex > 0) currentIndex--;
         positionSliderByIndex();
       };
-      
       const initializeCarousel = () => {
           if (!slides[currentIndex] || sliderContainer.offsetWidth === 0) return;
-          
           sliderWrapper.style.transition = 'none';
           slides.forEach(slide => slide.style.transition = 'none');
-
           const targetSlide = slides[currentIndex];
           const containerCenter = sliderContainer.offsetWidth / 2;
           const slideCenter = targetSlide.offsetLeft + targetSlide.offsetWidth / 2;
-          
           currentTranslate = containerCenter - slideCenter;
           prevTranslate = currentTranslate;
-          
           animation();
           updateSliderDots();
       }
-      
       window.addEventListener('resize', initializeCarousel);
-
       ['mousedown', 'touchstart'].forEach(e => sliderContainer.addEventListener(e, dragStart, { passive: true }));
       ['mouseup', 'touchend', 'mouseleave'].forEach(e => document.addEventListener(e, dragEnd));
       ['mousemove', 'touchmove'].forEach(e => document.addEventListener(e, dragMove, { passive: true }));
@@ -824,7 +779,6 @@
       const flipCards = document.querySelectorAll('.flip-card');
       const timerEl = document.getElementById('qr-timer');
       let timerInterval = null;
-
       function startTimer() {
           clearInterval(timerInterval);
           let timeLeft = 180;
@@ -844,15 +798,12 @@
               }
           }, 1000);
       }
-
       flipCards.forEach(card => {
         card.addEventListener('click', () => {
             const movedBy = Math.abs(currentTranslate - prevTranslate);
             if (isDragging && movedBy > 10) return;
-            
             const slide = card.closest('.slide');
             if (slide.style.transform !== 'scale(1)') return;
-
             const inner = card.querySelector('.flip-card-inner');
             inner.classList.toggle('is-flipped');
             if (inner.classList.contains('is-flipped')) {
@@ -868,30 +819,21 @@
         });
       });
 
-      // --- ЛОГІКА SERVICE WORKER ---
-      const VERSION = new Date().getTime();
-      const CACHE_NAME = `diia-clone-cache-v${VERSION}`;
+      // --- ЛОГІКА SERVICE WORKER (ВИПРАВЛЕНО) ---
       const manifest = {
         "name": "єДокумент", "short_name": "єДокумент", "start_url": ".", "display": "standalone", "background_color": "#c9e3eb", "theme_color": "#111111",
-        "icons": [{"src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAYAAABS3GwHAAAAAXNSR0IArs4c6QAAAyJJREFUeF7t0AEBAAAAEADC/2H5NEbDAwKChAAAAAAAAAAAAAD45wEAAAAAAAAAAAAA8McDAAAAAAAAAAAAAODjBwAAAAAAAAAAAABA/3kAAAAAAAAAAAAAwB8PAAAAAAAAAAAAAHg4AQAAAAAAAAAAAMD/eQAAAAAAAAAAAADAHw8AAAAAAAAAAAAA8HACAAAAAAAAAAAAgP7zAAAAAAAAAAAAAIC/HAAAAAAAAAAAAACAhxMAAAAAAAAAAAAA+s8DAAAAAAAAAAAAAOBfDwAAAAAAAAAAAACAxxMAAAAAAAAAAAAA4f88AAAAAAAAAAAAAOAfDwAAAAAAAAAAAADw4AQAAAAAAAAAAAD8nwcAAAAAAAAAAAAA8K8HAAAAAAAAAAAAAPBhAgAAAAAAAAAAAPh/ngAAAAAAAAAAAADA/x4AAAAAAAAAAAAA8OECAAAAAAAAAAAA+M8DAAAAAAAAAAAAAOBfDwAAAAAAAAAAAACAxxMAAAAAAAAAAAAA4f88AAAAAAAAAAAAAOAfDwAAAAAAAAAAAADw4AQAAAAAAAAAAAD8nwcAAAAAAAAAAAAA8K8HAAAAAAAAAAAAAPBhAgAAAAAAAAAAAPh/ngAAAAAAAAAAAADA/x4AAAAAAAAAAAAA8OECAAAAAAAAAAAA+M8DAAAAAAAAAAAAAOBfDwAAAAAAAAAAAACAxxMAAAAAAAAAAAAA4f88AAAAAAAAAAAAAOAfDwAAAAAAAAAAAADw4AQAAAAAAAAAAAD8nwcAAAAAAAAAAAAA8K8HAAAAAAAAAAAAAPBhAgAAAAAAAAAAAPh/ngAAAAAAAAAAAADA/x4AAAAAAAAAAAAA8OECAAAAAAAAAAAA+M8DAAAAAAAAAAAAAOBfDwAAAAAAAAAAAACAxxMAAAAAAAAAAAAA4f88AAAAAAAAAAAAAOAfDwAAAAAAAAAAAADw4AQAAAAAAAAAAAD8nwcAAAAAAAAAAAAA8K8HAAAAAAAAAAAAAPBhAgAAAAAAAAAAAPh/ngAAAAAAAAAAAADA/x4AAAAAAAAAAAAA8OECAAAAAAAAAAAA+M8DAAAAAAAAAAAAAOBfDwAAAAAAAAAAAACAxxMAAAAAAAAAAAAA4f88AAAAAAAAAAAAAOAfDwAAAAAAAAAAAADw4AQAAAAAAAAAAAD8nwcAAAAAAAAAAAAA8K8HAAAAAAAAAAAAAPBhAgAAAAAAAAAAAPh/ngAAAAAAAAAAAADA/xsA3g4Y9QAAAABJRU5ErkJggg==", "sizes": "192x192", "type": "image/png"}]
+        "icons": [{"src": "data:image/png;base64,...", "sizes": "192x192", "type": "image/png"}]
       };
       const manifestBlob = new Blob([JSON.stringify(manifest)], { type: 'application/json' });
       document.getElementById('manifest').href = URL.createObjectURL(manifestBlob);
-      const swCode = `
-        const CACHE_NAME = '${CACHE_NAME}';
-        const urlsToCache = ['${location.href.replace(/\?.*$/, '')}'];
-        self.addEventListener('install', e => e.waitUntil(caches.open(CACHE_NAME).then(c => c.addAll(urlsToCache))));
-        self.addEventListener('activate', e => e.waitUntil(caches.keys().then(names => Promise.all(names.map(name => name !== CACHE_NAME && caches.delete(name))))));
-        self.addEventListener('fetch', e => e.respondWith(caches.match(e.request).then(r => r || fetch(e.request))));
-        self.addEventListener('message', e => { if (e.data.action === 'skipWaiting') self.skipWaiting(); });
-      `;
-      const swBlob = new Blob([swCode], { type: 'application/javascript' });
-
+      
       if ('serviceWorker' in navigator) {
         let newWorker;
         const updateNotification = document.getElementById('update-notification');
         updateNotification.addEventListener('click', () => newWorker.postMessage({ action: 'skipWaiting' }));
-        navigator.serviceWorker.register(URL.createObjectURL(swBlob)).then(reg => {
+        
+        // Реєструємо файл sw.js
+        navigator.serviceWorker.register('sw.js').then(reg => {
           reg.addEventListener('updatefound', () => {
             newWorker = reg.installing;
             newWorker.addEventListener('statechange', () => {
@@ -900,7 +842,10 @@
               }
             });
           });
+        }).catch(error => {
+            console.log('Service Worker registration failed:', error);
         });
+
         let refreshing;
         navigator.serviceWorker.addEventListener('controllerchange', () => {
           if (refreshing) return;
