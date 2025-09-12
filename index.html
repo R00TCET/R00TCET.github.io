@@ -86,6 +86,7 @@
     .slider-container {
         width: 100%;
         overflow: hidden;
+        cursor: grab;
     }
 
     .slider-wrapper {
@@ -171,7 +172,7 @@
     }
     
     @keyframes marquee {
-        0% { transform: translateX(100%); }
+        0% { transform: translateX(50%); }
         100% { transform: translateX(-100%); }
     }
 
@@ -179,7 +180,7 @@
         display: inline-block;
         font-size: 14px;
         font-weight: 500;
-        padding-left: 100%; /* Починаємо за межами екрану */
+        padding-right: 50%; 
         animation: marquee 10s linear infinite;
     }
 
@@ -255,6 +256,7 @@
       width: 100%;
       border-top-left-radius: 20px;
       border-top-right-radius: 20px;
+      z-index: 100;
     }
 
     .nav-item {
@@ -282,6 +284,24 @@
 
     .nav-item.active .nav-label {
       color: var(--nav-active-color);
+    }
+    
+    /* --- Сповіщення про оновлення --- */
+    #update-notification {
+        position: fixed;
+        bottom: 90px; /* Над панеллю навігації */
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: #28a745;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 20px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        z-index: 200;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 500;
+        display: none; /* Сховано за замовчуванням */
     }
   </style>
 </head>
@@ -365,6 +385,9 @@
         <div class="placeholder-page"><h1>Меню</h1></div>
       </div>
     </main>
+    
+    <!-- Сповіщення про оновлення -->
+    <div id="update-notification">Доступне оновлення. Оновити?</div>
 
     <!-- Нижня навігаційна панель -->
     <nav class="bottom-nav">
@@ -406,6 +429,7 @@
       });
 
       // --- ЛОГІКА СЛАЙДЕРА ---
+      const sliderContainer = document.querySelector('.slider-container');
       const sliderWrapper = document.querySelector('.slider-wrapper');
       const dots = document.querySelectorAll('.page-indicator .dot');
       let currentIndex = 0;
@@ -413,11 +437,10 @@
       let startPos = 0;
       let currentTranslate = 0;
       let prevTranslate = 0;
+      let animationID = 0;
 
       function updateDots(index) {
-        dots.forEach((dot, i) => {
-          dot.classList.toggle('active', i === index);
-        });
+        dots.forEach((dot, i) => dot.classList.toggle('active', i === index));
       }
 
       function setSliderPosition() {
@@ -428,50 +451,56 @@
         return event.type.includes('mouse') ? event.pageX : event.touches[0].clientX;
       }
       
-      function touchStart(index) {
-        return function(event) {
-            isDragging = true;
-            startPos = getPositionX(event);
-            sliderWrapper.style.transition = 'none'; // Вимикаємо анімацію під час перетягування
-        }
+      function dragStart(event) {
+        isDragging = true;
+        startPos = getPositionX(event);
+        sliderWrapper.style.transition = 'none';
+        animationID = requestAnimationFrame(animation);
+        sliderContainer.style.cursor = 'grabbing';
       }
 
-      function touchMove(event) {
+      function dragMove(event) {
         if (isDragging) {
           const currentPosition = getPositionX(event);
           currentTranslate = prevTranslate + currentPosition - startPos;
-          setSliderPosition();
         }
       }
 
-      function touchEnd() {
+      function dragEnd() {
+        cancelAnimationFrame(animationID);
         isDragging = false;
         const movedBy = currentTranslate - prevTranslate;
 
-        if (movedBy < -100 && currentIndex < dots.length - 1) {
-            currentIndex++;
-        }
-        if (movedBy > 100 && currentIndex > 0) {
-            currentIndex--;
-        }
+        if (movedBy < -100 && currentIndex < dots.length - 1) currentIndex++;
+        if (movedBy > 100 && currentIndex > 0) currentIndex--;
 
-        currentTranslate = -currentIndex * sliderWrapper.offsetWidth;
+        currentTranslate = -currentIndex * sliderContainer.offsetWidth;
         prevTranslate = currentTranslate;
         
-        sliderWrapper.style.transition = 'transform 0.3s ease-in-out'; // Вмикаємо анімацію
+        sliderWrapper.style.transition = 'transform 0.3s ease-in-out';
         setSliderPosition();
         updateDots(currentIndex);
+        sliderContainer.style.cursor = 'grab';
+      }
+
+      function animation() {
+        setSliderPosition();
+        if(isDragging) requestAnimationFrame(animation);
       }
       
-      sliderWrapper.addEventListener('mousedown', touchStart(currentIndex));
-      sliderWrapper.addEventListener('touchstart', touchStart(currentIndex));
-      sliderWrapper.addEventListener('mouseup', touchEnd);
-      sliderWrapper.addEventListener('touchend', touchEnd);
-      sliderWrapper.addEventListener('mouseleave', touchEnd);
-      sliderWrapper.addEventListener('mousemove', touchMove);
-      sliderWrapper.addEventListener('touchmove', touchMove);
+      sliderContainer.addEventListener('mousedown', dragStart);
+      sliderContainer.addEventListener('touchstart', dragStart, { passive: true });
+      sliderContainer.addEventListener('mouseup', dragEnd);
+      sliderContainer.addEventListener('touchend', dragEnd);
+      sliderContainer.addEventListener('mouseleave', dragEnd);
+      sliderContainer.addEventListener('mousemove', dragMove);
+      sliderContainer.addEventListener('touchmove', dragMove, { passive: true });
 
-      // --- PWA ЛОГІКА ---
+      // --- PWA ЛОГІКА (ОНОВЛЕНО) ---
+      const VERSION = new Date().getTime(); // Автоматична версія
+      const CACHE_NAME = `diia-clone-cache-v${VERSION}`;
+
+      // 1. Динамічний маніфест (без змін)
       const manifest = {
         "name": "єДокумент", "short_name": "єДокумент", "start_url": location.href.replace(/\?.*$/, ''),
         "display": "standalone", "background_color": "#c9e3eb", "theme_color": "#4e8cde",
@@ -481,11 +510,76 @@
       const manifestUrl = URL.createObjectURL(manifestBlob);
       document.getElementById('manifest').setAttribute('href', manifestUrl);
 
-      const swCode = `const CACHE_NAME = 'diia-clone-cache-v1'; const urlsToCache = ['${location.href.replace(/\?.*$/, '')}']; self.addEventListener('install', e => e.waitUntil(caches.open(CACHE_NAME).then(c => c.addAll(urlsToCache)))); self.addEventListener('fetch', e => e.respondWith(caches.match(e.request).then(r => r || fetch(e.request))));`;
+      // 2. Створення та реєстрація Service Worker з новою логікою
+      const swCode = `
+        const CACHE_NAME = '${CACHE_NAME}';
+        const urlsToCache = ['${location.href.replace(/\?.*$/, '')}'];
+
+        // Етап 1: Кешування файлів при інсталяції
+        self.addEventListener('install', event => {
+          event.waitUntil(
+            caches.open(CACHE_NAME).then(cache => {
+              console.log('Opened cache: ', CACHE_NAME);
+              return cache.addAll(urlsToCache);
+            })
+          );
+        });
+
+        // Етап 2: Видалення старих кешів при активації
+        self.addEventListener('activate', event => {
+          event.waitUntil(
+            caches.keys().then(cacheNames => {
+              return Promise.all(
+                cacheNames.map(cacheName => {
+                  if (cacheName !== CACHE_NAME) {
+                    console.log('Deleting old cache:', cacheName);
+                    return caches.delete(cacheName);
+                  }
+                })
+              );
+            })
+          );
+        });
+        
+        // Етап 3: Обробка запитів (стратегія "Cache First")
+        self.addEventListener('fetch', event => {
+          event.respondWith(
+            caches.match(event.request).then(response => {
+              return response || fetch(event.request);
+            })
+          );
+        });
+      `;
       const swBlob = new Blob([swCode], { type: 'application/javascript' });
       const swUrl = URL.createObjectURL(swBlob);
+
+      // 3. Реєстрація та логіка оновлення
       if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register(swUrl).then(r => console.log('SW registered.')).catch(e => console.error('SW error:', e));
+        let newWorker;
+        const updateNotification = document.getElementById('update-notification');
+
+        updateNotification.addEventListener('click', () => {
+          newWorker.postMessage({ action: 'skipWaiting' });
+        });
+
+        navigator.serviceWorker.register(swUrl).then(reg => {
+          reg.addEventListener('updatefound', () => {
+            newWorker = reg.installing;
+            newWorker.addEventListener('statechange', () => {
+              if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                // Новий контент доступний.
+                updateNotification.style.display = 'block';
+              }
+            });
+          });
+        });
+
+        let refreshing;
+        navigator.serviceWorker.addEventListener('controllerchange', () => {
+          if (refreshing) return;
+          window.location.reload();
+          refreshing = true;
+        });
       }
     });
   </script>
