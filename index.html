@@ -567,7 +567,7 @@
       </nav>
   </div>
 
-  <script>
+    <script>
     document.addEventListener('DOMContentLoaded', () => {
 
       // --- ЛОГІКА СТАРТОВОГО ЕКРАНУ ТА ЕКРАНУ ВХОДУ ---
@@ -576,13 +576,11 @@
       const appContainer = document.querySelector('.app-container');
       const lottiePlayer = document.getElementById('lottie-player');
 
-      const lottiePlayer = document.getElementById('lottie-player');
-
+      // ВИПРАВЛЕНО: Повністю контролюємо анімацію
       // Подія 'ready' спрацьовує, коли анімація готова до відтворення
       lottiePlayer.addEventListener('ready', () => {
           // Чітко вказуємо, що анімація НЕ повинна повторюватися
           lottiePlayer.loop = false;
-          
           // І тепер запускаємо її програмно
           lottiePlayer.play();
       });
@@ -592,6 +590,7 @@
           // Примусово зупиняємо плеєр на останньому кадрі
           lottiePlayer.stop();
       });
+
 
       setTimeout(() => {
           splashScreen.classList.add('hidden');
@@ -911,6 +910,5 @@
       }
     });
   </script>
-
 </body>
 </html>
