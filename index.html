@@ -91,9 +91,9 @@
         position: absolute;
         bottom: 50px;
         left: 50%;
-        /* ВІДКОРИГОВАНО: Додано зсув для візуального центрування анімації */
-        margin-left: -15px; 
         transform: translateX(-50%);
+        /* ВИПРАВЛЕНО: Додано жорсткий зсув для візуального центрування анімації */
+        margin-left: -25px; 
         width: 200px;
         height: auto;
     }
@@ -228,12 +228,13 @@
     .slider-wrapper {
       display: flex;
       align-items: center;
+      /* ВИПРАВЛЕНО: Додано проміжок між картками */
+      gap: 3px; 
       transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
     .slide {
-      /* ВИПРАВЛЕНО: Ширина самої картки тепер 85% від контейнера. */
-      flex: 0 0 85%; 
-      margin: 0 1.5%;
+      /* ВИПРАВЛЕНО: Змінено ширину та прибрано margin для коректної роботи з gap */
+      flex: 0 0 80%; 
       height: 420px;
       transition: transform 0.4s ease, opacity 0.4s ease;
       -webkit-tap-highlight-color: transparent;
@@ -749,6 +750,7 @@
       
       const positionSliderByIndex = () => {
         const targetSlide = slides[currentIndex];
+        if (!targetSlide) return;
         const containerCenter = sliderContainer.offsetWidth / 2;
         const slideCenter = targetSlide.offsetLeft + targetSlide.offsetWidth / 2;
         
