@@ -8,14 +8,14 @@
   <!-- Динамічно вбудований маніфест PWA -->
   <link id="manifest" rel="manifest">
 
-  <!-- ОНОВЛЕНО: Налаштування для iOS (чорний статус-бар) -->
+  <!-- Налаштування для iOS (чорний статус-бар) -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAYAAABS3GwHAAAAAXNSR0IArs4c6QAAAyJJREFUeF7t0AEBAAAAEADC/2H5NEbDAwKChAAAAAAAAAAAAAD45wEAAAAAAAAAAAAA8McDAAAAAAAAAAAAAODjBwAAAAAAAAAAAABA/3kAAAAAAAAAAAAAwB8PAAAAAAAAAAAAAHg4AQAAAAAAAAAAAMD/eQAAAAAAAAAAAADAHw8AAAAAAAAAAAAA8HACAAAAAAAAAAAAgP7zAAAAAAAAAAAAAIC/HAAAAAAAAAAAAACAhxMAAAAAAAAAAAAA+s8DAAAAAAAAAAAAAOBfDwAAAAAAAAAAAACAxxMAAAAAAAAAAAAA4f88AAAAAAAAAAAAAOAfDwAAAAAAAAAAAADw4AQAAAAAAAAAAAD8nwcAAAAAAAAAAAAA8K8HAAAAAAAAAAAAAPBhAgAAAAAAAAAAAPh/ngAAAAAAAAAAAADA/x4AAAAAAAAAAAAA8OECAAAAAAAAAAAA+M8DAAAAAAAAAAAAAOBfDwAAAAAAAAAAAACAxxMAAAAAAAAAAAAA4f88AAAAAAAAAAAAAOAfDwAAAAAAAAAAAADw4AQAAAAAAAAAAAD8nwcAAAAAAAAAAAAA8K8HAAAAAAAAAAAAAPBhAgAAAAAAAAAAAPh/ngAAAAAAAAAAAADA/x4AAAAAAAAAAAAA8OECAAAAAAAAAAAA+M8DAAAAAAAAAAAAAOBfDwAAAAAAAAAAAACAxxMAAAAAAAAAAAAA4f88AAAAAAAAAAAAAOAfDwAAAAAAAAAAAADw4AQAAAAAAAAAAAD8nwcAAAAAAAAAAAAA8K8HAAAAAAAAAAAAAPBhAgAAAAAAAAAAAPh/ngAAAAAAAAAAAADA/x4AAAAAAAAAAAAA8OECAAAAAAAAAAAA+M8DAAAAAAAAAAAAAOBfDwAAAAAAAAAAAACAxxMAAAAAAAAAAAAA4f88AAAAAAAAAAAAAOAfDwAAAAAAAAAAAADw4AQAAAAAAAAAAAD8nwcAAAAAAAAAAAAA8K8HAAAAAAAAAAAAAPBhAgAAAAAAAAAAAPh/ngAAAAAAAAAAAADA/x4AAAAAAAAAAAAA8OECAAAAAAAAAAAA+M8DAAAAAAAAAAAAAOBfDwAAAAAAAAAAAACAxxMAAAAAAAAAAAAA4f88AAAAAAAAAAAAAOAfDwAAAAAAAAAAAADw4AQAAAAAAAAAAAD8nwcAAAAAAAAAAAAA8K8HAAAAAAAAAAAAAPBhAgAAAAAAAAAAAPh/ngAAAAAAAAAAAADA/xsA3g4Y9QAAAABJRU5ErkJggg==">
   <meta name="theme-color" content="#111111">
 
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap');
 
     :root {
       --text-color: #000;
@@ -28,8 +28,8 @@
       --nav-background: #111;
       --nav-text-color: #8e8e93;
       --nav-active-color: #fff;
-      /* --- ОНОВЛЕНО: Яскравіший градієнт для банера --- */
-      --banner-background-bright: linear-gradient(90deg, #32CD32, #98FB98, #32CD32);
+      /* --- ОНОВЛЕНО: Легший градієнт для банера --- */
+      --banner-background-soft: linear-gradient(90deg, rgba(210, 228, 191, 0.8), rgba(144, 238, 144, 0.8), rgba(225, 246, 184, 0.8));
     }
 
     @keyframes animatedBackground {
@@ -61,7 +61,7 @@
     .page {
       width: 100%; height: 100%; position: absolute; top: 0; left: 0;
       padding: 0;
-      overflow: hidden; /* Ховаємо скролбар, якщо він є */
+      overflow: hidden;
       transition: opacity 0.4s ease-in-out;
       visibility: hidden; opacity: 0;
     }
@@ -71,9 +71,10 @@
 
     .placeholder-page { display: flex; justify-content: center; align-items: center; height: 100%; font-size: 24px; color: #555; }
 
+    /* --- ОНОВЛЕНО: Контейнер піднято --- */
     .slider-container {
       width: 100%;
-      height: 470px; /* Зменшено висоту щоб підняти картку */
+      height: 420px; /* Значно зменшено висоту */
       display: flex;
       align-items: center;
       position: relative;
@@ -85,10 +86,11 @@
       align-items: center;
       transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
+    /* --- ОНОВЛЕНО: Висота картки --- */
     .slide {
       flex: 0 0 85%;
       margin: 0 2.5%;
-      height: 450px; /* Зменшено висоту картки */
+      height: 420px; /* Зменшено висоту */
       transition: transform 0.4s ease, opacity 0.4s ease;
       -webkit-tap-highlight-color: transparent;
     }
@@ -141,7 +143,8 @@
     }
     .empty-card { height: 100%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: #888; }
     .document-content { padding: 20px; }
-    .document-title { font-size: 24px; font-weight: 800; margin-bottom: 20px; }
+    /* --- ОНОВЛЕНО: Жирність заголовка --- */
+    .document-title { font-size: 24px; font-weight: 700; margin-bottom: 20px; }
     .personal-info {
         display: flex;
         align-items: flex-start;
@@ -150,9 +153,10 @@
     .photo {
         margin-top: 5px;
     }
+    /* --- ОНОВЛЕНО: Розмір фото --- */
     .photo img {
-        width: 100px;
-        height: 140px;
+        width: 110px;
+        height: 154px;
         border-radius: 12px;
         object-fit: cover;
     }
@@ -162,10 +166,10 @@
     .detail-item .value { font-size: 17px; font-weight: 700; color: var(--text-color); }
 
     .status-banner-wrapper {
-      background: var(--banner-background-bright); /* Використовуємо новий яскравий градієнт */
+      background: var(--banner-background-soft);
       overflow: hidden;
       white-space: nowrap;
-      padding: 7px 0; /* Зменшено висоту */
+      padding: 7px 0;
     }
     .status-banner {
       display: inline-block;
@@ -175,19 +179,25 @@
         0% { transform: translateX(0); }
         100% { transform: translateX(-100%); }
     }
-    .status-banner span { padding-right: 20px; }
+    /* --- ОНОВЛЕНО: Шрифт смуги --- */
+    .status-banner span {
+        padding-right: 20px;
+        font-size: 13px;
+        font-weight: 600;
+    }
 
     .info-section { padding: 20px; }
     .name-section {
         display: flex;
         justify-content: space-between;
-        align-items: flex-end; /* Вирівнюємо по низу */
+        align-items: flex-end;
         min-width: 0;
     }
     .full-name { display: flex; flex-direction: column; min-width: 0; }
+    /* --- ОНОВЛЕНО: Жирність ПІБ --- */
     .name-part {
         font-size: 26px;
-        font-weight: 700; /* Зменшено жирність */
+        font-weight: 600;
         line-height: 1.2;
         word-break: break-word;
     }
@@ -201,14 +211,13 @@
         align-items: center;
         flex-shrink: 0;
         margin-left: 10px;
-        margin-bottom: 2px; /* Для точного вирівнювання з текстом */
+        margin-bottom: 2px;
     }
     .more-options svg { width: 20px; height: 20px; fill: #fff; }
 
-    /* --- ОНОВЛЕНО: Позиція точок-індикаторів --- */
     .page-indicator-container {
         position: absolute;
-        bottom: 95px; /* Розміщуємо над панеллю навігації */
+        bottom: 95px;
         left: 50%;
         transform: translateX(-50%);
         width: 100%;
@@ -216,7 +225,14 @@
         padding: 20px 0;
     }
     .page-indicator { display: flex; justify-content: center; gap: 6px; }
-    .dot { width: 7px; height: 7px; background-color: rgba(255, 255, 255, 0.3); border-radius: 50%; transition: background-color 0.3s ease; }
+    /* --- ОНОВЛЕНО: Розмір та яскравість точок --- */
+    .dot {
+        width: 8px;
+        height: 8px;
+        background-color: rgba(255, 255, 255, 0.5);
+        border-radius: 50%;
+        transition: background-color 0.3s ease;
+    }
     .dot.active { background-color: rgba(255, 255, 255, 0.9); }
 
     .bottom-nav { display: flex; justify-content: space-around; background-color: var(--nav-background); padding: 8px 0 20px 0; position: fixed; bottom: 0; left: 0; width: 100%; border-top-left-radius: 20px; border-top-right-radius: 20px; z-index: 100; }
@@ -281,7 +297,6 @@
                                   <span class="name-part">Іван</span>
                                   <span class="name-part">Іванович</span>
                                 </div>
-                                <!-- ОНОВЛЕНО: Кнопка переміщена сюди для вирівнювання -->
                                 <div class="more-options">
                                   <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M6 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm12 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>
                                 </div>
@@ -306,7 +321,6 @@
               </div>
             </div>
         </div>
-        <!-- Індикатори винесені за межі основного блоку для позиціонування -->
         <div class="page-indicator-container">
             <div class="page-indicator">
               <span class="dot active"></span>
