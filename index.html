@@ -29,7 +29,7 @@
       --nav-text-color: #8e8e93;
       --nav-active-color: #fff;
       /* --- ОНОВЛЕНО: Легший градієнт для банера --- */
-      --banner-background-soft: linear-gradient(90deg, rgba(210, 228, 191, 0.8), rgba(144, 238, 144, 0.8), rgba(225, 246, 184, 0.8));
+      --banner-background-soft: linear-gradient(90deg, rgba(173, 223, 173, 0.8), rgba(225, 246, 184, 0.85), rgba(173, 223, 173, 0.8));
     }
 
     @keyframes animatedBackground {
@@ -71,10 +71,11 @@
 
     .placeholder-page { display: flex; justify-content: center; align-items: center; height: 100%; font-size: 24px; color: #555; }
 
-    /* --- ОНОВЛЕНО: Контейнер піднято --- */
+    /* --- ОНОВЛЕНО: Контейнер піднято ще вище --- */
     .slider-container {
       width: 100%;
-      height: 420px; /* Значно зменшено висоту */
+      height: 420px;
+      margin-top: -50px; /* Піднімаємо блок вгору */
       display: flex;
       align-items: center;
       position: relative;
@@ -86,11 +87,11 @@
       align-items: center;
       transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
-    /* --- ОНОВЛЕНО: Висота картки --- */
+    /* --- ОНОВЛЕНО: Ширина слайду, щоб було видно краї --- */
     .slide {
-      flex: 0 0 85%;
-      margin: 0 2.5%;
-      height: 420px; /* Зменшено висоту */
+      flex: 0 0 80%; /* Зменшуємо ширину, щоб бічні були видні */
+      margin: 0 2%;
+      height: 420px;
       transition: transform 0.4s ease, opacity 0.4s ease;
       -webkit-tap-highlight-color: transparent;
     }
@@ -143,7 +144,6 @@
     }
     .empty-card { height: 100%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: #888; }
     .document-content { padding: 20px; }
-    /* --- ОНОВЛЕНО: Жирність заголовка --- */
     .document-title { font-size: 24px; font-weight: 700; margin-bottom: 20px; }
     .personal-info {
         display: flex;
@@ -153,35 +153,44 @@
     .photo {
         margin-top: 5px;
     }
-    /* --- ОНОВЛЕНО: Розмір фото --- */
     .photo img {
         width: 110px;
         height: 154px;
         border-radius: 12px;
         object-fit: cover;
+        /* --- ОНОВЛЕНО: Ободок на фото --- */
+        border: 1px solid rgba(255, 255, 255, 0.4);
     }
     .details { display: flex; flex-direction: column; gap: 15px; }
     .detail-item { display: flex; flex-direction: column; }
-    .detail-item .label { font-size: 14px; color: var(--label-color); font-weight: 500; }
-    .detail-item .value { font-size: 17px; font-weight: 700; color: var(--text-color); }
+    /* --- ОНОВЛЕНО: однаковий шрифт для дати/номера та їх лейблів --- */
+    .detail-item .label, .detail-item .value {
+        font-size: 14px;
+        font-weight: 500;
+        color: var(--text-color);
+    }
+    .detail-item .label {
+        color: var(--label-color);
+    }
 
+    /* --- ОНОВЛЕНО: Висота смуги --- */
     .status-banner-wrapper {
       background: var(--banner-background-soft);
       overflow: hidden;
       white-space: nowrap;
-      padding: 7px 0;
+      padding: 5px 0; /* Зменшено висоту */
     }
     .status-banner {
       display: inline-block;
-      animation: marquee 10s linear infinite;
+      /* --- ОНОВЛЕНО: Виправлена анімація --- */
+      animation: marquee 12s linear infinite;
     }
     @keyframes marquee {
-        0% { transform: translateX(0); }
-        100% { transform: translateX(-100%); }
+        0% { transform: translateX(0%); }
+        100% { transform: translateX(-50%); }
     }
-    /* --- ОНОВЛЕНО: Шрифт смуги --- */
     .status-banner span {
-        padding-right: 20px;
+        padding-right: 8px; /* Відступ між повторами */
         font-size: 13px;
         font-weight: 600;
     }
@@ -194,9 +203,9 @@
         min-width: 0;
     }
     .full-name { display: flex; flex-direction: column; min-width: 0; }
-    /* --- ОНОВЛЕНО: Жирність ПІБ --- */
+    /* --- ОНОВЛЕНО: Розмір шрифту ПІБ --- */
     .name-part {
-        font-size: 26px;
+        font-size: 24px;
         font-weight: 600;
         line-height: 1.2;
         word-break: break-word;
@@ -224,16 +233,16 @@
         max-width: 400px;
         padding: 20px 0;
     }
-    .page-indicator { display: flex; justify-content: center; gap: 6px; }
+    .page-indicator { display: flex; justify-content: center; gap: 8px; }
     /* --- ОНОВЛЕНО: Розмір та яскравість точок --- */
     .dot {
-        width: 8px;
-        height: 8px;
-        background-color: rgba(255, 255, 255, 0.5);
+        width: 9px;
+        height: 9px;
+        background-color: rgba(255, 255, 255, 0.6);
         border-radius: 50%;
         transition: background-color 0.3s ease;
     }
-    .dot.active { background-color: rgba(255, 255, 255, 0.9); }
+    .dot.active { background-color: rgba(255, 255, 255, 1); }
 
     .bottom-nav { display: flex; justify-content: space-around; background-color: var(--nav-background); padding: 8px 0 20px 0; position: fixed; bottom: 0; left: 0; width: 100%; border-top-left-radius: 20px; border-top-right-radius: 20px; z-index: 100; }
     .nav-item { display: flex; flex-direction: column; align-items: center; text-decoration: none; color: var(--nav-text-color); gap: 4px; padding: 0 10px; cursor: pointer; }
@@ -285,9 +294,9 @@
                               </div>
                             </div>
                             <div class="status-banner-wrapper">
+                              <!-- ОНОВЛЕНО: Розмітка для безшовної анімації --- -->
                               <div class="status-banner">
-                                <span>А ми нашу славну Україну, гей, гей, розвеселимо!</span>
-                                <span>А ми нашу славну Україну, гей, гей, розвеселимо!</span>
+                                <span>А ми нашу славну Україну, гей, гей, розвеселимо!</span><span>А ми нашу славну Україну, гей, гей, розвеселимо!</span>
                               </div>
                             </div>
                             <div class="info-section">
