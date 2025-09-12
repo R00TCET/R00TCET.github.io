@@ -81,9 +81,12 @@
         color: #000;
         font-weight: 600;
     }
+    /* --- ОНОВЛЕНО: Центрування анімації --- */
     .lottie-container {
         position: absolute;
         bottom: 50px;
+        left: 50%; /* Горизонтальне центрування */
+        transform: translateX(-50%); /* Горизонтальне центрування */
         width: 200px;
         height: auto;
     }
@@ -214,7 +217,7 @@
       padding: 5px 0;
     }
     .status-banner {
-      display: flex; /* Використовуємо flex для правильного розрахунку ширини */
+      display: flex;
       width: max-content;
       animation: marquee 12s linear infinite;
     }
@@ -226,7 +229,7 @@
         padding-right: 8px;
         font-size: 13px;
         font-weight: 600;
-        white-space: nowrap; /* Забороняємо перенос тексту */
+        white-space: nowrap;
     }
 
     .info-section { padding: 20px; }
@@ -297,7 +300,8 @@
           <h1>Привіт 👋</h1>
       </div>
       <div class="lottie-container">
-          <lottie-player src="https://cdn.lottielab.com/l/68wZxPHmiUxhrV.json" autoplay></lottie-player>
+          <!-- ОНОВЛЕНО: Використовуємо локальний файл -->
+          <lottie-player src="splash_cropped.json" autoplay></lottie-player>
       </div>
   </div>
 
@@ -425,12 +429,13 @@
           splashScreen.classList.add('hidden');
           appContainer.style.display = 'flex';
           
-          // Опціонально: видаляємо сплеш-екран з DOM після завершення анімації
           setTimeout(() => {
-              splashScreen.remove();
-          }, 500); // Час має відповідати тривалості transition в CSS
+              if (splashScreen) {
+                splashScreen.remove();
+              }
+          }, 500);
 
-      }, 3000); // 3 секунди
+      }, 3000);
 
 
       // --- НАВІГАЦІЯ ---
