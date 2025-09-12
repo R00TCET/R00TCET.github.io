@@ -74,10 +74,11 @@
         background: linear-gradient(to bottom, #d4e7f5, #e9f3f9);
         display: flex;
         flex-direction: column;
-        justify-content: center;
-        align-items: center;
+        justify-content: flex-start; /* ВИПРАВЛЕНО: Прибрано вертикальне центрування */
+        padding-top: 20vh;          /* ВИПРАВЛЕНО: Додано відступ зверху */
+        align-items: center;        /* Це відповідає за горизонтальне центрування */
         transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
-        gap: 20px; /* Додано проміжок між елементами */
+        gap: 20px;
     }
     #splash-screen.hidden {
         opacity: 0;
@@ -89,8 +90,7 @@
         font-weight: 600;
     }
     .lottie-container {
-        /* ВИПРАВЛЕНО: Прибрано абсолютне позиціонування для коректного центрування */
-        width: 280px; /* Змінено розмір для кращого вигляду */
+        width: 280px;
         height: auto;
     }
     
@@ -174,7 +174,6 @@
         backdrop-filter: none;
     }
     .keypad-btn img {
-        /* ВИПРАВЛЕНО: Збільшено розмір іконки */
         width: 65px;
         height: 65px;
         opacity: 0.7;
@@ -673,7 +672,7 @@
       document.querySelector('.nav-item.active')?.classList.remove('active');
 
 
-      // --- ВИПРАВЛЕНО: ЛОГІКА СЛАЙДЕРА (ІНТЕРАКТИВНА АНІМАЦІЯ) ---
+      // --- ЛОГІКА СЛАЙДЕРА (ІНТЕРАКТИВНА АНІМАЦІЯ) ---
       const sliderContainer = document.querySelector('.slider-container');
       const sliderWrapper = document.querySelector('.slider-wrapper');
       const slides = document.querySelectorAll('.slide');
