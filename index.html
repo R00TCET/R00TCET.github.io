@@ -20,27 +20,27 @@
     :root {
       --text-color: #000;
       --label-color: #333;
-      --background-gradient:
-        radial-gradient(ellipse at 5% 5%, hsla(70, 88%, 88%, 0.8) 0, transparent 40%),
-        radial-gradient(ellipse at 95% 90%, hsla(180, 88%, 85%, 0.7) 0, transparent 50%),
-        linear-gradient(155deg, #e1f6b8, #bdecf3, #f5f0d5);
+      /* --- Новий градієнт для фону --- */
+      --background-gradient: linear-gradient(135deg, #a8c0ff, #d2e4bf, #f0f3b4, #a8c0ff);
       --card-background: rgba(255, 255, 255, 0.6);
       --nav-background: #111;
       --nav-text-color: #8e8e93;
       --nav-active-color: #fff;
-      --banner-background: linear-gradient(to right, #228b22, #90ee90);
+      /* --- Новий градієнт для банера --- */
+      --banner-background: linear-gradient(90deg, #228b22, #90ee90, #50c878, #228b22);
     }
 
+    /* --- Оновлена анімація фону --- */
     @keyframes animatedBackground {
       0% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
     }
 
+    /* --- Нова анімація для градієнта банера --- */
     @keyframes animatedBanner {
       0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
+      100% { background-position: 200% 50%; }
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -48,8 +48,8 @@
     body {
       font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       background: var(--background-gradient);
-      background-size: 200% 200%;
-      animation: animatedBackground 30s ease infinite;
+      background-size: 400% 400%; /* Збільшено розмір для плавної анімації */
+      animation: animatedBackground 20s ease infinite;
       height: 100vh;
       color: var(--text-color);
       overflow: hidden;
@@ -63,7 +63,6 @@
     .app-container { height: 100%; display: flex; flex-direction: column; }
     .content { flex-grow: 1; position: relative; }
 
-    /* --- Анімація переходу між сторінками (Fade) --- */
     .page {
       width: 100%; height: 100%; position: absolute; top: 0; left: 0;
       padding: 0 10px; overflow-y: auto;
@@ -76,22 +75,24 @@
 
     .placeholder-page { display: flex; justify-content: center; align-items: center; height: 100%; font-size: 24px; color: #555; }
 
-    /* --- Слайдер документів --- */
+    /* --- Стилі для каруселі --- */
     .slider-container {
       width: 100%;
       max-width: 400px;
       margin: 0 auto;
       position: relative;
-      height: 520px; /* Висота для анімації */
+      height: 520px;
       display: flex;
       align-items: center;
       justify-content: center;
+      perspective: 1200px; /* Глибина для 3D */
       cursor: grab;
     }
     .slider-wrapper {
       position: relative;
       width: 100%;
       height: 490px;
+      transform-style: preserve-3d; /* Включаємо 3D-простір */
     }
     .slide {
       position: absolute;
@@ -99,12 +100,10 @@
       height: 100%;
       left: 0;
       top: 0;
-      /* Плавний перехід для фінальної анімації "snap" */
-      transition: transform 0.4s ease, opacity 0.4s ease;
+      transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.5s ease;
       -webkit-tap-highlight-color: transparent;
     }
 
-    /* --- Анімація перевертання картки --- */
     .flip-card {
         background-color: transparent;
         width: 100%;
@@ -165,8 +164,8 @@
 
     .status-banner-wrapper {
       background: var(--banner-background);
-      background-size: 200% 200%;
-      animation: animatedBanner 30s ease infinite;
+      background-size: 200% 100%; /* Збільшено розмір для анімації */
+      animation: animatedBanner 10s linear infinite;
       padding: 9px 0; overflow: hidden; white-space: nowrap;
     }
     @keyframes marquee { 0% { transform: translateX(50%); } 100% { transform: translateX(-150%); } }
@@ -327,7 +326,7 @@
       });
 
 
-      // --- НОВА ЛОГІКА СЛАЙДЕРА (ВЕРТИКАЛЬНА АНІМАЦІЯ) ---
+      // --- НОВА ЛОГІКА СЛАЙДЕРА (КАРУСЕЛЬ) ---
       const sliderContainer = document.querySelector('.slider-container');
       const slides = document.querySelectorAll('.slide');
       const dots = document.querySelectorAll('.page-indicator .dot');
@@ -336,7 +335,7 @@
       let currentIndex = 0;
       let isDragging = false;
       let startPos = 0;
-      let currentX = 0;
+      let currentTranslate = 0;
 
       const getPositionX = (e) => e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
       
@@ -344,73 +343,52 @@
           dots.forEach((dot, index) => dot.classList.toggle('active', index === currentIndex));
       };
 
-      // Функція для встановлення фінальних позицій слайдів з анімацією
-      const goToSlide = (index) => {
-        slides.forEach((slide, i) => {
-          slide.style.transition = 'transform 0.4s ease, opacity 0.4s ease';
-          if (i === index) {
-            // Активний слайд
-            slide.style.transform = 'translateY(0) scale(1)';
+      // Функція, що оновлює стилі для всіх слайдів
+      const updateCarousel = (withTransition = true) => {
+        slides.forEach((slide, index) => {
+          const distance = index - currentIndex;
+          slide.style.transition = withTransition ? 'transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.5s ease' : 'none';
+          
+          if (distance === 0) {
+            // Центральний (активний) слайд
+            slide.style.transform = 'translateX(0) translateZ(0) scale(1) rotateY(0)';
             slide.style.opacity = '1';
+            slide.style.zIndex = '10';
             slide.style.pointerEvents = 'auto';
-          } else if (i < index) {
-            // Слайди, які вже пройшли
-            slide.style.transform = 'translateY(30px) scale(0.9)';
-            slide.style.opacity = '0';
+          } else if (distance === 1 || (currentIndex === slideCount - 1 && index === 0 && slideCount > 2)) {
+            // Слайд праворуч
+            slide.style.transform = 'translateX(50%) translateZ(-200px) scale(0.8) rotateY(-45deg)';
+            slide.style.opacity = '0.7';
+            slide.style.zIndex = '9';
+            slide.style.pointerEvents = 'none';
+          } else if (distance === -1 || (currentIndex === 0 && index === slideCount - 1 && slideCount > 2)) {
+            // Слайд ліворуч
+            slide.style.transform = 'translateX(-50%) translateZ(-200px) scale(0.8) rotateY(45deg)';
+            slide.style.opacity = '0.7';
+            slide.style.zIndex = '9';
             slide.style.pointerEvents = 'none';
           } else {
-            // Слайди, які ще попереду
-            slide.style.transform = 'translateY(50px) scale(0.9)';
+            // Інші (далекі) слайди
+            slide.style.transform = `translateX(${Math.sign(distance) * 50}%) translateZ(-400px) scale(0.6) rotateY(${Math.sign(distance) * 45}deg)`;
             slide.style.opacity = '0';
+            slide.style.zIndex = '8';
             slide.style.pointerEvents = 'none';
           }
         });
         updateDots();
       };
       
-      // Функція, що оновлює позиції в реальному часі під час перетягування
-      const updateWhileDragging = (dragOffset) => {
-        const dragProgress = dragOffset / sliderContainer.offsetWidth;
-        
-        slides.forEach((slide, index) => {
-            slide.style.transition = 'none'; // Вимикаємо анімацію для плавного перетягування
-
-            const isCurrent = index === currentIndex;
-            const isNext = index === currentIndex + 1;
-            const isPrev = index === currentIndex - 1;
-
-            if (isCurrent) {
-                const scale = 1 - Math.abs(dragProgress) * 0.1;
-                const y = Math.abs(dragProgress) * 30;
-                slide.style.transform = `translateY(${y}px) scale(${scale})`;
-                slide.style.opacity = 1 - Math.abs(dragProgress);
-            } else if (isNext && dragOffset < 0) { // Гортаємо вліво (до наступного)
-                const progress = -dragProgress;
-                const scale = 0.9 + progress * 0.1;
-                const y = 50 * (1 - progress);
-                slide.style.transform = `translateY(${y}px) scale(${scale})`;
-                slide.style.opacity = progress;
-            } else if (isPrev && dragOffset > 0) { // Гортаємо вправо (до попереднього)
-                const progress = dragProgress;
-                const scale = 0.9 + progress * 0.1;
-                const y = 50 * (1 - progress);
-                slide.style.transform = `translateY(${y}px) scale(${scale})`;
-                slide.style.opacity = progress;
-            }
-        });
-      };
-
       const dragStart = (e) => {
         isDragging = true;
         startPos = getPositionX(e);
+        currentTranslate = 0; // Скидаємо зсув на початку
         sliderContainer.style.cursor = 'grabbing';
       };
 
       const dragMove = (e) => {
         if (!isDragging) return;
-        currentX = getPositionX(e);
-        const dragOffset = currentX - startPos;
-        updateWhileDragging(dragOffset);
+        currentTranslate = getPositionX(e) - startPos;
+        // Можна додати анімацію під час перетягування, але для простоти поки опустимо
       };
 
       const dragEnd = () => {
@@ -418,21 +396,19 @@
         isDragging = false;
         sliderContainer.style.cursor = 'grab';
 
-        const movedBy = currentX - startPos;
-        const threshold = sliderContainer.offsetWidth / 4;
+        const threshold = sliderContainer.offsetWidth / 5;
 
-        if (movedBy < -threshold && currentIndex < slideCount - 1) {
+        if (currentTranslate < -threshold && currentIndex < slideCount - 1) {
           currentIndex++;
-        }
-        if (movedBy > threshold && currentIndex > 0) {
+        } else if (currentTranslate > threshold && currentIndex > 0) {
           currentIndex--;
         }
 
-        goToSlide(currentIndex); // Анімуємо до фінальної позиції
+        updateCarousel();
       };
       
-      // Початкове налаштування слайдера
-      goToSlide(0);
+      // Початкове налаштування каруселі
+      updateCarousel();
 
       ['mousedown', 'touchstart'].forEach(e => sliderContainer.addEventListener(e, dragStart, { passive: true }));
       ['mouseup', 'touchend', 'mouseleave'].forEach(e => document.addEventListener(e, dragEnd));
@@ -467,10 +443,12 @@
 
       flipCards.forEach(card => {
         card.addEventListener('click', () => {
-            // Запобігаємо перевертанню картки під час свайпу
-            if (Math.abs(currentX - startPos) > 10 && isDragging) {
-                return;
-            }
+            if (Math.abs(currentTranslate) > 10) return; // Запобігаємо кліку під час свайпу
+            
+            const slide = card.closest('.slide');
+            // Перевертаємо картку тільки якщо вона центральна
+            if (slide.style.zIndex !== '10') return;
+
             const inner = card.querySelector('.flip-card-inner');
             inner.classList.toggle('is-flipped');
             if (inner.classList.contains('is-flipped')) {
