@@ -121,7 +121,7 @@
         visibility: visible;
     }
     .login-title {
-        font-size: 24px;
+        font-size: 28px; /* Збільшено */
         font-weight: 600;
         margin-bottom: 20px;
     }
@@ -137,6 +137,7 @@
         width: 15px;
         height: 15px;
         background-color: rgba(255, 255, 255, 0.8);
+        border: 1px solid rgba(0,0,0,0.1);
         border-radius: 50%;
         transition: background-color 0.2s ease;
     }
@@ -165,6 +166,7 @@
         transition: background-color 0.2s ease;
         backdrop-filter: blur(5px);
         -webkit-backdrop-filter: blur(5px);
+        -webkit-tap-highlight-color: transparent; /* Прибрано синій квадрат */
     }
     .keypad-btn:active {
         background-color: rgba(255, 255, 255, 1);
@@ -174,8 +176,8 @@
         backdrop-filter: none;
     }
     .keypad-btn img {
-        width: 40px;
-        height: 40px;
+        width: 55px;  /* Збільшено */
+        height: 55px; /* Збільшено */
         opacity: 0.7;
     }
     .keypad-btn svg {
@@ -227,8 +229,8 @@
       transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
     .slide {
-      flex: 0 0 80%;
-      margin: 0 2%;
+      flex: 0 0 70%; /* Зменшено для більшого виступу */
+      margin: 0 5%;   /* Збільшено для більшого виступу */
       height: 420px;
       transition: transform 0.4s ease, opacity 0.4s ease;
       -webkit-tap-highlight-color: transparent;
@@ -281,7 +283,7 @@
         height: 100%;
     }
     .empty-card { height: 100%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: #888; }
-    .document-content { padding: 20px; }
+    .document-content { padding: 24px; } /* Збільшено відступ */
     .document-title { font-size: 24px; font-weight: 700; margin-bottom: 20px; }
     .personal-info {
         display: flex;
@@ -331,7 +333,7 @@
         white-space: nowrap;
     }
 
-    .info-section { padding: 20px; }
+    .info-section { padding: 24px; } /* Збільшено відступ */
     .name-section {
         display: flex;
         justify-content: space-between;
@@ -411,7 +413,8 @@
           <h1>Привіт 👋</h1>
       </div>
       <div class="lottie-container">
-          <lottie-player id="lottie-player" src="https://assets2.lottiefiles.com/packages/lf20_rngd55ju.json" autoplay></lottie-player>
+          <!-- ОНОВЛЕНО: Виправлене посилання на анімацію -->
+          <lottie-player id="lottie-player" src="https://assets10.lottiefiles.com/packages/lf20_p8bfn5to.json" autoplay></lottie-player>
       </div>
   </div>
 
@@ -471,7 +474,8 @@
                               <h1 class="document-title">єДокумент</h1>
                               <div class="personal-info">
                                 <div class="photo">
-                                  <img src="https://thispersondoesnotexist.com/" alt="Фото">
+                                  <!-- Повернуто локальне фото -->
+                                  <img src="./pasport.png" alt="Фото">
                                 </div>
                                 <div class="details">
                                   <div class="detail-item">
@@ -572,14 +576,13 @@
       const appContainer = document.querySelector('.app-container');
       const lottiePlayer = document.getElementById('lottie-player');
 
-      // Налаштування Lottie-анімації, щоб вона зупинилась на останньому кадрі
       lottiePlayer.addEventListener('ready', () => {
           lottiePlayer.setLooping(false);
       });
 
       setTimeout(() => {
           splashScreen.classList.add('hidden');
-          loginScreen.classList.add('visible'); // Показуємо екран входу
+          loginScreen.classList.add('visible');
           
           setTimeout(() => {
               if (splashScreen) {
@@ -587,7 +590,7 @@
               }
           }, 500);
 
-      }, 4000); // Збільшено час до 4 секунд
+      }, 4000);
 
       // --- ЛОГІКА ВВОДУ ПАРОЛЮ ---
       const passcodeDotsContainer = document.querySelector('.passcode-dots');
@@ -608,6 +611,24 @@
         updateDots();
         passcodeDotsContainer.classList.remove('shake');
       }
+      
+      const initializeCarousel = () => {
+          if (!slides[currentIndex]) return;
+          const targetSlide = slides[currentIndex];
+          const containerCenter = sliderContainer.offsetWidth / 2;
+          const slideCenter = targetSlide.offsetLeft + targetSlide.offsetWidth / 2;
+          
+          currentTranslate = containerCenter - slideCenter;
+          prevTranslate = currentTranslate;
+          
+          sliderWrapper.style.transition = 'none'; // Важливо для миттєвого центрування
+          setSliderPosition();
+          
+          // Повертаємо анімацію після початкового налаштування
+          setTimeout(() => {
+             sliderWrapper.style.transition = 'transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+          }, 50);
+      }
 
       const handleKeyPress = (key) => {
         if (passcode.length < 4) {
@@ -618,12 +639,15 @@
         if (passcode.length === 4) {
           setTimeout(() => {
             if (passcode === correctPasscode) {
-              // Імітація завантаження
               loginScreen.style.opacity = '0';
               setTimeout(() => {
                 loginScreen.remove();
                 appContainer.style.display = 'flex';
-                navigateToPage('page-feed'); // Перехід на сторінку "Стрічка"
+                navigateToPage('page-feed');
+                
+                // ВИРІШЕННЯ БАГУ ЦЕНТРУВАННЯ: викликаємо ініціалізацію ПІСЛЯ того, як контейнер став видимим
+                initializeCarousel();
+
               }, 300);
             } else {
               passcodeDotsContainer.classList.add('shake');
@@ -634,10 +658,9 @@
       };
 
       keypadBtns.forEach(btn => {
-        if (!btn.id) { // Не додаємо обробник для кнопок з іконками
-          btn.addEventListener('click', () => {
-            handleKeyPress(btn.textContent);
-          });
+        const key = btn.textContent;
+        if (!isNaN(parseInt(key, 10))) {
+          btn.addEventListener('click', () => handleKeyPress(key));
         }
       });
       
@@ -669,8 +692,6 @@
         });
       });
       
-      // Ініціалізація початкової сторінки
-      // Спочатку жодна сторінка не активна, стане активною після входу
       document.querySelector('.page.active')?.classList.remove('active');
       document.querySelector('.nav-item.active')?.classList.remove('active');
 
@@ -736,7 +757,8 @@
         sliderContainer.style.cursor = 'grab';
 
         const movedBy = currentTranslate - prevTranslate;
-        if (Math.abs(movedBy) < 10) return;
+
+        if (Math.abs(movedBy) < 10 && e.type !== 'mouseleave') return;
 
         if (movedBy < -50 && currentIndex < slideCount - 1) {
           currentIndex++;
@@ -757,20 +779,7 @@
         updateSliderDots();
       };
       
-      const initializeCarousel = () => {
-          if (!slides[currentIndex]) return;
-          const targetSlide = slides[currentIndex];
-          const containerCenter = sliderContainer.offsetWidth / 2;
-          const slideCenter = targetSlide.offsetLeft + targetSlide.offsetWidth / 2;
-          
-          currentTranslate = containerCenter - slideCenter;
-          prevTranslate = currentTranslate;
-          
-          sliderWrapper.style.transition = 'none';
-          setSliderPosition();
-      }
       
-      window.addEventListener('load', initializeCarousel);
       window.addEventListener('resize', initializeCarousel);
 
 
@@ -806,7 +815,7 @@
       flipCards.forEach(card => {
         card.addEventListener('click', () => {
             const movedBy = Math.abs(currentTranslate - prevTranslate);
-            if (isDragging || movedBy > 5) return;
+            if (isDragging || movedBy > 10) return;
             
             const slide = card.closest('.slide');
             if (slide.style.transform !== 'scale(1)') return;
@@ -816,8 +825,11 @@
             if (inner.classList.contains('is-flipped')) {
                 startTimer();
             } else {
-                clearInterval(timerInterval);
-                timerEl.textContent = "";
+                // ВИРІШЕННЯ БАГУ ТАЙМЕРА: ховаємо його після завершення анімації
+                setTimeout(() => {
+                  clearInterval(timerInterval);
+                  timerEl.textContent = "";
+                }, 600); // Час має відповідати тривалості анімації в CSS (transform 0.6s)
             }
         });
       });
