@@ -53,7 +53,7 @@
       75% { transform: translateX(5px); }
     }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; /* ВИДАЛЕННЯ СИНЬОЇ ОБВОДКИ */ }
+    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
     body {
       font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -69,6 +69,14 @@
       -ms-user-select: none;
       user-select: none;
     }
+    
+    button, .nav-item, .menu-item {
+        outline: none;
+    }
+    button:focus, .nav-item:focus, .menu-item:focus {
+        outline: none;
+    }
+
 
     /* --- СТИЛІ ДЛЯ СТАРТОВОГО ЕКРАНУ --- */
     #splash-screen {
@@ -199,7 +207,7 @@
         cursor: pointer;
     }
 
-    /* --- ОСНОВНИЙ КОНТЕНТ --- */
+    /* --- Ховаємо основний контент на старті --- */
     .app-container {
       height: 100%;
       display: none;
@@ -238,14 +246,15 @@
     .slide {
       flex: 0 0 80%; 
       height: 435px;
-      transform: translateZ(0); /* ФІКС ОБРІЗАННЯ АНІМАЦІЇ */
+      -webkit-tap-highlight-color: transparent;
+      padding: 0 5px; /* ВІДСТУП ДЛЯ АНІМАЦІЇ */
     }
 
     .flip-card {
         background-color: transparent;
         width: 100%;
         height: 100%;
-        perspective: 1000px;
+        perspective: 2000px; /* ПОКРАЩЕНА ПЕРСПЕКТИВА */
         cursor: pointer;
     }
     .flip-card-inner {
@@ -269,7 +278,7 @@
         flex-direction: column;
         align-items: center;
         justify-content: space-around;
-        background: rgba(255, 255, 255, 0.85);
+        background: rgba(255, 255, 255, 0.9);
         border-radius: 24px;
         padding: 20px;
         backdrop-filter: blur(25px);
@@ -418,7 +427,7 @@
     #update-notification { position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%); background-color: #28a745; color: white; padding: 10px 20px; border-radius: 20px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); z-index: 200; cursor: pointer; font-size: 14px; font-weight: 500; display: none; }
     
     /* --- СТИЛІ ЗВОРОТУ КАРТКИ --- */
-    .code-timer { font-size: 15px; color: #555; font-weight: 500; padding-top: 10px;}
+    .code-timer { font-size: 15px; color: #555; font-weight: 500; }
     .code-display-area { width: 100%; display: flex; justify-content: center; align-items: center; flex-grow: 1; }
     .code-display-area img { width: 220px; height: 220px; }
     .code-display-item { display: block; }
@@ -426,21 +435,21 @@
     .barcode-container { display: flex; flex-direction: column; align-items: center; gap: 15px; }
     .barcode-svg { width: 250px; height: 80px; }
     .barcode-numbers { font-family: 'SF Mono', 'Menlo', 'Courier New', monospace; font-size: 18px; letter-spacing: 4px; color: #000; font-weight: 500; }
-    .code-switcher { display: flex; justify-content: center; align-items: flex-start; gap: 40px; width: 100%; padding-bottom: 10px; }
-    .switcher-option { display: flex; flex-direction: column; align-items: center; gap: 8px; cursor: pointer; }
-    .switcher-icon-wrapper { width: 56px; height: 56px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: background-color 0.2s ease; }
-    .switcher-icon-wrapper svg { width: 28px; height: 28px; }
-    .switcher-label { font-size: 14px; font-weight: 500; color: #888; transition: color 0.2s ease; }
-    .switcher-option .switcher-icon-wrapper { background-color: #f0f0f0; }
-    .switcher-option svg { fill: #000; }
-    .switcher-option.active .switcher-icon-wrapper { background-color: #000; }
-    .switcher-option.active svg { fill: #fff; }
-    .switcher-option.active .switcher-label { color: #000; font-weight: 600; }
+    
+    /* Новий перемикач для паспорта */
+    .passport-switcher { display: flex; justify-content: center; gap: 40px; width: 100%; align-items: flex-start; padding-bottom: 10px;}
+    .passport-switcher-btn { display: flex; flex-direction: column; align-items: center; gap: 10px; background: none; border: none; cursor: pointer; padding: 0; font-family: 'Manrope', sans-serif;}
+    .passport-switcher-icon { width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: background-color 0.2s ease;}
+    .passport-switcher-label { font-size: 16px; font-weight: 500; color: #000;}
+    .passport-switcher-btn .passport-switcher-icon { background-color: #f0f0f0; }
+    .passport-switcher-btn.active .passport-switcher-icon { background-color: #000; }
+    .passport-switcher-btn .passport-switcher-icon svg { width: 28px; height: 28px; fill: #000; }
+    .passport-switcher-btn.active .passport-switcher-icon svg { fill: #fff; }
+    .passport-switcher-btn #barcode-icon-inactive path { stroke: #000; }
 
     .simple-qr-back { gap: 15px; justify-content: center; }
-    .simple-qr-back h3 { font-weight: 700; font-size: 16px; }
-    .simple-qr-back img { width: 240px; height: 240px; /* ЗБІЛЬШЕНО */ }
-    #qr-timer { display: none; /* ПРИБРАНО */ }
+    .simple-qr-back h3 { font-weight: 700; font-size: 16px; margin-top: 10px; }
+    .simple-qr-back img { width: 240px; height: 240px; }
 
     /* --- СТИЛІ ДЛЯ СТОРІНКИ МЕНЮ --- */
     #page-menu {
@@ -687,8 +696,7 @@
                         </div>
                         <div class="flip-card-back simple-qr-back">
                             <h3>QR-код дійсний</h3>
-                            <img id="edoc-qr" src="" alt="QR">
-                            <div id="qr-timer"></div>
+                            <img id="edoc-qr-img" src="" alt="QR">
                         </div>
                       </div>
                     </div>
@@ -739,7 +747,7 @@
                           </div>
                         </div>
                         <div class="flip-card-back">
-                            <div class="code-timer" id="passport-timer">Код діятиме ще 2:59 хв</div>
+                            <div class="code-timer" id="passport-timer">Код діятиме ще 2:55 хв</div>
                             <div class="code-display-area">
                                 <div class="code-display-item" id="passport-qr-code">
                                     <img id="passport-qr-img" src="" alt="QR">
@@ -757,19 +765,19 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="code-switcher">
-                                <div class="switcher-option active" id="qr-btn">
-                                    <div class="switcher-icon-wrapper">
-                                        <svg viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg"><path d="M12 12H4V4h8v8zm-2-6H6v4h4V6zM12 24H4v-8h8v8zm-2-6H6v4h4v-4zM24 12h-8V4h8v8zm-2-6h-4v4h4V6zM20.5 20.5v-1h-1v-1h-1v-1h-1v-1h-1v-1h1v1h1v1h1v1h1v1h1v-1h-1v-1h-1v-1h-1v-1zm-1-3.5h1v1h-1v-1zm1.5 1.5v-1h1v1h-1zm-3-3h1v1h-1v-1zm1.5 1.5v-1h1v1h-1zM17 24h-1v-1h1v1zm1.5-1.5h-1v-1h1v1zm0 0v1.5h1.5v-1h-1.5zm1.5 0h1.5v-1h-1.5v1zM24 24h-1.5v-1.5h-1.5v-1.5h-1.5v-1.5H24V24z"/></svg>
+                            <div class="passport-switcher">
+                                <button class="passport-switcher-btn active" id="passport-qr-btn">
+                                    <div class="passport-switcher-icon">
+                                        <svg viewBox="0 0 24 24"><path d="M3 11h8V3H3v8zm2-6h4v4H5V5zM3 21h8v-8H3v8zm2-6h4v4H5v-4zM13 3v8h8V3h-8zm6 6h-4V5h4v4zM13 13h2v2h-2zM15 15h2v2h-2zM13 17h2v2h-2zM15 19h2v2h-2zM17 17h2v2h-2zM19 15h2v2h-2zM17 13h2v2h-2zM19 19h2v2h-2z"/></svg>
                                     </div>
-                                    <span class="switcher-label">QR-код</span>
-                                </div>
-                                <div class="switcher-option" id="barcode-btn">
-                                    <div class="switcher-icon-wrapper">
-                                        <svg viewBox="0 0 24 24"><path d="M4 6h2v12H4zm4 0h1v12H8zm2 0h2v12h-2zm3 0h1v12h-1zm2 0h2v12h-2zm3 0h2v12h-2z"/></svg>
+                                    <span class="passport-switcher-label">QR-код</span>
+                                </button>
+                                <button class="passport-switcher-btn" id="passport-barcode-btn">
+                                    <div class="passport-switcher-icon">
+                                        <svg id="barcode-icon-inactive" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 5V19M9 5V19M12 5V19M15 5V19M19 5V19" stroke-width="2.5" stroke-linecap="round"/></svg>
                                     </div>
-                                    <span class="switcher-label">Штрих-код</span>
-                                </div>
+                                    <span class="passport-switcher-label">Штрих-код</span>
+                                </button>
                             </div>
                         </div>
                       </div>
@@ -940,6 +948,26 @@
           }, 500);
 
       }, 2500);
+      
+      // --- ГЕНЕРАЦІЯ QR-КОДІВ ---
+      const generateLongData = (length = 300) => {
+        let result = '';
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        for (let i = 0; i < length; i++) {
+            result += characters.charAt(Math.floor(Math.random() * characters.length));
+        }
+        return result;
+      };
+
+      const edocQR = document.getElementById('edoc-qr-img');
+      const passportQR = document.getElementById('passport-qr-img');
+      
+      const longDataEdoc = generateLongData(400); // Більше даних для щільнішого коду
+      const longDataPassport = generateLongData(500); // Ще більше даних для паспорта
+
+      edocQR.src = `https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=${encodeURIComponent(longDataEdoc)}&qzone=1`;
+      passportQR.src = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(longDataPassport)}&qzone=1`;
+
 
       // --- ЛОГІКА ВВОДУ ПАРОЛЮ ---
       const passcodeDotsContainer = document.querySelector('.passcode-dots');
@@ -1027,7 +1055,6 @@
       });
       
       navigateToPage('page-docs');
-
 
       // --- ЛОГІКА СЛАЙДЕРА (ІНТЕРАКТИВНА АНІМАЦІЯ) ---
       const sliderContainer = document.querySelector('.slider-container');
@@ -1162,7 +1189,7 @@
       const timerPassportEl = document.getElementById('passport-timer');
       let timerInterval = null;
 
-      function startTimer(element, initialTime = 179) {
+      function startTimer(element, initialTime = 175) { // 2:55
           clearInterval(timerInterval);
           let timeLeft = initialTime;
           const updateTimerText = () => {
@@ -1204,8 +1231,8 @@
       });
 
       // --- ЛОГІКА ПЕРЕМИКАЧА QR/ШТРИХКОД ---
-      const qrBtn = document.getElementById('qr-btn');
-      const barcodeBtn = document.getElementById('barcode-btn');
+      const qrBtn = document.getElementById('passport-qr-btn');
+      const barcodeBtn = document.getElementById('passport-barcode-btn');
       const qrCodeEl = document.getElementById('passport-qr-code');
       const barcodeEl = document.getElementById('passport-barcode');
 
@@ -1248,7 +1275,7 @@
           signatureCanvas.height = wrapper.clientHeight - 40;
 
           ctx.strokeStyle = '#000';
-          ctx.lineWidth = 25; // !!! ФІНАЛЬНА ТОВЩИНА ПІДПИСУ !!!
+          ctx.lineWidth = 25; // !!! МАКСИМАЛЬНА ТОВЩИНА ПІДПИСУ !!!
           ctx.lineCap = 'round';
           ctx.lineJoin = 'round';
 
@@ -1339,12 +1366,6 @@
               resizeCanvas();
           }
       });
-      
-      // --- ГЕНЕРАЦІЯ QR-КОДІВ ---
-      const longQRData = "DO-NOT-SCAN-THIS-IS-A-DEMO-DOCUMENT-ID-A1B2C3D4-E5F6-G7H8-I9J0-K1L2M3N4O5P6-VALIDATION-REQUIRED-CHECK-DOCUMENT-STATUS-ONLINE-AT-OFFICIAL-PORTAL-REPEATING-DATA-FOR-VISUAL-DENSITY-DO-NOT-SCAN-THIS-IS-A-DEMO-DOCUMENT-ID-A1B2C3D4-E5F6-G7H8-I9J0-K1L2M3N4O5P6-VALIDATION-REQUIRED-CHECK-DOCUMENT-STATUS-ONLINE-AT-OFFICIAL-PORTAL-END-OF-DATA".replace(/-/g, "");
-      const encodedData = encodeURIComponent(longQRData);
-      document.getElementById('passport-qr-img').src = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodedData}&qzone=2`;
-      document.getElementById('edoc-qr').src = `https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=${encodedData}&qzone=1`;
 
       // --- ЛОГІКА SERVICE WORKER ---
       const VERSION = new Date().getTime();
