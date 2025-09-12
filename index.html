@@ -103,7 +103,6 @@
         font-weight: 600;
     }
     .lottie-container {
-        /* ВИПРАВЛЕНО: Розмір зменшено вдвічі */
         margin: 0 auto;
     }
     
@@ -138,14 +137,13 @@
     }
     .passcode-dots {
         display: flex;
-        gap: 15px; /* ВИПРАВЛЕНО: Зменшено відстань */
-        margin-bottom: 30px; /* ВИПРАВЛЕНО: Підсунуто ближче до клавіатури */
+        gap: 15px;
+        margin-bottom: 30px;
     }
     .passcode-dots.shake {
         animation: shake 0.3s linear;
     }
     .passcode-dot {
-        /* ВИПРАВЛЕНО: Розмір крапок зменшено */
         width: 8px;
         height: 8px;
         background-color: rgba(255, 255, 255, 0.8);
@@ -188,7 +186,6 @@
         backdrop-filter: none;
     }
     .keypad-btn img {
-        /* ВИПРАВЛЕНО: Іконку відбитка збільшено */
         width: 70px;
         height: 70px;
         opacity: 0.7;
@@ -198,7 +195,6 @@
         height: 35px;
     }
     .forgot-password {
-        /* ВИПРАВЛЕНО: Позиціонування змінено */
         position: absolute;
         bottom: 5vh;
         padding: 10px;
@@ -230,7 +226,7 @@
 
     .slider-container {
       width: 100%;
-      height: 435px; /* ЗБІЛЬШЕНО ВИСОТУ КАРТКИ (+15px) */
+      height: 435px; 
       margin-top: -50px;
       display: flex;
       align-items: center;
@@ -245,7 +241,7 @@
     }
     .slide {
       flex: 0 0 80%; 
-      height: 435px; /* ЗБІЛЬШЕНО ВИСОТУ КАРТКИ (+15px) */
+      height: 435px;
       -webkit-tap-highlight-color: transparent;
     }
 
@@ -276,9 +272,8 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: center;
-        gap: 15px;
-        background: var(--card-background);
+        justify-content: space-around; /* Changed for new layout */
+        background: rgba(255, 255, 255, 0.85); /* БІЛЬШ БІЛИЙ ФОН */
         border-radius: 24px;
         padding: 20px;
         backdrop-filter: blur(25px);
@@ -300,16 +295,16 @@
     .empty-card { height: 100%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: #888; }
     .document-content { padding: 20px; padding-bottom: 0; }
     .document-title { 
-        font-size: 22px; /* ЗМЕНШЕНО РОЗМІР */
-        font-weight: 600; /* МЕНША ЖИРНІСТЬ */
+        font-size: 22px; 
+        font-weight: 600;
         margin-bottom: 20px; 
-        opacity: 0.8; /* СВІТЛІШЕ */
+        opacity: 0.8;
     }
     .personal-info {
         display: flex;
         align-items: flex-start;
         gap: 15px;
-        margin-bottom: 20px; /* ЗБІЛЬШЕНО ВІДСТАНЬ (+15px) */
+        margin-bottom: 20px;
     }
     .photo {
         margin-top: 5px;
@@ -321,23 +316,23 @@
         object-fit: cover;
         border: 1px solid rgba(255, 255, 255, 0.4);
     }
-    .details { display: flex; flex-direction: column; gap: 10px; /* ЗМЕНШЕНО ГАП */ }
+    .details { display: flex; flex-direction: column; gap: 10px; }
     .detail-item { display: flex; flex-direction: column; }
     .detail-item .label, .detail-item .value {
-        font-size: 13px; /* ЗМЕНШЕНО РОЗМІР */
+        font-size: 13px;
         font-weight: 500;
         color: var(--text-color);
     }
     .detail-item .label {
         color: var(--label-color);
-        white-space: pre-wrap; /* Дозволити переноси рядків */
+        white-space: pre-wrap;
     }
     .signature-placeholder {
-      width: 100px; /* Adjust as needed */
-      height: 40px; /* Adjust as needed */
-      object-fit: contain;
-      margin-top: 5px;
-      border-bottom: 1px dashed #555; /* Simulate signature line */
+        width: 90px;
+        height: 35px;
+        object-fit: contain;
+        margin-top: 10px;
+        /* БЕЗ ПІДКРЕСЛЕННЯ */
     }
 
     .status-banner-wrapper {
@@ -345,7 +340,7 @@
       overflow: hidden;
       white-space: nowrap;
       padding: 5px 0;
-      flex-shrink: 0; /* Prevent it from shrinking */
+      flex-shrink: 0;
     }
     .status-banner {
       display: flex;
@@ -378,8 +373,8 @@
         word-break: break-word;
     }
     .more-options {
-        width: 18px; /* ЗМЕНШЕНО ВДВІЧІ */
-        height: 18px; /* ЗМЕНШЕНО ВДВІЧІ */
+        width: 24px; /* ЗБІЛЬШЕНО */
+        height: 24px; /* ЗБІЛЬШЕНО */
         background-color: #2c2c2e;
         border-radius: 50%;
         display: flex;
@@ -390,8 +385,8 @@
         margin-bottom: 2px;
     }
     .more-options svg { 
-        width: 10px; /* ЗМЕНШЕНО ВДВІЧІ */
-        height: 10px; /* ЗМЕНШЕНО ВДВІЧІ */
+        width: 14px; /* ЗБІЛЬШЕНО */
+        height: 14px; /* ЗБІЛЬШЕНО */
         fill: #fff; 
     }
 
@@ -431,10 +426,107 @@
     }
 
     #update-notification { position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%); background-color: #28a745; color: white; padding: 10px 20px; border-radius: 20px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); z-index: 200; cursor: pointer; font-size: 14px; font-weight: 500; display: none; }
-
+    
+    /* --- СТИЛІ ЗВОРОТУ КАРТКИ --- */
+    .code-timer {
+        font-size: 15px;
+        color: #555;
+        font-weight: 500;
+    }
+    .code-display-area {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-grow: 1;
+    }
+    .code-display-area img {
+        width: 220px;
+        height: 220px;
+    }
+    .code-display-item {
+        display: block;
+    }
+    .code-display-item.hidden {
+        display: none;
+    }
+    .barcode-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+    }
+    .barcode-svg {
+        width: 250px;
+        height: 80px;
+    }
+    .barcode-numbers {
+        font-family: 'SF Mono', 'Menlo', 'Courier New', monospace;
+        font-size: 18px;
+        letter-spacing: 4px;
+        color: #000;
+        font-weight: 500;
+    }
+    .code-switcher {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        width: 100%;
+        padding: 0 20px;
+    }
+    .switcher-btn {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 10px;
+        border-radius: 18px;
+        background-color: #f0f0f0;
+        color: #000;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.2s ease, color 0.2s ease;
+    }
+    .switcher-btn.active {
+        background-color: #111;
+        color: #fff;
+    }
+    .switcher-btn .switcher-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #fff;
+        transition: background-color 0.2s ease;
+    }
+    .switcher-btn.active .switcher-icon {
+        background-color: #333;
+    }
+    .switcher-btn .switcher-icon svg {
+        width: 22px;
+        height: 22px;
+        fill: #000;
+        transition: fill 0.2s ease;
+    }
+    .switcher-btn.active .switcher-icon svg {
+        fill: #fff;
+    }
+    .switcher-btn .switcher-label {
+        font-size: 14px;
+        font-weight: 600;
+    }
+    /* Simple QR for other cards */
+    .simple-qr-back {
+        gap: 15px;
+        justify-content: center;
+    }
+    .simple-qr-back h3 { font-weight: 700; font-size: 16px; }
+    .simple-qr-back img { width: 200px; height: 200px; }
     #qr-timer { font-size: 18px; font-weight: 700; color: var(--text-color); }
-    .flip-card-back h3 { font-weight: 700; font-size: 16px; }
-    .flip-card-back img { width: 200px; height: 200px; }
 
     /* --- СТИЛІ ДЛЯ СТОРІНКИ МЕНЮ --- */
     #page-menu {
@@ -697,7 +789,7 @@
                               </div>
                           </div>
                         </div>
-                        <div class="flip-card-back">
+                        <div class="flip-card-back simple-qr-back">
                             <h3>QR-код дійсний</h3>
                             <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=Example" alt="QR">
                             <div id="qr-timer"></div>
@@ -726,9 +818,7 @@
                                       <span class="label">Номер:</span>
                                       <span class="value">013407632</span>
                                     </div>
-                                    <div class="detail-item" style="margin-top: 5px;">
-                                      <img id="passport-signature-image" class="signature-placeholder" src="" alt="Підпис" style="display: none;">
-                                    </div>
+                                     <img id="passport-signature-image" class="signature-placeholder" src="" alt="Підпис" style="display: none;">
                                   </div>
                                 </div>
                               </div>
@@ -753,9 +843,61 @@
                           </div>
                         </div>
                         <div class="flip-card-back">
-                            <h3>QR-код дійсний</h3>
-                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=ExamplePassport" alt="QR">
-                            <div id="qr-timer-passport"></div>
+                            <div class="code-timer" id="passport-timer">Код діятиме ще 2:59 хв</div>
+                            <div class="code-display-area">
+                                <div class="code-display-item" id="passport-qr-code">
+                                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=PassportDataHere&qzone=2" alt="QR">
+                                </div>
+                                <div class="code-display-item hidden" id="passport-barcode">
+                                    <div class="barcode-container">
+                                        <svg class="barcode-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 250 80">
+                                            <g fill="#000">
+                                                <rect x="0" y="0" width="3" height="80"/> <rect x="5" y="0" width="2" height="80"/>
+                                                <rect x="9" y="0" width="5" height="80"/> <rect x="16" y="0" width="2" height="80"/>
+                                                <rect x="20" y="0" width="4" height="80"/> <rect x="26" y="0" width="2" height="80"/>
+                                                <rect x="30" y="0" width="3" height="80"/> <rect x="35" y="0" width="5" height="80"/>
+                                                <rect x="42" y="0" width="2" height="80"/> <rect x="46" y="0" width="3" height="80"/>
+                                                <rect x="51" y="0" width="3" height="80"/> <rect x="56" y="0" width="4" height="80"/>
+                                                <rect x="62" y="0" width="2" height="80"/> <rect x="66" y="0" width="5" height="80"/>
+                                                <rect x="73" y="0" width="2" height="80"/> <rect x="77" y="0" width="4" height="80"/>
+                                                <rect x="83" y="0" width="3" height="80"/> <rect x="88" y="0" width="2" height="80"/>
+                                                <rect x="92" y="0" width="5" height="80"/> <rect x="99" y="0" width="3" height="80"/>
+                                                <rect x="104" y="0" width="2" height="80"/> <rect x="108" y="0" width="4" height="80"/>
+                                                <rect x="114" y="0" width="3" height="80"/> <rect x="119" y="0" width="5" height="80"/>
+                                                <rect x="126" y="0" width="2" height="80"/> <rect x="130" y="0" width="3" height="80"/>
+                                                <rect x="135" y="0" width="4" height="80"/> <rect x="141" y="0" width="2" height="80"/>
+                                                <rect x="145" y="0" width="5" height="80"/> <rect x="152" y="0" width="3" height="80"/>
+                                                <rect x="157" y="0" width="2" height="80"/> <rect x="161" y="0" width="4" height="80"/>
+                                                <rect x="167" y="0" width="3" height="80"/> <rect x="172" y="0" width="5" height="80"/>
+                                                <rect x="179" y="0" width="2" height="80"/> <rect x="183" y="0" width="4" height="80"/>
+                                                <rect x="189" y="0" width="2" height="80"/> <rect x="193" y="0" width="3" height="80"/>
+                                                <rect x="198" y="0" width="5" height="80"/> <rect x="205" y="0" width="2" height="80"/>
+                                                <rect x="209" y="0" width="4" height="80"/> <rect x="215" y="0" width="3" height="80"/>
+                                                <rect x="220" y="0" width="2" height="80"/> <rect x="224" y="0" width="5" height="80"/>
+                                                <rect x="231" y="0" width="3" height="80"/> <rect x="236" y="0" width="2" height="80"/>
+                                                <rect x="240" y="0" width="4" height="80"/> <rect x="246" y="0" width="3" height="80"/>
+                                            </g>
+                                        </svg>
+                                        <div class="barcode-numbers">
+                                            <span>5373</span> <span>2728</span> <span>73494</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="code-switcher">
+                                <button class="switcher-btn active" id="qr-btn">
+                                    <div class="switcher-icon">
+                                        <svg viewBox="0 0 24 24"><path d="M3 11h8V3H3v8zm2-6h4v4H5V5zM3 21h8v-8H3v8zm2-6h4v4H5v-4zM13 3v8h8V3h-8zm6 6h-4V5h4v4zM13 13h2v2h-2zM15 15h2v2h-2zM13 17h2v2h-2zM15 19h2v2h-2zM17 17h2v2h-2zM19 15h2v2h-2zM17 13h2v2h-2zM19 19h2v2h-2z"/></svg>
+                                    </div>
+                                    <span class="switcher-label">QR-код</span>
+                                </button>
+                                <button class="switcher-btn" id="barcode-btn">
+                                    <div class="switcher-icon">
+                                        <svg viewBox="0 0 24 24"><path d="M4 6h2v12H4zm4 0h1v12H8zm2 0h2v12h-2zm3 0h1v12h-1zm2 0h2v12h-2zm3 0h2v12h-2z"/></svg>
+                                    </div>
+                                    <span class="switcher-label">Штрихкод</span>
+                                </button>
+                            </div>
                         </div>
                       </div>
                     </div>
@@ -1211,17 +1353,17 @@
       // --- ЛОГІКА ПЕРЕВЕРТАННЯ КАРТКИ І ТАЙМЕРА ---
       const flipCards = document.querySelectorAll('.flip-card');
       const timerEl = document.getElementById('qr-timer');
-      const timerPassportEl = document.getElementById('qr-timer-passport'); // Timer for passport
+      const timerPassportEl = document.getElementById('passport-timer'); // Timer for passport
       let timerInterval = null;
 
-      function startTimer(element, initialTime = 180) {
+      function startTimer(element, initialTime = 179) { // Start from 2:59
           clearInterval(timerInterval); // Clear any existing timer
           let timeLeft = initialTime;
           const updateTimerText = () => {
             const minutes = Math.floor(timeLeft / 60);
             let seconds = timeLeft % 60;
             seconds = seconds < 10 ? '0' + seconds : seconds;
-            element.textContent = `${minutes}:${seconds}`;
+            element.textContent = `Код діятиме ще ${minutes}:${seconds} хв`;
           };
           updateTimerText();
           timerInterval = setInterval(() => {
@@ -1246,20 +1388,42 @@
             inner.classList.toggle('is-flipped');
             
             const isPassportCard = card.closest('#passport-ukraine-slide');
-            const currentTimerEl = isPassportCard ? timerPassportEl : timerEl;
-
+            const isSimpleCard = card.closest('.slide') && !isPassportCard;
+            
             if (inner.classList.contains('is-flipped')) {
-                startTimer(currentTimerEl);
+                if (isPassportCard) startTimer(timerPassportEl);
+                if (isSimpleCard) startTimer(timerEl, 180);
             } else {
                 clearInterval(timerInterval);
-                setTimeout(() => {
-                    if (!inner.classList.contains('is-flipped')) {
-                        currentTimerEl.textContent = "";
-                    }
-                }, 600);
             }
         });
       });
+
+      // --- ЛОГІКА ПЕРЕМИКАЧА QR/ШТРИХКОД ---
+      const qrBtn = document.getElementById('qr-btn');
+      const barcodeBtn = document.getElementById('barcode-btn');
+      const qrCodeEl = document.getElementById('passport-qr-code');
+      const barcodeEl = document.getElementById('passport-barcode');
+
+      qrBtn.addEventListener('click', (e) => {
+          e.stopPropagation(); // Prevent card from flipping back
+          if (!qrBtn.classList.contains('active')) {
+              qrBtn.classList.add('active');
+              barcodeBtn.classList.remove('active');
+              qrCodeEl.classList.remove('hidden');
+              barcodeEl.classList.add('hidden');
+          }
+      });
+      barcodeBtn.addEventListener('click', (e) => {
+          e.stopPropagation(); // Prevent card from flipping back
+          if (!barcodeBtn.classList.contains('active')) {
+              barcodeBtn.classList.add('active');
+              qrBtn.classList.remove('active');
+              barcodeEl.classList.remove('hidden');
+              qrCodeEl.classList.add('hidden');
+          }
+      });
+
 
       // --- ЛОГІКА ДІЯ.ПІДПИС ---
       const signaturePadContainer = document.getElementById('signature-pad-container');
@@ -1281,11 +1445,10 @@
           signatureCanvas.height = wrapper.clientHeight - 40; // Subtract padding
 
           ctx.strokeStyle = '#000';
-          ctx.lineWidth = 3;
+          ctx.lineWidth = 5; // ЗБІЛЬШЕНА ТОВЩИНА ПІДПИСУ
           ctx.lineCap = 'round';
           ctx.lineJoin = 'round';
 
-          // If a signature is already saved, redraw it after resize
           if (localStorage.getItem('savedSignature')) {
               const img = new Image();
               img.onload = () => {
@@ -1302,7 +1465,7 @@
 
       function draw(e) {
           if (!isDrawing) return;
-          e.preventDefault(); // Prevent scrolling on touch devices
+          e.preventDefault(); 
           const [currentX, currentY] = getCanvasCoordinates(e);
           ctx.beginPath();
           ctx.moveTo(lastX, lastY);
@@ -1349,8 +1512,8 @@
       // Event Listeners for Signature Pad
       menuDiiaSignature.addEventListener('click', () => {
           signaturePadContainer.classList.add('visible');
-          setTimeout(resizeCanvas, 100); // Resize after container is visible
-          clearSignature(); // Start with a clean canvas
+          setTimeout(resizeCanvas, 100); 
+          clearSignature(); 
       });
 
       signatureCloseBtn.addEventListener('click', () => {
@@ -1360,11 +1523,10 @@
       signatureClearBtn.addEventListener('click', clearSignature);
       signatureSaveBtn.addEventListener('click', saveSignature);
 
-      // Canvas drawing events
       signatureCanvas.addEventListener('mousedown', startDrawing);
       signatureCanvas.addEventListener('mousemove', draw);
       signatureCanvas.addEventListener('mouseup', stopDrawing);
-      signatureCanvas.addEventListener('mouseout', stopDrawing); // Stop drawing if mouse leaves canvas
+      signatureCanvas.addEventListener('mouseout', stopDrawing);
 
       signatureCanvas.addEventListener('touchstart', startDrawing, { passive: false });
       signatureCanvas.addEventListener('touchmove', draw, { passive: false });
@@ -1388,10 +1550,37 @@
       const swCode = `
         const CACHE_NAME = '${CACHE_NAME}';
         const urlsToCache = ['${location.href.replace(/\?.*$/, '')}'];
-        self.addEventListener('install', e => e.waitUntil(caches.open(CACHE_NAME).then(c => c.addAll(urlsToCache))));
-        self.addEventListener('activate', e => e.waitUntil(caches.keys().then(names => Promise.all(names.map(name => name !== CACHE_NAME && caches.delete(name))))));
-        self.addEventListener('fetch', e => e.respondWith(caches.match(e.request).then(r => r || fetch(e.request))));
-        self.addEventListener('message', e => { if (e.data.action === 'skipWaiting') self.skipWaiting(); });
+        
+        self.addEventListener('install', e => e.waitUntil(
+            caches.open(CACHE_NAME).then(c => c.addAll(urlsToCache))
+        ));
+
+        self.addEventListener('activate', e => e.waitUntil(
+            caches.keys().then(names => Promise.all(
+                names.map(name => {
+                    if (name !== CACHE_NAME) {
+                        return caches.delete(name);
+                    }
+                })
+            ))
+        ));
+
+        // ОНОВЛЕНА СТРАТЕГІЯ "NETWORK-FIRST"
+        self.addEventListener('fetch', e => {
+            e.respondWith(
+                fetch(e.request).then(res => {
+                    const resClone = res.clone();
+                    caches.open(CACHE_NAME).then(cache => {
+                        cache.put(e.request, resClone);
+                    });
+                    return res;
+                }).catch(() => caches.match(e.request))
+            );
+        });
+
+        self.addEventListener('message', e => { 
+            if (e.data.action === 'skipWaiting') self.skipWaiting(); 
+        });
       `;
       const swBlob = new Blob([swCode], { type: 'application/javascript' });
 
