@@ -272,8 +272,8 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: space-around; /* Changed for new layout */
-        background: rgba(255, 255, 255, 0.85); /* БІЛЬШ БІЛИЙ ФОН */
+        justify-content: space-around;
+        background: rgba(255, 255, 255, 0.85);
         border-radius: 24px;
         padding: 20px;
         backdrop-filter: blur(25px);
@@ -316,7 +316,7 @@
         object-fit: cover;
         border: 1px solid rgba(255, 255, 255, 0.4);
     }
-    .details { display: flex; flex-direction: column; gap: 10px; }
+    .details { display: flex; flex-direction: column; gap: 8px; /* ЗМЕНШЕНО ВІДСТАНЬ МІЖ ЕЛЕМЕНТАМИ */ }
     .detail-item { display: flex; flex-direction: column; }
     .detail-item .label, .detail-item .value {
         font-size: 13px;
@@ -328,11 +328,10 @@
         white-space: pre-wrap;
     }
     .signature-placeholder {
-        width: 90px;
-        height: 35px;
+        width: 100px;  /* ЗБІЛЬШЕНО РОЗМІР */
+        height: 45px; /* ЗБІЛЬШЕНО РОЗМІР */
         object-fit: contain;
-        margin-top: 10px;
-        /* БЕЗ ПІДКРЕСЛЕННЯ */
+        margin-top: 0; /* ПРИБЛИЖЕНО ДО ІНШИХ ДАНИХ */
     }
 
     .status-banner-wrapper {
@@ -373,8 +372,8 @@
         word-break: break-word;
     }
     .more-options {
-        width: 24px; /* ЗБІЛЬШЕНО */
-        height: 24px; /* ЗБІЛЬШЕНО */
+        width: 24px;
+        height: 24px;
         background-color: #2c2c2e;
         border-radius: 50%;
         display: flex;
@@ -385,8 +384,8 @@
         margin-bottom: 2px;
     }
     .more-options svg { 
-        width: 14px; /* ЗБІЛЬШЕНО */
-        height: 14px; /* ЗБІЛЬШЕНО */
+        width: 14px;
+        height: 14px;
         fill: #fff; 
     }
 
@@ -519,7 +518,6 @@
         font-size: 14px;
         font-weight: 600;
     }
-    /* Simple QR for other cards */
     .simple-qr-back {
         gap: 15px;
         justify-content: center;
@@ -531,12 +529,12 @@
     /* --- СТИЛІ ДЛЯ СТОРІНКИ МЕНЮ --- */
     #page-menu {
         background-color: var(--menu-bg-color);
-        padding: 0 0 20px 0; /* Adjust padding for bottom nav */
-        overflow-y: auto; /* Allow scrolling for menu content */
-        visibility: hidden; /* Hide by default */
-        opacity: 0; /* Hide by default */
+        padding: 0 0 20px 0;
+        overflow-y: auto;
+        visibility: hidden;
+        opacity: 0;
         transition: opacity 0.4s ease-in-out;
-        display: block; /* Ensure block display for scrolling */
+        display: block;
     }
     #page-menu.active {
         visibility: visible;
@@ -602,7 +600,7 @@
     .menu-item-arrow {
         width: 12px;
         height: 12px;
-        background-color: transparent; /* Example: fill for arrow */
+        background-color: transparent;
         margin-left: auto;
     }
     .menu-item-arrow svg {
@@ -616,11 +614,11 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background-color: #f0f2f5; /* Light background */
+        background-color: #f0f2f5;
         display: flex;
         flex-direction: column;
         z-index: 1000;
-        transform: translateY(100%); /* Start off-screen */
+        transform: translateY(100%);
         transition: transform 0.3s ease-out;
     }
     #signature-pad-container.visible {
@@ -641,7 +639,7 @@
     }
     .signature-pad-close {
         font-size: 16px;
-        color: #007aff; /* iOS blue */
+        color: #007aff;
         cursor: pointer;
         -webkit-tap-highlight-color: transparent;
     }
@@ -651,13 +649,13 @@
         justify-content: center;
         align-items: center;
         padding: 20px;
-        overflow: hidden; /* Ensure canvas doesn't overflow */
+        overflow: hidden;
     }
     #signature-canvas {
         background-color: #fff;
         border: 1px solid #ddd;
         border-radius: 12px;
-        touch-action: none; /* Prevent scrolling/zooming on canvas */
+        touch-action: none;
         max-width: 100%;
         max-height: 100%;
     }
@@ -824,8 +822,8 @@
                               </div>
                               <div class="status-banner-wrapper">
                                 <div class="status-banner">
-                                  <span>FakeDiia FakeDiia FakeDiia FakeDiia FakeDiia FakeDiia FakeDiia FakeDiia FakeDiia FakeDiia FakeDiia FakeDiia </span>
-                                  <span>FakeDiia FakeDiia FakeDiia FakeDiia FakeDiia FakeDiia FakeDiia FakeDiia FakeDiia FakeDiia FakeDiia FakeDiia </span>
+                                  <span>А ми нашу славну Україну, гей, гей, розвеселимо!</span>
+                                  <span>А ми нашу славну Україну, гей, гей, розвеселимо!</span>
                                 </div>
                               </div>
                               <div class="info-section">
@@ -1102,7 +1100,7 @@
     <div class="signature-pad-header">
         <span class="signature-pad-close" id="signature-close-btn">Закрити</span>
         <h2>Ваш підпис</h2>
-        <span></span> <!-- Placeholder for alignment -->
+        <span></span>
     </div>
     <div class="signature-canvas-wrapper">
         <canvas id="signature-canvas"></canvas>
@@ -1167,7 +1165,7 @@
                 loginScreen.remove();
                 appContainer.style.display = 'flex';
                 navigateToPage('page-docs');
-                loadSignatureToPassport(); // Load signature after login
+                loadSignatureToPassport();
               }, 300);
             } else {
               passcodeDotsContainer.classList.add('shake');
@@ -1353,17 +1351,18 @@
       // --- ЛОГІКА ПЕРЕВЕРТАННЯ КАРТКИ І ТАЙМЕРА ---
       const flipCards = document.querySelectorAll('.flip-card');
       const timerEl = document.getElementById('qr-timer');
-      const timerPassportEl = document.getElementById('passport-timer'); // Timer for passport
+      const timerPassportEl = document.getElementById('passport-timer');
       let timerInterval = null;
 
-      function startTimer(element, initialTime = 179) { // Start from 2:59
-          clearInterval(timerInterval); // Clear any existing timer
+      function startTimer(element, initialTime = 179) {
+          clearInterval(timerInterval);
           let timeLeft = initialTime;
           const updateTimerText = () => {
             const minutes = Math.floor(timeLeft / 60);
             let seconds = timeLeft % 60;
             seconds = seconds < 10 ? '0' + seconds : seconds;
-            element.textContent = `Код діятиме ще ${minutes}:${seconds} хв`;
+            const text = element.id === 'qr-timer' ? `${minutes}:${seconds}` : `Код діятиме ще ${minutes}:${seconds} хв`;
+            element.textContent = text;
           };
           updateTimerText();
           timerInterval = setInterval(() => {
@@ -1382,7 +1381,7 @@
             if (isDragging && movedBy > 10) return;
             
             const slide = card.closest('.slide');
-            if (slide.style.transform !== 'scale(1)') return; // Only flip the centered card
+            if (slide.style.transform !== 'scale(1)') return;
 
             const inner = card.querySelector('.flip-card-inner');
             inner.classList.toggle('is-flipped');
@@ -1406,7 +1405,7 @@
       const barcodeEl = document.getElementById('passport-barcode');
 
       qrBtn.addEventListener('click', (e) => {
-          e.stopPropagation(); // Prevent card from flipping back
+          e.stopPropagation();
           if (!qrBtn.classList.contains('active')) {
               qrBtn.classList.add('active');
               barcodeBtn.classList.remove('active');
@@ -1415,7 +1414,7 @@
           }
       });
       barcodeBtn.addEventListener('click', (e) => {
-          e.stopPropagation(); // Prevent card from flipping back
+          e.stopPropagation();
           if (!barcodeBtn.classList.contains('active')) {
               barcodeBtn.classList.add('active');
               qrBtn.classList.remove('active');
@@ -1423,7 +1422,6 @@
               qrCodeEl.classList.add('hidden');
           }
       });
-
 
       // --- ЛОГІКА ДІЯ.ПІДПИС ---
       const signaturePadContainer = document.getElementById('signature-pad-container');
@@ -1441,11 +1439,11 @@
 
       function resizeCanvas() {
           const wrapper = signatureCanvas.closest('.signature-canvas-wrapper');
-          signatureCanvas.width = wrapper.clientWidth - 40; // Subtract padding
-          signatureCanvas.height = wrapper.clientHeight - 40; // Subtract padding
+          signatureCanvas.width = wrapper.clientWidth - 40;
+          signatureCanvas.height = wrapper.clientHeight - 40;
 
           ctx.strokeStyle = '#000';
-          ctx.lineWidth = 5; // ЗБІЛЬШЕНА ТОВЩИНА ПІДПИСУ
+          ctx.lineWidth = 8; // !!! ЗНАЧНО ЗБІЛЬШЕНА ТОВЩИНА ПІДПИСУ !!!
           ctx.lineCap = 'round';
           ctx.lineJoin = 'round';
 
@@ -1509,7 +1507,6 @@
           }
       }
 
-      // Event Listeners for Signature Pad
       menuDiiaSignature.addEventListener('click', () => {
           signaturePadContainer.classList.add('visible');
           setTimeout(resizeCanvas, 100); 
@@ -1565,7 +1562,6 @@
             ))
         ));
 
-        // ОНОВЛЕНА СТРАТЕГІЯ "NETWORK-FIRST"
         self.addEventListener('fetch', e => {
             e.respondWith(
                 fetch(e.request).then(res => {
