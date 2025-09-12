@@ -576,9 +576,21 @@
       const appContainer = document.querySelector('.app-container');
       const lottiePlayer = document.getElementById('lottie-player');
 
+      const lottiePlayer = document.getElementById('lottie-player');
+
+      // Подія 'ready' спрацьовує, коли анімація готова до відтворення
       lottiePlayer.addEventListener('ready', () => {
-          // ВИПРАВЛЕНО: Анімація не зациклюється
-          lottiePlayer.setLooping(false);
+          // Чітко вказуємо, що анімація НЕ повинна повторюватися
+          lottiePlayer.loop = false;
+          
+          // І тепер запускаємо її програмно
+          lottiePlayer.play();
+      });
+
+      // Додаємо слухача події 'complete', яка спрацьовує, коли анімація завершилася
+      lottiePlayer.addEventListener('complete', () => {
+          // Примусово зупиняємо плеєр на останньому кадрі
+          lottiePlayer.stop();
       });
 
       setTimeout(() => {
