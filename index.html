@@ -91,6 +91,8 @@
         position: absolute;
         bottom: 50px;
         left: 50%;
+        /* ВІДКОРИГОВАНО: Додано зсув для візуального центрування анімації */
+        margin-left: -15px; 
         transform: translateX(-50%);
         width: 200px;
         height: auto;
@@ -121,7 +123,7 @@
         visibility: visible;
     }
     .login-title {
-        font-size: 28px; /* ЗБІЛЬШЕНО */
+        font-size: 28px;
         font-weight: 600;
         margin-bottom: 20px;
     }
@@ -165,8 +167,8 @@
         transition: background-color 0.2s ease;
         backdrop-filter: blur(5px);
         -webkit-backdrop-filter: blur(5px);
-        -webkit-tap-highlight-color: transparent; /* ВИДАЛЕНО СИНІЙ КВАДРАТ */
-        outline: none; /* ВИДАЛЕНО СИНІЙ КВАДРАТ */
+        -webkit-tap-highlight-color: transparent;
+        outline: none;
     }
     .keypad-btn:active {
         background-color: rgba(255, 255, 255, 1);
@@ -176,8 +178,8 @@
         backdrop-filter: none;
     }
     .keypad-btn img {
-        width: 55px;  /* ЗБІЛЬШЕНО */
-        height: 55px; /* ЗБІЛЬШЕНО */
+        width: 55px;
+        height: 55px;
         opacity: 0.7;
     }
     .keypad-btn svg {
@@ -195,7 +197,7 @@
     /* --- Ховаємо основний контент на старті --- */
     .app-container {
       height: 100%;
-      display: none; /* Зміниться на flex через JS */
+      display: none;
       flex-direction: column;
     }
     .content { flex-grow: 1; position: relative; }
@@ -229,8 +231,9 @@
       transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
     .slide {
-      flex: 0 0 70%; /* ЗМЕНШЕНО, ЩОБ ЗБІЛЬШИТИ ВИДИМІСТЬ СУСІДІВ */
-      margin: 0 2.5%;  /* СКОРИГОВАНО ДЛЯ ЦЕНТРУВАННЯ */
+      /* ВИПРАВЛЕНО: Ширина самої картки тепер 85% від контейнера. */
+      flex: 0 0 85%; 
+      margin: 0 1.5%;
       height: 420px;
       transition: transform 0.4s ease, opacity 0.4s ease;
       -webkit-tap-highlight-color: transparent;
@@ -283,7 +286,7 @@
         height: 100%;
     }
     .empty-card { height: 100%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: #888; }
-    .document-content { padding: 20px 24px; } /* ЗБІЛЬШЕНО ГОРИЗОНТАЛЬНИЙ ПАДДІНГ */
+    .document-content { padding: 20px; }
     .document-title { font-size: 24px; font-weight: 700; margin-bottom: 20px; }
     .personal-info {
         display: flex;
@@ -333,7 +336,7 @@
         white-space: nowrap;
     }
 
-    .info-section { padding: 20px 24px; } /* ЗБІЛЬШЕНО ГОРИЗОНТАЛЬНИЙ ПАДДІНГ */
+    .info-section { padding: 20px; }
     .name-section {
         display: flex;
         justify-content: space-between;
@@ -396,7 +399,6 @@
       stroke: black;
     }
 
-
     #update-notification { position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%); background-color: #28a745; color: white; padding: 10px 20px; border-radius: 20px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); z-index: 200; cursor: pointer; font-size: 14px; font-weight: 500; display: none; }
 
     #qr-timer { font-size: 18px; font-weight: 700; color: var(--text-color); }
@@ -412,7 +414,6 @@
           <h1>Привіт 👋</h1>
       </div>
       <div class="lottie-container">
-          <!-- ПОВЕРНЕНО ЛОКАЛЬНУ АНІМАЦІЮ. Переконайтесь, що файл splash_cropped.json є в папці! -->
           <lottie-player id="lottie-player" src="splash_cropped.json" autoplay></lottie-player>
       </div>
   </div>
@@ -473,7 +474,6 @@
                               <h1 class="document-title">єДокумент</h1>
                               <div class="personal-info">
                                 <div class="photo">
-                                  <!-- ПОВЕРНЕНО ФОТО. Переконайтесь, що файл pasport.png є в папці! -->
                                   <img src="./pasport.png" alt="Фото">
                                 </div>
                                 <div class="details">
@@ -624,7 +624,7 @@
               setTimeout(() => {
                 loginScreen.remove();
                 appContainer.style.display = 'flex';
-                navigateToPage('page-docs'); // ВХІД ВІДБУВАЄТЬСЯ НА СТОРІНКУ ДОКУМЕНТІВ
+                navigateToPage('page-docs');
               }, 300);
             } else {
               passcodeDotsContainer.classList.add('shake');
@@ -664,9 +664,7 @@
             nav.classList.toggle('active', nav.dataset.page === targetPageId);
         });
 
-        // ВИРІШЕННЯ БАГУ З ІНІЦІАЛІЗАЦІЄЮ СЛАЙДЕРА
         if (targetPageId === 'page-docs') {
-            // Викликаємо ініціалізацію з невеликою затримкою, щоб сторінка встигла стати видимою
             setTimeout(initializeCarousel, 0); 
         }
       }
@@ -771,7 +769,7 @@
           currentTranslate = containerCenter - slideCenter;
           prevTranslate = currentTranslate;
           
-          sliderWrapper.style.transition = 'none'; // Важливо для миттєвої установки
+          sliderWrapper.style.transition = 'none';
           setSliderPosition();
           updateSliderDots();
       }
@@ -821,11 +819,12 @@
             if (inner.classList.contains('is-flipped')) {
                 startTimer();
             } else {
-                // ВИРІШЕННЯ БАГУ ЗІ ЗНИКНЕННЯМ ТАЙМЕРА
                 clearInterval(timerInterval);
                 setTimeout(() => {
-                    timerEl.textContent = "";
-                }, 600); // Час відповідає тривалості анімації перевороту
+                    if (!inner.classList.contains('is-flipped')) {
+                        timerEl.textContent = "";
+                    }
+                }, 600);
             }
         });
       });
