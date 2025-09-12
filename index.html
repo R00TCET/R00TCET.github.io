@@ -436,7 +436,6 @@
     .barcode-svg { width: 250px; height: 80px; }
     .barcode-numbers { font-family: 'SF Mono', 'Menlo', 'Courier New', monospace; font-size: 18px; letter-spacing: 4px; color: #000; font-weight: 500; }
     
-    /* Новий перемикач для паспорта */
     .passport-switcher { display: flex; justify-content: center; gap: 40px; width: 100%; align-items: flex-start; padding-bottom: 10px;}
     .passport-switcher-btn { display: flex; flex-direction: column; align-items: center; gap: 10px; background: none; border: none; cursor: pointer; padding: 0; font-family: 'Manrope', sans-serif;}
     .passport-switcher-icon { width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: background-color 0.2s ease;}
@@ -1029,33 +1028,6 @@
         }
       });
 
-      // --- НАВІГАЦІЯ ---
-      const navItems = document.querySelectorAll('.nav-item');
-      
-      const navigateToPage = (targetPageId) => {
-        const oldPage = document.querySelector('.page.active');
-        const newPage = document.getElementById(targetPageId);
-        
-        if (oldPage) oldPage.classList.remove('active');
-        if (newPage) newPage.classList.add('active');
-
-        navItems.forEach(nav => {
-            nav.classList.toggle('active', nav.dataset.page === targetPageId);
-        });
-
-        if (targetPageId === 'page-docs') {
-            setTimeout(initializeCarousel, 0); 
-        }
-      }
-
-      navItems.forEach(item => {
-        item.addEventListener('click', () => {
-          navigateToPage(item.dataset.page);
-        });
-      });
-      
-      navigateToPage('page-docs');
-
       // --- ЛОГІКА СЛАЙДЕРА (ІНТЕРАКТИВНА АНІМАЦІЯ) ---
       const sliderContainer = document.querySelector('.slider-container');
       const sliderWrapper = document.querySelector('.slider-wrapper');
@@ -1183,6 +1155,33 @@
       ['mousedown', 'touchstart'].forEach(e => sliderContainer.addEventListener(e, dragStart, { passive: true }));
       ['mouseup', 'touchend', 'mouseleave'].forEach(e => document.addEventListener(e, dragEnd));
       ['mousemove', 'touchmove'].forEach(e => document.addEventListener(e, dragMove, { passive: true }));
+
+      // --- НАВІГАЦІЯ ---
+      const navItems = document.querySelectorAll('.nav-item');
+      
+      const navigateToPage = (targetPageId) => {
+        const oldPage = document.querySelector('.page.active');
+        const newPage = document.getElementById(targetPageId);
+        
+        if (oldPage) oldPage.classList.remove('active');
+        if (newPage) newPage.classList.add('active');
+
+        navItems.forEach(nav => {
+            nav.classList.toggle('active', nav.dataset.page === targetPageId);
+        });
+
+        if (targetPageId === 'page-docs') {
+            setTimeout(initializeCarousel, 0); 
+        }
+      }
+
+      navItems.forEach(item => {
+        item.addEventListener('click', () => {
+          navigateToPage(item.dataset.page);
+        });
+      });
+      
+      navigateToPage('page-docs');
 
       // --- ЛОГІКА ПЕРЕВЕРТАННЯ КАРТКИ І ТАЙМЕРА ---
       const flipCards = document.querySelectorAll('.flip-card');
