@@ -24,11 +24,11 @@
         radial-gradient(ellipse at 5% 5%, hsla(70, 88%, 88%, 0.8) 0, transparent 40%),
         radial-gradient(ellipse at 95% 90%, hsla(180, 88%, 85%, 0.7) 0, transparent 50%),
         linear-gradient(155deg, #e1f6b8, #bdecf3, #f5f0d5);
-      --card-background: rgba(255, 255, 255, 0.6); /* Додана прозорість до фону картки */
+      --card-background: rgba(255, 255, 255, 0.6);
       --nav-background: #111;
       --nav-text-color: #8e8e93;
       --nav-active-color: #fff;
-      --banner-background: linear-gradient(to right, #228b22, #90ee90); /* Градієнт для стрічки */
+      --banner-background: linear-gradient(to right, #228b22, #90ee90);
     }
 
     @keyframes animatedBackground {
@@ -49,7 +49,7 @@
       font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       background: var(--background-gradient);
       background-size: 200% 200%;
-      animation: animatedBackground 30s ease infinite; /* Плавна анімація перетікання градієнту */
+      animation: animatedBackground 30s ease infinite;
       height: 100vh;
       color: var(--text-color);
       overflow: hidden;
@@ -67,7 +67,7 @@
     .page {
       width: 100%; height: 100%; position: absolute; top: 0; left: 0;
       padding: 0 10px; overflow-y: auto;
-      transition: opacity 0.25s ease-in-out, visibility 0.25s ease-in-out;
+      transition: opacity 0.4s ease-in-out; /* Плавний перехід без накладання */
       visibility: hidden; opacity: 0;
     }
     .page.active { visibility: visible; opacity: 1; }
@@ -79,9 +79,9 @@
     /* --- Слайдер документів --- */
     .slider-container { width: 100%; max-width: 400px; margin: 0 auto; overflow: hidden; perspective: 1000px; }
     .slider-wrapper { display: flex; transition: transform 0.3s ease-in-out; }
-    .slide { flex: 0 0 100%; padding: 5px; transition: transform 0.3s ease-in-out, scale 0.3s ease-in-out; }
-    .slide.active-slide .flip-card { width: 95%; transform: translateY(-20px) scale(1.05); /* Вужча і припіднята вибрана картка */ }
-    .slide:not(.active-slide) .flip-card { transform: translateY(0) scale(0.95); /* Невибрані опущені та зменшені */ }
+    .slide { flex: 0 0 100%; padding: 5px; transition: transform 0.3s ease-in-out; }
+    .slide.active-slide .flip-card { transform: translateY(-10px); /* Легке підняття без масштабування */ }
+    .slide:not(.active-slide) .flip-card { transform: translateY(10px); /* Легке опускання */ }
     
     /* --- Анімація перевертання картки --- */
     .flip-card {
@@ -145,7 +145,7 @@
     .status-banner-wrapper { 
       background: var(--banner-background); 
       background-size: 200% 200%; 
-      animation: animatedBanner 30s ease infinite; /* Анімація перетікання кольору стрічки */
+      animation: animatedBanner 30s ease infinite;
       padding: 9px 0; overflow: hidden; white-space: nowrap; 
     }
     @keyframes marquee { 0% { transform: translateX(50%); } 100% { transform: translateX(-150%); } }
@@ -158,10 +158,10 @@
     .more-options { width: 36px; height: 36px; background-color: #2c2c2e; border-radius: 50%; display: flex; justify-content: center; align-items: center; flex-shrink: 0; margin-left: 10px; }
     .more-options svg { width: 20px; height: 20px; fill: #fff; }
     
-    .page-indicator-container { padding: 30px 0; width: 100%; max-width: 400px; margin: 0 auto; } /* Опустити крапочки вниз */
+    .page-indicator-container { padding: 30px 0; width: 100%; max-width: 400px; margin: 0 auto; }
     .page-indicator { display: flex; justify-content: center; gap: 6px; }
-    .dot { width: 7px; height: 7px; background-color: rgba(255, 255, 255, 0.3); /* Прозорий білий для невибраної */ border-radius: 50%; transition: background-color 0.3s ease; }
-    .dot.active { background-color: rgba(255, 255, 255, 0.9); /* Майже білий для вибраної */ }
+    .dot { width: 7px; height: 7px; background-color: rgba(255, 255, 255, 0.3); border-radius: 50%; transition: background-color 0.3s ease; }
+    .dot.active { background-color: rgba(255, 255, 255, 0.9); }
 
     .bottom-nav { display: flex; justify-content: space-around; background-color: var(--nav-background); padding: 8px 0 20px 0; position: fixed; bottom: 0; left: 0; width: 100%; border-top-left-radius: 20px; border-top-right-radius: 20px; z-index: 100; }
     .nav-item { display: flex; flex-direction: column; align-items: center; text-decoration: none; color: var(--nav-text-color); gap: 4px; padding: 0 10px; cursor: pointer; }
@@ -311,7 +311,17 @@
       let currentIndex = 0, isDragging = false, startPos = 0, currentTranslate = 0, prevTranslate = 0, animationID = 0;
 
       const updateActiveSlide = i => {
-        slides.forEach((s, idx) => s.classList.toggle('active-slide', idx === i));
+        slides.forEach((s, idx) => {
+          s.classList.toggle('active-slide', idx === i);
+          const flipCard = s.querySelector('.flip-card');
+          if (idx === i) {
+            flipCard.style.transition = 'transform 0.3s ease-in-out';
+            flipCard.style.transform = 'translateY(-10px)';
+          } else {
+            flipCard.style.transition = 'transform 0.3s ease-in-out';
+            flipCard.style.transform = 'translateY(10px)';
+          }
+        });
         dots.forEach((d, idx) => d.classList.toggle('active', idx === i));
       };
       const setSliderPosition = () => sliderWrapper.style.transform = `translateX(${currentTranslate}px)`;
@@ -323,10 +333,25 @@
         sliderWrapper.style.transition = 'none';
         animationID = requestAnimationFrame(animation);
         sliderContainer.style.cursor = 'grabbing';
+        slides.forEach(s => {
+          const flipCard = s.querySelector('.flip-card');
+          flipCard.style.transition = 'none';
+        });
       }
 
       function dragMove(e) {
-        if (isDragging) currentTranslate = prevTranslate + getPositionX(e) - startPos;
+        if (isDragging) {
+          currentTranslate = prevTranslate + getPositionX(e) - startPos;
+          setSliderPosition();
+          const dragDistance = Math.abs(getPositionX(e) - startPos);
+          slides.forEach((s, idx) => {
+            const flipCard = s.querySelector('.flip-card');
+            const distanceFactor = Math.abs(idx - currentIndex) * 10;
+            if (dragDistance > distanceFactor) {
+              flipCard.style.transform = idx === currentIndex ? 'translateY(0)' : 'translateY(10px)';
+            }
+          });
+        }
       }
 
       function dragEnd() {
@@ -348,7 +373,7 @@
 
       function animation() {
         setSliderPosition();
-        if(isDragging) requestAnimationFrame(animation);
+        if (isDragging) requestAnimationFrame(animation);
       }
       
       ['mousedown', 'touchstart'].forEach(e => sliderContainer.addEventListener(e, dragStart, { passive: true }));
@@ -361,7 +386,7 @@
 
       function startTimer() {
           clearInterval(timerInterval);
-          let timeLeft = 176; // 2 хв 56 сек
+          let timeLeft = 176;
           timerInterval = setInterval(() => {
               timeLeft--;
               const minutes = Math.floor(timeLeft / 60);
