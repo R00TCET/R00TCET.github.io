@@ -20,12 +20,16 @@
     :root {
       --text-color: #000;
       --label-color: #333;
-      --background-gradient: linear-gradient(135deg, #a8c0ff, #d2e4bf, #f0f3b4, #a8c0ff);
-      --card-background: rgba(255, 255, 255, 0.6);
+      /* --- ОНОВЛЕНИЙ ГРАДІЄНТ ФОНУ --- */
+      --background-gradient:
+        radial-gradient(ellipse at 5% 5%, hsla(70, 88%, 88%, 0.8) 0, transparent 40%),
+        radial-gradient(ellipse at 95% 90%, hsla(240, 88%, 85%, 0.7) 0, transparent 50%),
+        linear-gradient(155deg, #e1f6b8, #bdecf3, #f5d5e5);
+      /* --- ОНОВЛЕНІ НАЛАШТУВАННЯ КАРТКИ --- */
+      --card-background: rgba(255, 255, 255, 0.45);
       --nav-background: #111;
       --nav-text-color: #8e8e93;
       --nav-active-color: #fff;
-      --banner-background: linear-gradient(90deg, #228b22, #90ee90, #50c878, #228b22);
     }
 
     @keyframes animatedBackground {
@@ -34,18 +38,13 @@
       100% { background-position: 0% 50%; }
     }
 
-    @keyframes animatedBanner {
-      0% { background-position: 0% 50%; }
-      100% { background-position: 200% 50%; }
-    }
-
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
       font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       background: var(--background-gradient);
-      background-size: 400% 400%;
-      animation: animatedBackground 20s ease infinite;
+      background-size: 200% 200%;
+      animation: animatedBackground 30s ease infinite;
       height: 100vh;
       color: var(--text-color);
       overflow: hidden;
@@ -61,7 +60,7 @@
 
     .page {
       width: 100%; height: 100%; position: absolute; top: 0; left: 0;
-      padding: 0; /* Прибираємо padding щоб контейнер був на всю ширину */
+      padding: 0;
       overflow-y: auto;
       transition: opacity 0.4s ease-in-out;
       visibility: hidden; opacity: 0;
@@ -72,27 +71,24 @@
 
     .placeholder-page { display: flex; justify-content: center; align-items: center; height: 100%; font-size: 24px; color: #555; }
 
-    /* --- Стилі для каруселі --- */
     .slider-container {
       width: 100%;
       height: 520px;
       display: flex;
       align-items: center;
       position: relative;
-      overflow: hidden; /* Ховаємо частини бічних слайдів */
+      overflow: hidden;
       cursor: grab;
     }
     .slider-wrapper {
       display: flex;
       align-items: center;
-      /* Плавний перехід для "доведення" до кінцевої позиції */
       transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
     .slide {
-      flex: 0 0 85%; /* Ширина кожного слайду */
-      margin: 0 2.5%; /* Відступи між слайдами */
+      flex: 0 0 85%;
+      margin: 0 2.5%;
       height: 490px;
-      /* Плавний перехід для масштабування та прозорості */
       transition: transform 0.4s ease, opacity 0.4s ease;
       -webkit-tap-highlight-color: transparent;
     }
@@ -111,9 +107,7 @@
         transition: transform 0.6s;
         transform-style: preserve-3d;
     }
-    .flip-card-inner.is-flipped {
-        transform: rotateY(180deg);
-    }
+    .flip-card-inner.is-flipped { transform: rotateY(180deg); }
     .flip-card-front, .flip-card-back {
         position: absolute;
         width: 100%;
@@ -136,12 +130,13 @@
         border: 1px solid rgba(255, 255, 255, 0.3);
     }
 
+    /* --- ОНОВЛЕНІ СТИЛІ КАРТКИ (GLASSMORPHISM) --- */
     .document-container {
         background: var(--card-background);
         border-radius: 24px;
         backdrop-filter: blur(25px);
         -webkit-backdrop-filter: blur(25px);
-        border: 1px solid rgba(255, 255, 255, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.25);
         overflow: hidden;
         height: 490px;
     }
@@ -155,10 +150,9 @@
     .detail-item .label { font-size: 15px; color: var(--label-color); font-weight: 500; }
     .detail-item .value { font-size: 18px; font-weight: 700; color: var(--text-color); }
 
+    /* --- ОНОВЛЕНІ СТИЛІ БАНЕРА --- */
     .status-banner-wrapper {
-      background: var(--banner-background);
-      background-size: 200% 100%;
-      animation: animatedBanner 10s linear infinite;
+      background: rgba(90, 200, 135, 0.7); /* Напівпрозорий зелений */
       padding: 9px 0; overflow: hidden; white-space: nowrap;
     }
     @keyframes marquee { 0% { transform: translateX(50%); } 100% { transform: translateX(-150%); } }
@@ -226,7 +220,7 @@
                               </div>
                             </div>
                             <div class="status-banner-wrapper">
-                              <div class="status-banner">Документ діє під час воєнного стану. Ой у лузі червона калина похилилася, чогось наша славна Укранїна зажурилась. А ми тую червону калину підіймемо, А ми нашу славну Україну, гей, гей, розвеселимо!</div>
+                              <div class="status-banner">А ми нашу славну Україну, гей, гей, розвеселимо!</div>
                             </div>
                             <div class="info-section">
                               <div class="name-section">
@@ -320,8 +314,7 @@
         });
       });
 
-
-      // --- НОВА ЛОГІКА СЛАЙДЕРА (ПЛАСКА КАРУСЕЛЬ) ---
+      // --- ЛОГІКА СЛАЙДЕРА (ПЛАСКА КАРУСЕЛЬ) ---
       const sliderContainer = document.querySelector('.slider-container');
       const sliderWrapper = document.querySelector('.slider-wrapper');
       const slides = document.querySelectorAll('.slide');
@@ -341,21 +334,17 @@
           dots.forEach((dot, index) => dot.classList.toggle('active', index === currentIndex));
       };
 
-      // Функція, що встановлює позицію та стилі слайдів
       const setSliderPosition = () => {
-        // Застосовуємо зміщення до всього контейнера
         sliderWrapper.style.transform = `translateX(${currentTranslate}px)`;
-
-        // Оновлюємо стилі для кожного слайду окремо
         slides.forEach((slide, index) => {
             if (index === currentIndex) {
                 slide.style.transform = 'scale(1)';
                 slide.style.opacity = '1';
-                slide.style.pointerEvents = 'auto'; // Активний слайд можна клікати
+                slide.style.pointerEvents = 'auto';
             } else {
                 slide.style.transform = 'scale(0.9)';
                 slide.style.opacity = '0.7';
-                slide.style.pointerEvents = 'none'; // Неактивні - ні
+                slide.style.pointerEvents = 'none';
             }
         });
       };
@@ -363,7 +352,7 @@
       const dragStart = (e) => {
         isDragging = true;
         startPos = getPositionX(e);
-        sliderWrapper.style.transition = 'none'; // Вимикаємо анімацію для плавного перетягування
+        sliderWrapper.style.transition = 'none';
         animationID = requestAnimationFrame(animation);
         sliderContainer.style.cursor = 'grabbing';
       };
@@ -386,9 +375,8 @@
         sliderContainer.style.cursor = 'grab';
 
         const movedBy = currentTranslate - prevTranslate;
-        const slideWidth = slides[0].offsetWidth + (parseFloat(getComputedStyle(slides[0]).marginLeft) * 2);
+        if (Math.abs(movedBy) < 10) return; // Ігноруємо малі зміщення (кліки)
 
-        // Визначаємо, чи достатньо сильно потягнули для перемикання
         if (movedBy < -50 && currentIndex < slideCount - 1) {
           currentIndex++;
         }
@@ -396,7 +384,6 @@
           currentIndex--;
         }
 
-        // Розраховуємо фінальну позицію, щоб активний слайд був по центру
         const targetSlide = slides[currentIndex];
         const containerCenter = sliderContainer.offsetWidth / 2;
         const slideCenter = targetSlide.offsetLeft + targetSlide.offsetWidth / 2;
@@ -409,7 +396,6 @@
         updateDots();
       };
       
-      // Початкове налаштування каруселі
       const initializeCarousel = () => {
           const targetSlide = slides[currentIndex];
           const containerCenter = sliderContainer.offsetWidth / 2;
@@ -418,11 +404,10 @@
           currentTranslate = containerCenter - slideCenter;
           prevTranslate = currentTranslate;
           
-          sliderWrapper.style.transition = 'none'; // Початкове позиціонування без анімації
+          sliderWrapper.style.transition = 'none';
           setSliderPosition();
       }
       
-      // Ініціалізуємо після завантаження, щоб всі розміри були відомі
       window.addEventListener('load', initializeCarousel);
       window.addEventListener('resize', initializeCarousel);
 
@@ -431,7 +416,6 @@
       ['mouseup', 'touchend', 'mouseleave'].forEach(e => document.addEventListener(e, dragEnd));
       ['mousemove', 'touchmove'].forEach(e => document.addEventListener(e, dragMove, { passive: true }));
 
-
       // --- ЛОГІКА ПЕРЕВЕРТАННЯ КАРТКИ І ТАЙМЕРА ---
       const flipCards = document.querySelectorAll('.flip-card');
       const timerEl = document.getElementById('qr-timer');
@@ -439,14 +423,13 @@
 
       function startTimer() {
           clearInterval(timerInterval);
-          let timeLeft = 180; // 3 хвилини
+          let timeLeft = 180;
           const updateTimerText = () => {
             const minutes = Math.floor(timeLeft / 60);
             let seconds = timeLeft % 60;
             seconds = seconds < 10 ? '0' + seconds : seconds;
             timerEl.textContent = `${minutes}:${seconds}`;
           };
-
           updateTimerText();
           timerInterval = setInterval(() => {
               timeLeft--;
@@ -460,10 +443,11 @@
 
       flipCards.forEach(card => {
         card.addEventListener('click', () => {
-            if (isDragging) return; // Запобігаємо кліку під час свайпу
+            const movedBy = Math.abs(currentTranslate - prevTranslate);
+            if (isDragging || movedBy > 5) return;
             
             const slide = card.closest('.slide');
-            if (slide.style.transform !== 'scale(1)') return; // Дозволяємо клік тільки на активному слайді
+            if (slide.style.transform !== 'scale(1)') return;
 
             const inner = card.querySelector('.flip-card-inner');
             inner.classList.toggle('is-flipped');
@@ -476,18 +460,15 @@
         });
       });
 
-
       // --- ЛОГІКА SERVICE WORKER ---
       const VERSION = new Date().getTime();
       const CACHE_NAME = `diia-clone-cache-v${VERSION}`;
-
       const manifest = {
         "name": "єДокумент", "short_name": "єДокумент", "start_url": ".", "display": "standalone", "background_color": "#c9e3eb", "theme_color": "#4e8cde",
         "icons": [{"src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAYAAABS3GwHAAAAAXNSR0IArs4c6QAAAyJJREFUeF7t0AEBAAAAEADC/2H5NEbDAwKChAAAAAAAAAAAAAD45wEAAAAAAAAAAAAA8McDAAAAAAAAAAAAAODjBwAAAAAAAAAAAABA/3kAAAAAAAAAAAAAwB8PAAAAAAAAAAAAAHg4AQAAAAAAAAAAAMD/eQAAAAAAAAAAAADAHw8AAAAAAAAAAAAA8HACAAAAAAAAAAAAgP7zAAAAAAAAAAAAAIC/HAAAAAAAAAAAAACAhxMAAAAAAAAAAAAA+s8DAAAAAAAAAAAAAOBfDwAAAAAAAAAAAACAxxMAAAAAAAAAAAAA4f88AAAAAAAAAAAAAOAfDwAAAAAAAAAAAADw4AQAAAAAAAAAAAD8nwcAAAAAAAAAAAAA8K8HAAAAAAAAAAAAAPBhAgAAAAAAAAAAAPh/ngAAAAAAAAAAAADA/x4AAAAAAAAAAAAA8OECAAAAAAAAAAAA+M8DAAAAAAAAAAAAAOBfDwAAAAAAAAAAAACAxxMAAAAAAAAAAAAA4f88AAAAAAAAAAAAAOAfDwAAAAAAAAAAAADw4AQAAAAAAAAAAAD8nwcAAAAAAAAAAAAA8K8HAAAAAAAAAAAAAPBhAgAAAAAAAAAAAPh/ngAAAAAAAAAAAADA/x4AAAAAAAAAAAAA8OECAAAAAAAAAAAA+M8DAAAAAAAAAAAAAOBfDwAAAAAAAAAAAACAxxMAAAAAAAAAAAAA4f88AAAAAAAAAAAAAOAfDwAAAAAAAAAAAADw4AQAAAAAAAAAAAD8nwcAAAAAAAAAAAAA8K8HAAAAAAAAAAAAAPBhAgAAAAAAAAAAAPh/ngAAAAAAAAAAAADA/x4AAAAAAAAAAAAA8OECAAAAAAAAAAAA+M8DAAAAAAAAAAAAAOBfDwAAAAAAAAAAAACAxxMAAAAAAAAAAAAA4f88AAAAAAAAAAAAAOAfDwAAAAAAAAAAAADw4AQAAAAAAAAAAAD8nwcAAAAAAAAAAAAA8K8HAAAAAAAAAAAAAPBhAgAAAAAAAAAAAPh/ngAAAAAAAAAAAADA/x4AAAAAAAAAAAAA8OECAAAAAAAAAAAA+M8DAAAAAAAAAAAAAOBfDwAAAAAAAAAAAACAxxMAAAAAAAAAAAAA4f88AAAAAAAAAAAAAOAfDwAAAAAAAAAAAADw4AQAAAAAAAAAAAD8nwcAAAAAAAAAAAAA8K8HAAAAAAAAAAAAAPBhAgAAAAAAAAAAAPh/ngAAAAAAAAAAAADA/xsA3g4Y9QAAAABJRU5ErkJggg==", "sizes": "192x192", "type": "image/png"}]
       };
       const manifestBlob = new Blob([JSON.stringify(manifest)], { type: 'application/json' });
       document.getElementById('manifest').href = URL.createObjectURL(manifestBlob);
-
       const swCode = `
         const CACHE_NAME = '${CACHE_NAME}';
         const urlsToCache = ['${location.href.replace(/\?.*$/, '')}'];
@@ -502,7 +483,6 @@
         let newWorker;
         const updateNotification = document.getElementById('update-notification');
         updateNotification.addEventListener('click', () => newWorker.postMessage({ action: 'skipWaiting' }));
-
         navigator.serviceWorker.register(URL.createObjectURL(swBlob)).then(reg => {
           reg.addEventListener('updatefound', () => {
             newWorker = reg.installing;
@@ -513,7 +493,6 @@
             });
           });
         });
-
         let refreshing;
         navigator.serviceWorker.addEventListener('controllerchange', () => {
           if (refreshing) return;
