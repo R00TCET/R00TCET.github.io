@@ -574,22 +574,7 @@
       const splashScreen = document.getElementById('splash-screen');
       const loginScreen = document.getElementById('login-screen');
       const appContainer = document.querySelector('.app-container');
-      const lottiePlayer = document.getElementById('lottie-player');
-
-      // ВИПРАВЛЕНО: Повністю контролюємо анімацію
-      // Подія 'ready' спрацьовує, коли анімація готова до відтворення
-      lottiePlayer.addEventListener('ready', () => {
-          // Чітко вказуємо, що анімація НЕ повинна повторюватися
-          lottiePlayer.loop = false;
-          // І тепер запускаємо її програмно
-          lottiePlayer.play();
-      });
-
-      // Додаємо слухача події 'complete', яка спрацьовує, коли анімація завершилася
-      lottiePlayer.addEventListener('complete', () => {
-          // Примусово зупиняємо плеєр на останньому кадрі
-          lottiePlayer.stop();
-      });
+      
 
 
       setTimeout(() => {
@@ -602,7 +587,7 @@
               }
           }, 500);
 
-      }, 4000);
+      }, 3000);
 
       // --- ЛОГІКА ВВОДУ ПАРОЛЮ ---
       const passcodeDotsContainer = document.querySelector('.passcode-dots');
