@@ -61,7 +61,6 @@
     }
 
     .app-container { height: 100%; display: flex; flex-direction: column; }
-    /* --- ВИДАЛЕНО overflow: hidden для виправлення обрізання --- */
     .content { flex-grow: 1; position: relative; }
 
     /* --- Анімація переходу між сторінками (Fade) --- */
@@ -83,17 +82,16 @@
       max-width: 400px;
       margin: 0 auto;
       position: relative;
-      perspective: 1200px; /* Додано для 3D ефекту */
-      height: 520px; /* Збільшено висоту для анімації */
+      height: 520px; /* Висота для анімації */
       display: flex;
       align-items: center;
       justify-content: center;
+      cursor: grab;
     }
     .slider-wrapper {
       position: relative;
       width: 100%;
       height: 490px;
-      transform-style: preserve-3d;
     }
     .slide {
       position: absolute;
@@ -101,9 +99,9 @@
       height: 100%;
       left: 0;
       top: 0;
-      /* --- Нова анімація для плавності --- */
-      transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.5s ease;
-      -webkit-tap-highlight-color: transparent; /* Прибирає синю підсвітку при кліку на мобільних */
+      /* Плавний перехід для фінальної анімації "snap" */
+      transition: transform 0.4s ease, opacity 0.4s ease;
+      -webkit-tap-highlight-color: transparent;
     }
 
     /* --- Анімація перевертання картки --- */
@@ -329,7 +327,7 @@
       });
 
 
-      // --- НОВА ЛОГІКА СЛАЙДЕРА ---
+      // --- НОВА ЛОГІКА СЛАЙДЕРА (ВЕРТИКАЛЬНА АНІМАЦІЯ) ---
       const sliderContainer = document.querySelector('.slider-container');
       const slides = document.querySelectorAll('.slide');
       const dots = document.querySelectorAll('.page-indicator .dot');
@@ -338,68 +336,91 @@
       let currentIndex = 0;
       let isDragging = false;
       let startPos = 0;
-      let currentTranslate = 0;
+      let currentX = 0;
 
-      function getPositionX(e) {
-        return e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
-      }
+      const getPositionX = (e) => e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
+      
+      const updateDots = () => {
+          dots.forEach((dot, index) => dot.classList.toggle('active', index === currentIndex));
+      };
 
-      function updateSliderStyles(dragOffset = 0) {
-        slides.forEach((slide, index) => {
-          // Відстань від поточного активного слайду
-          const distance = index - currentIndex;
-          // Прогрес перетягування до наступного/попереднього слайду
-          const dragProgress = dragOffset / sliderContainer.offsetWidth;
-
-          let newTransform = '';
-          let newOpacity = 1;
-
-          // Розраховуємо позицію, враховуючи перетягування
-          const currentPosition = distance - dragProgress;
-
-          // Не показуємо слайди, що знаходяться далеко
-          if (Math.abs(currentPosition) > 1.5) {
-            newOpacity = 0;
+      // Функція для встановлення фінальних позицій слайдів з анімацією
+      const goToSlide = (index) => {
+        slides.forEach((slide, i) => {
+          slide.style.transition = 'transform 0.4s ease, opacity 0.4s ease';
+          if (i === index) {
+            // Активний слайд
+            slide.style.transform = 'translateY(0) scale(1)';
+            slide.style.opacity = '1';
+            slide.style.pointerEvents = 'auto';
+          } else if (i < index) {
+            // Слайди, які вже пройшли
+            slide.style.transform = 'translateY(30px) scale(0.9)';
+            slide.style.opacity = '0';
+            slide.style.pointerEvents = 'none';
+          } else {
+            // Слайди, які ще попереду
+            slide.style.transform = 'translateY(50px) scale(0.9)';
+            slide.style.opacity = '0';
+            slide.style.pointerEvents = 'none';
           }
-
-          // Розраховуємо 3D трансформацію
-          const rotation = currentPosition * -30;
-          const translateX = currentPosition * 70; // Зсув вбік
-          const scale = 1 - Math.abs(currentPosition) * 0.2;
-          const translateZ = -Math.abs(currentPosition) * 150; // Глибина
-
-          newTransform = `translateX(${translateX}%) scale(${scale}) rotateY(${rotation}deg) translateZ(${translateZ}px)`;
-
-          slide.style.transform = newTransform;
-          slide.style.opacity = newOpacity;
-          // Робимо неактивні слайди неклікабельними
-          slide.style.pointerEvents = (index === currentIndex) ? 'auto' : 'none';
         });
-      }
+        updateDots();
+      };
+      
+      // Функція, що оновлює позиції в реальному часі під час перетягування
+      const updateWhileDragging = (dragOffset) => {
+        const dragProgress = dragOffset / sliderContainer.offsetWidth;
+        
+        slides.forEach((slide, index) => {
+            slide.style.transition = 'none'; // Вимикаємо анімацію для плавного перетягування
 
-      function dragStart(e) {
+            const isCurrent = index === currentIndex;
+            const isNext = index === currentIndex + 1;
+            const isPrev = index === currentIndex - 1;
+
+            if (isCurrent) {
+                const scale = 1 - Math.abs(dragProgress) * 0.1;
+                const y = Math.abs(dragProgress) * 30;
+                slide.style.transform = `translateY(${y}px) scale(${scale})`;
+                slide.style.opacity = 1 - Math.abs(dragProgress);
+            } else if (isNext && dragOffset < 0) { // Гортаємо вліво (до наступного)
+                const progress = -dragProgress;
+                const scale = 0.9 + progress * 0.1;
+                const y = 50 * (1 - progress);
+                slide.style.transform = `translateY(${y}px) scale(${scale})`;
+                slide.style.opacity = progress;
+            } else if (isPrev && dragOffset > 0) { // Гортаємо вправо (до попереднього)
+                const progress = dragProgress;
+                const scale = 0.9 + progress * 0.1;
+                const y = 50 * (1 - progress);
+                slide.style.transform = `translateY(${y}px) scale(${scale})`;
+                slide.style.opacity = progress;
+            }
+        });
+      };
+
+      const dragStart = (e) => {
         isDragging = true;
         startPos = getPositionX(e);
-        // Прибираємо плавний перехід під час перетягування
-        slides.forEach(slide => slide.style.transition = 'none');
         sliderContainer.style.cursor = 'grabbing';
-      }
+      };
 
-      function dragMove(e) {
+      const dragMove = (e) => {
         if (!isDragging) return;
-        const currentPosition = getPositionX(e);
-        currentTranslate = currentPosition - startPos;
-        updateSliderStyles(currentTranslate);
-      }
+        currentX = getPositionX(e);
+        const dragOffset = currentX - startPos;
+        updateWhileDragging(dragOffset);
+      };
 
-      function dragEnd() {
+      const dragEnd = () => {
         if (!isDragging) return;
         isDragging = false;
+        sliderContainer.style.cursor = 'grab';
 
-        const movedBy = currentTranslate;
+        const movedBy = currentX - startPos;
         const threshold = sliderContainer.offsetWidth / 4;
 
-        // Визначаємо, чи потрібно перемкнути слайд
         if (movedBy < -threshold && currentIndex < slideCount - 1) {
           currentIndex++;
         }
@@ -407,25 +428,11 @@
           currentIndex--;
         }
 
-        // Повертаємо плавний перехід
-        slides.forEach(slide => slide.style.transition = 'transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.5s ease');
-        // Оновлюємо стилі до фінальної позиції
-        updateSliderStyles(0);
-        updateDots();
-        
-        currentTranslate = 0;
-        sliderContainer.style.cursor = 'grab';
-      }
+        goToSlide(currentIndex); // Анімуємо до фінальної позиції
+      };
       
-      function updateDots() {
-          dots.forEach((dot, index) => {
-              dot.classList.toggle('active', index === currentIndex);
-          });
-      }
-
-      // Ініціалізація
-      updateSliderStyles(0);
-      updateDots();
+      // Початкове налаштування слайдера
+      goToSlide(0);
 
       ['mousedown', 'touchstart'].forEach(e => sliderContainer.addEventListener(e, dragStart, { passive: true }));
       ['mouseup', 'touchend', 'mouseleave'].forEach(e => document.addEventListener(e, dragEnd));
@@ -459,10 +466,11 @@
       }
 
       flipCards.forEach(card => {
-        card.addEventListener('click', (e) => {
-            // Щоб клік не спрацьовував під час перетягування слайдера
-            if (Math.abs(currentTranslate) > 10) return;
-
+        card.addEventListener('click', () => {
+            // Запобігаємо перевертанню картки під час свайпу
+            if (Math.abs(currentX - startPos) > 10 && isDragging) {
+                return;
+            }
             const inner = card.querySelector('.flip-card-inner');
             inner.classList.toggle('is-flipped');
             if (inner.classList.contains('is-flipped')) {
