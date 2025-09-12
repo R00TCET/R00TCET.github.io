@@ -121,7 +121,7 @@
         visibility: visible;
     }
     .login-title {
-        font-size: 28px; /* Збільшено */
+        font-size: 28px; /* ЗБІЛЬШЕНО */
         font-weight: 600;
         margin-bottom: 20px;
     }
@@ -137,7 +137,6 @@
         width: 15px;
         height: 15px;
         background-color: rgba(255, 255, 255, 0.8);
-        border: 1px solid rgba(0,0,0,0.1);
         border-radius: 50%;
         transition: background-color 0.2s ease;
     }
@@ -166,7 +165,8 @@
         transition: background-color 0.2s ease;
         backdrop-filter: blur(5px);
         -webkit-backdrop-filter: blur(5px);
-        -webkit-tap-highlight-color: transparent; /* Прибрано синій квадрат */
+        -webkit-tap-highlight-color: transparent; /* ВИДАЛЕНО СИНІЙ КВАДРАТ */
+        outline: none; /* ВИДАЛЕНО СИНІЙ КВАДРАТ */
     }
     .keypad-btn:active {
         background-color: rgba(255, 255, 255, 1);
@@ -176,8 +176,8 @@
         backdrop-filter: none;
     }
     .keypad-btn img {
-        width: 55px;  /* Збільшено */
-        height: 55px; /* Збільшено */
+        width: 55px;  /* ЗБІЛЬШЕНО */
+        height: 55px; /* ЗБІЛЬШЕНО */
         opacity: 0.7;
     }
     .keypad-btn svg {
@@ -229,8 +229,8 @@
       transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
     .slide {
-      flex: 0 0 70%; /* Зменшено для більшого виступу */
-      margin: 0 5%;   /* Збільшено для більшого виступу */
+      flex: 0 0 70%; /* ЗМЕНШЕНО, ЩОБ ЗБІЛЬШИТИ ВИДИМІСТЬ СУСІДІВ */
+      margin: 0 2.5%;  /* СКОРИГОВАНО ДЛЯ ЦЕНТРУВАННЯ */
       height: 420px;
       transition: transform 0.4s ease, opacity 0.4s ease;
       -webkit-tap-highlight-color: transparent;
@@ -283,7 +283,7 @@
         height: 100%;
     }
     .empty-card { height: 100%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: #888; }
-    .document-content { padding: 24px; } /* Збільшено відступ */
+    .document-content { padding: 20px 24px; } /* ЗБІЛЬШЕНО ГОРИЗОНТАЛЬНИЙ ПАДДІНГ */
     .document-title { font-size: 24px; font-weight: 700; margin-bottom: 20px; }
     .personal-info {
         display: flex;
@@ -333,7 +333,7 @@
         white-space: nowrap;
     }
 
-    .info-section { padding: 24px; } /* Збільшено відступ */
+    .info-section { padding: 20px 24px; } /* ЗБІЛЬШЕНО ГОРИЗОНТАЛЬНИЙ ПАДДІНГ */
     .name-section {
         display: flex;
         justify-content: space-between;
@@ -385,7 +385,6 @@
     .nav-icon { width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; }
     .nav-label { font-size: 10px; }
     .nav-item.active .nav-label { color: var(--nav-active-color); }
-    /* Стилі для активної іконки "Документи" */
     .nav-item.active[data-page="page-docs"] .nav-icon svg rect:first-of-type {
       fill: white;
     }
@@ -413,8 +412,8 @@
           <h1>Привіт 👋</h1>
       </div>
       <div class="lottie-container">
-          <!-- ОНОВЛЕНО: Виправлене посилання на анімацію -->
-          <lottie-player id="lottie-player" src="https://assets10.lottiefiles.com/packages/lf20_p8bfn5to.json" autoplay></lottie-player>
+          <!-- ПОВЕРНЕНО ЛОКАЛЬНУ АНІМАЦІЮ. Переконайтесь, що файл splash_cropped.json є в папці! -->
+          <lottie-player id="lottie-player" src="splash_cropped.json" autoplay></lottie-player>
       </div>
   </div>
 
@@ -474,7 +473,7 @@
                               <h1 class="document-title">єДокумент</h1>
                               <div class="personal-info">
                                 <div class="photo">
-                                  <!-- Повернуто локальне фото -->
+                                  <!-- ПОВЕРНЕНО ФОТО. Переконайтесь, що файл pasport.png є в папці! -->
                                   <img src="./pasport.png" alt="Фото">
                                 </div>
                                 <div class="details">
@@ -548,11 +547,11 @@
     <div id="update-notification">Доступне оновлення. Оновити?</div>
 
     <nav class="bottom-nav">
-        <div class="nav-item active" data-page="page-feed">
+        <div class="nav-item" data-page="page-feed">
           <div class="nav-icon"><svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6.99986 2.61536H12.9999C15.8283 2.61536 17.2425 2.61536 18.1212 3.49404C18.9999 4.37272 18.9999 5.78693 18.9999 8.61536V15.6154V20.6152C18.9999 21.7199 19.8954 22.6154 21 22.6154H6.99986C4.17143 22.6154 2.75722 22.6154 1.87854 21.7367C0.999861 20.858 0.999861 19.4438 0.999861 16.6154V8.61536C0.999861 5.78693 0.999861 4.37272 1.87854 3.49404C2.75722 2.61536 4.17143 2.61536 6.99986 2.61536Z" stroke="white" stroke-width="1.5"/><path d="M19 20.6154V13.6154H21C22.1046 13.6154 23 14.5108 23 15.6154V20.6154C23 21.7199 22.1046 22.6154 21 22.6154C19.8954 22.6154 19 21.7199 19 20.6154Z" stroke="white" stroke-width="1.5"/><rect x="4.5" y="17.1154" width="11" height="1.5" rx="0.5" fill="white"/><rect width="10" height="7" rx="1" transform="matrix(-1 0 0 1 15 6.61536)" stroke="white" stroke-width="1.5"/></svg></div>
           <span class="nav-label">Стрічка</span>
         </div>
-        <div class="nav-item" data-page="page-docs">
+        <div class="nav-item active" data-page="page-docs">
           <div class="nav-icon"><svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2.75" y="2.36536" width="18.5" height="20.5" rx="3.25" stroke="white" stroke-width="1.5"/><path d="M6 18.6154C6 18.3392 6.22386 18.1154 6.5 18.1154H14.5C14.7761 18.1154 15 18.3392 15 18.6154V19.1154C15 19.3915 14.7761 19.6154 14.5 19.6154H6.5C6.22386 19.6154 6 19.3915 6 19.1154V18.6154Z"/><path d="M6 15.1154C6 14.8392 6.22386 14.6154 6.5 14.6154H17.5C17.7761 14.6154 18 14.8392 18 15.1154V15.6154C18 15.8915 17.7761 16.1154 17.5 16.1154H6.5C6.22386 16.1154 6 15.8915 6 15.6154V15.1154Z"/><mask id="path-4-inside-1_13657_22158" fill="white"><rect x="6" y="5.61536" width="7" height="7" rx="1"/></mask><rect x="6" y="5.61536" width="7" height="7" rx="1" stroke="white" stroke-width="3" mask="url(#path-4-inside-1_13657_22158)"/></svg></div>
           <span class="nav-label">Документи</span>
         </div>
@@ -611,24 +610,6 @@
         updateDots();
         passcodeDotsContainer.classList.remove('shake');
       }
-      
-      const initializeCarousel = () => {
-          if (!slides[currentIndex]) return;
-          const targetSlide = slides[currentIndex];
-          const containerCenter = sliderContainer.offsetWidth / 2;
-          const slideCenter = targetSlide.offsetLeft + targetSlide.offsetWidth / 2;
-          
-          currentTranslate = containerCenter - slideCenter;
-          prevTranslate = currentTranslate;
-          
-          sliderWrapper.style.transition = 'none'; // Важливо для миттєвого центрування
-          setSliderPosition();
-          
-          // Повертаємо анімацію після початкового налаштування
-          setTimeout(() => {
-             sliderWrapper.style.transition = 'transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-          }, 50);
-      }
 
       const handleKeyPress = (key) => {
         if (passcode.length < 4) {
@@ -643,11 +624,7 @@
               setTimeout(() => {
                 loginScreen.remove();
                 appContainer.style.display = 'flex';
-                navigateToPage('page-feed');
-                
-                // ВИРІШЕННЯ БАГУ ЦЕНТРУВАННЯ: викликаємо ініціалізацію ПІСЛЯ того, як контейнер став видимим
-                initializeCarousel();
-
+                navigateToPage('page-docs'); // ВХІД ВІДБУВАЄТЬСЯ НА СТОРІНКУ ДОКУМЕНТІВ
               }, 300);
             } else {
               passcodeDotsContainer.classList.add('shake');
@@ -658,9 +635,10 @@
       };
 
       keypadBtns.forEach(btn => {
-        const key = btn.textContent;
-        if (!isNaN(parseInt(key, 10))) {
-          btn.addEventListener('click', () => handleKeyPress(key));
+        if (btn.textContent.trim() !== '' && !btn.querySelector('img') && !btn.querySelector('svg')) {
+          btn.addEventListener('click', () => {
+            handleKeyPress(btn.textContent);
+          });
         }
       });
       
@@ -668,6 +646,7 @@
         if (passcode.length > 0) {
             passcode = passcode.slice(0, -1);
             updateDots();
+            passcodeDotsContainer.classList.remove('shake');
         }
       });
 
@@ -684,6 +663,12 @@
         navItems.forEach(nav => {
             nav.classList.toggle('active', nav.dataset.page === targetPageId);
         });
+
+        // ВИРІШЕННЯ БАГУ З ІНІЦІАЛІЗАЦІЄЮ СЛАЙДЕРА
+        if (targetPageId === 'page-docs') {
+            // Викликаємо ініціалізацію з невеликою затримкою, щоб сторінка встигла стати видимою
+            setTimeout(initializeCarousel, 0); 
+        }
       }
 
       navItems.forEach(item => {
@@ -719,15 +704,11 @@
       const setSliderPosition = () => {
         sliderWrapper.style.transform = `translateX(${currentTranslate}px)`;
         slides.forEach((slide, index) => {
-            if (index === currentIndex) {
-                slide.style.transform = 'scale(1)';
-                slide.style.opacity = '1';
-                slide.style.pointerEvents = 'auto';
-            } else {
-                slide.style.transform = 'scale(0.9)';
-                slide.style.opacity = '0.7';
-                slide.style.pointerEvents = 'none';
-            }
+            const scale = index === currentIndex ? 1 : 0.9;
+            const opacity = index === currentIndex ? 1 : 0.7;
+            slide.style.transform = `scale(${scale})`;
+            slide.style.opacity = `${opacity}`;
+            slide.style.pointerEvents = index === currentIndex ? 'auto' : 'none';
         });
       };
       
@@ -757,9 +738,7 @@
         sliderContainer.style.cursor = 'grab';
 
         const movedBy = currentTranslate - prevTranslate;
-
-        if (Math.abs(movedBy) < 10 && e.type !== 'mouseleave') return;
-
+        
         if (movedBy < -50 && currentIndex < slideCount - 1) {
           currentIndex++;
         }
@@ -767,6 +746,10 @@
           currentIndex--;
         }
 
+        positionSliderByIndex();
+      };
+      
+      const positionSliderByIndex = () => {
         const targetSlide = slides[currentIndex];
         const containerCenter = sliderContainer.offsetWidth / 2;
         const slideCenter = targetSlide.offsetLeft + targetSlide.offsetWidth / 2;
@@ -777,8 +760,21 @@
         sliderWrapper.style.transition = 'transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
         setSliderPosition();
         updateSliderDots();
-      };
-      
+      }
+
+      const initializeCarousel = () => {
+          if (!slides[currentIndex] || sliderContainer.offsetWidth === 0) return;
+          const targetSlide = slides[currentIndex];
+          const containerCenter = sliderContainer.offsetWidth / 2;
+          const slideCenter = targetSlide.offsetLeft + targetSlide.offsetWidth / 2;
+          
+          currentTranslate = containerCenter - slideCenter;
+          prevTranslate = currentTranslate;
+          
+          sliderWrapper.style.transition = 'none'; // Важливо для миттєвої установки
+          setSliderPosition();
+          updateSliderDots();
+      }
       
       window.addEventListener('resize', initializeCarousel);
 
@@ -815,7 +811,7 @@
       flipCards.forEach(card => {
         card.addEventListener('click', () => {
             const movedBy = Math.abs(currentTranslate - prevTranslate);
-            if (isDragging || movedBy > 10) return;
+            if (isDragging || movedBy > 5) return;
             
             const slide = card.closest('.slide');
             if (slide.style.transform !== 'scale(1)') return;
@@ -825,11 +821,11 @@
             if (inner.classList.contains('is-flipped')) {
                 startTimer();
             } else {
-                // ВИРІШЕННЯ БАГУ ТАЙМЕРА: ховаємо його після завершення анімації
+                // ВИРІШЕННЯ БАГУ ЗІ ЗНИКНЕННЯМ ТАЙМЕРА
+                clearInterval(timerInterval);
                 setTimeout(() => {
-                  clearInterval(timerInterval);
-                  timerEl.textContent = "";
-                }, 600); // Час має відповідати тривалості анімації в CSS (transform 0.6s)
+                    timerEl.textContent = "";
+                }, 600); // Час відповідає тривалості анімації перевороту
             }
         });
       });
