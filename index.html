@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>єДокумент</title>
+  <title>Дія</title>
 
   <!-- Динамічно вбудований маніфест PWA -->
   <link id="manifest" rel="manifest">
@@ -32,6 +32,16 @@
       --nav-text-color: #8e8e93;
       --nav-active-color: #fff;
       --banner-background-soft: linear-gradient(90deg, rgba(173, 223, 173, 0.8), rgba(225, 246, 184, 0.85), rgba(173, 223, 173, 0.8));
+
+      /* Menu specific colors */
+      --menu-bg-color: #e3f2fd; /* Light blue background for menu page */
+      --menu-item-bg: #fff;
+      --menu-item-border: #e0e0e0;
+      --menu-item-text: #333;
+      --menu-item-icon-bg: #f0f0f0;
+      --menu-item-icon-color: #000;
+      --menu-section-spacing: 16px;
+      --menu-item-spacing: 0; /* Items within a section are joined */
     }
 
     @keyframes animatedBackground {
@@ -94,7 +104,6 @@
     }
     .lottie-container {
         /* ВИПРАВЛЕНО: Розмір зменшено вдвічі */
-        
         margin: 0 auto;
     }
     
@@ -221,7 +230,7 @@
 
     .slider-container {
       width: 100%;
-      height: 435px; /* Збільшено висоту картки на 15px */
+      height: 435px; /* ЗБІЛЬШЕНО ВИСОТУ КАРТКИ (+15px) */
       margin-top: -50px;
       display: flex;
       align-items: center;
@@ -236,7 +245,7 @@
     }
     .slide {
       flex: 0 0 80%; 
-      height: 100%; /* Use 100% of parent slider-container height */
+      height: 435px; /* ЗБІЛЬШЕНО ВИСОТУ КАРТКИ (+15px) */
       -webkit-tap-highlight-color: transparent;
     }
 
@@ -285,22 +294,22 @@
         border: 1px solid rgba(255, 255, 255, 0.25);
         overflow: hidden;
         height: 100%;
-        /* Вотермарка "FakeDiia" */
-        background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="300" height="200"><text x="10" y="50" font-family="Manrope" font-size="20" fill="rgba(0,0,0,0.08)" transform="rotate(-30 10 50)">FakeDiia</text><text x="150" y="120" font-family="Manrope" font-size="20" fill="rgba(0,0,0,0.08)" transform="rotate(-30 150 120)">FakeDiia</text><text x="50" y="160" font-family="Manrope" font-size="20" fill="rgba(0,0,0,0.08)" transform="rotate(-30 50 160)">FakeDiia</text></svg>');
-        background-repeat: repeat;
-        background-size: 150px 100px;
+        display: flex;
+        flex-direction: column;
     }
     .empty-card { height: 100%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: #888; }
-    .document-content { padding: 20px; }
+    .document-content { padding: 20px; padding-bottom: 0; }
     .document-title { 
-        font-size: 24px; 
-        font-weight: 600; /* Зменшено жирність */
+        font-size: 22px; /* ЗМЕНШЕНО РОЗМІР */
+        font-weight: 600; /* МЕНША ЖИРНІСТЬ */
         margin-bottom: 20px; 
+        opacity: 0.8; /* СВІТЛІШЕ */
     }
     .personal-info {
         display: flex;
         align-items: flex-start;
         gap: 15px;
+        margin-bottom: 20px; /* ЗБІЛЬШЕНО ВІДСТАНЬ (+15px) */
     }
     .photo {
         margin-top: 5px;
@@ -312,15 +321,23 @@
         object-fit: cover;
         border: 1px solid rgba(255, 255, 255, 0.4);
     }
-    .details { display: flex; flex-direction: column; gap: 15px; }
+    .details { display: flex; flex-direction: column; gap: 10px; /* ЗМЕНШЕНО ГАП */ }
     .detail-item { display: flex; flex-direction: column; }
     .detail-item .label, .detail-item .value {
-        font-size: 13px; /* Зменшено розмір букв */
+        font-size: 13px; /* ЗМЕНШЕНО РОЗМІР */
         font-weight: 500;
         color: var(--text-color);
     }
     .detail-item .label {
         color: var(--label-color);
+        white-space: pre-wrap; /* Дозволити переноси рядків */
+    }
+    .signature-placeholder {
+      width: 100px; /* Adjust as needed */
+      height: 40px; /* Adjust as needed */
+      object-fit: contain;
+      margin-top: 5px;
+      border-bottom: 1px dashed #555; /* Simulate signature line */
     }
 
     .status-banner-wrapper {
@@ -328,7 +345,12 @@
       overflow: hidden;
       white-space: nowrap;
       padding: 5px 0;
-      margin-top: 30px; /* Збільшено відстань між фото та бігаючою строкою (15px + 15px default gap) */
+      flex-shrink: 0; /* Prevent it from shrinking */
+    }
+    .status-banner {
+      display: flex;
+      width: max-content;
+      animation: marquee 12s linear infinite;
     }
     @keyframes marquee {
         0% { transform: translateX(0); }
@@ -341,7 +363,7 @@
         white-space: nowrap;
     }
 
-    .info-section { padding: 20px; }
+    .info-section { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; justify-content: flex-end; }
     .name-section {
         display: flex;
         justify-content: space-between;
@@ -356,8 +378,8 @@
         word-break: break-word;
     }
     .more-options {
-        width: 18px; /* Зменшено в 2 рази */
-        height: 18px; /* Зменшено в 2 рази */
+        width: 18px; /* ЗМЕНШЕНО ВДВІЧІ */
+        height: 18px; /* ЗМЕНШЕНО ВДВІЧІ */
         background-color: #2c2c2e;
         border-radius: 50%;
         display: flex;
@@ -368,8 +390,8 @@
         margin-bottom: 2px;
     }
     .more-options svg { 
-        width: 12px; /* Підлаштовано під новий розмір */
-        height: 12px; /* Підлаштовано під новий розмір */
+        width: 10px; /* ЗМЕНШЕНО ВДВІЧІ */
+        height: 10px; /* ЗМЕНШЕНО ВДВІЧІ */
         fill: #fff; 
     }
 
@@ -411,185 +433,165 @@
     #update-notification { position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%); background-color: #28a745; color: white; padding: 10px 20px; border-radius: 20px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); z-index: 200; cursor: pointer; font-size: 14px; font-weight: 500; display: none; }
 
     #qr-timer { font-size: 18px; font-weight: 700; color: var(--text-color); }
-    #qr-timer-passport { font-size: 18px; font-weight: 700; color: var(--text-color); } /* For the new passport card */
     .flip-card-back h3 { font-weight: 700; font-size: 16px; }
     .flip-card-back img { width: 200px; height: 200px; }
 
     /* --- СТИЛІ ДЛЯ СТОРІНКИ МЕНЮ --- */
     #page-menu {
-        background-color: #e3f2fd; /* Light blue background as in image */
-        display: flex;
-        flex-direction: column;
-        padding-top: env(safe-area-inset-top, 20px); /* Adjust for notch/status bar */
-        padding-bottom: 0; /* Nav bar will cover bottom initially */
-        overflow-y: auto; /* Enable scrolling for menu if too long */
-        -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+        background-color: var(--menu-bg-color);
+        padding: 0 0 20px 0; /* Adjust padding for bottom nav */
+        overflow-y: auto; /* Allow scrolling for menu content */
+        visibility: hidden; /* Hide by default */
+        opacity: 0; /* Hide by default */
+        transition: opacity 0.4s ease-in-out;
+        display: block; /* Ensure block display for scrolling */
     }
     #page-menu.active {
-      padding-bottom: 90px; /* Make space for the bottom nav when active */
+        visibility: visible;
+        opacity: 1;
     }
-
     .menu-header {
-        padding: 20px;
-        padding-bottom: 10px;
-        text-align: left;
+        padding: 20px 20px 10px;
     }
     .menu-header h1 {
         font-size: 32px;
-        font-weight: 700;
-        color: var(--text-color);
+        font-weight: 600;
         margin-bottom: 5px;
     }
     .menu-header p {
         font-size: 14px;
-        font-weight: 500;
-        color: var(--label-color);
+        color: #555;
     }
-
+    .menu-sections {
+        padding: 0 16px;
+    }
     .menu-section {
-        background-color: #fff;
+        background-color: var(--menu-item-bg);
         border-radius: 12px;
-        margin: 10px 15px;
+        overflow: hidden;
+        margin-bottom: var(--menu-section-spacing);
         box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-        overflow: hidden; /* For rounded corners on inner items */
     }
-
     .menu-item {
         display: flex;
         align-items: center;
-        padding: 12px 15px;
-        text-decoration: none;
-        color: var(--text-color);
+        padding: 12px 16px;
+        color: var(--menu-item-text);
         font-size: 17px;
         font-weight: 500;
+        border-bottom: 1px solid var(--menu-item-border);
         cursor: pointer;
-        transition: background-color 0.1s ease;
-        -webkit-tap-highlight-color: rgba(0,0,0,0.1); /* iOS tap effect */
     }
-    .menu-item:not(:last-child) {
-        border-bottom: 1px solid #f2f2f7; /* Separator line */
+    .menu-item:last-child {
+        border-bottom: none;
     }
     .menu-item:active {
-        background-color: #f5f5f7;
+        background-color: #f0f0f0;
     }
     .menu-item-icon {
-        width: 24px;
-        height: 24px;
-        margin-right: 15px;
+        width: 28px;
+        height: 28px;
+        border-radius: 6px;
+        background-color: var(--menu-item-icon-bg);
         display: flex;
         justify-content: center;
         align-items: center;
+        margin-right: 12px;
         flex-shrink: 0;
     }
-    .menu-item-icon img, .menu-item-icon svg {
-        width: 100%;
-        height: 100%;
-        color: #333; /* Default icon color */
+    .menu-item-icon svg {
+        width: 18px;
+        height: 18px;
+        fill: var(--menu-item-icon-color);
     }
-    .menu-item-text {
+    .menu-item-label {
         flex-grow: 1;
     }
     .menu-item-arrow {
-        width: 10px;
-        height: 10px;
-        border-right: 2px solid #ccc;
-        border-bottom: 2px solid #ccc;
-        transform: rotate(-45deg);
-        margin-left: 10px;
+        width: 12px;
+        height: 12px;
+        background-color: transparent; /* Example: fill for arrow */
+        margin-left: auto;
     }
-
-    /* --- СТИЛІ ДЛЯ МОДАЛЬНОГО ВІКНА ПІДПИСУ --- */
-    .signature-modal-overlay {
+    .menu-item-arrow svg {
+        fill: #ccc;
+    }
+    
+    /* --- СТИЛІ ДЛЯ SIGNATURE PAD --- */
+    #signature-pad-container {
         position: fixed;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 1000;
-        opacity: 0;
-        visibility: hidden;
-        transition: opacity 0.3s ease-out, visibility 0.3s ease-out;
-    }
-    .signature-modal-overlay.visible {
-        opacity: 1;
-        visibility: visible;
-    }
-    .signature-modal {
-        background-color: #fff;
-        border-radius: 15px;
-        padding: 20px;
-        margin: 20px;
-        max-width: 400px;
-        width: calc(100% - 40px);
-        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        background-color: #f0f2f5; /* Light background */
         display: flex;
         flex-direction: column;
-        align-items: center;
+        z-index: 1000;
+        transform: translateY(100%); /* Start off-screen */
+        transition: transform 0.3s ease-out;
     }
-    .signature-modal h2 {
-        font-size: 22px;
+    #signature-pad-container.visible {
+        transform: translateY(0);
+    }
+    .signature-pad-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 20px;
+        background-color: #fff;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        z-index: 10;
+    }
+    .signature-pad-header h2 {
+        font-size: 20px;
         font-weight: 600;
-        margin-bottom: 15px;
-        color: var(--text-color);
+    }
+    .signature-pad-close {
+        font-size: 16px;
+        color: #007aff; /* iOS blue */
+        cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
+    }
+    .signature-canvas-wrapper {
+        flex-grow: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        overflow: hidden; /* Ensure canvas doesn't overflow */
     }
     #signature-canvas {
-        border: 1px solid #ccc;
-        border-radius: 8px;
-        background-color: #f9f9f9;
-        touch-action: none; /* Prevent scrolling on canvas */
-        margin-bottom: 20px;
-        max-width: 100%; /* Ensure canvas scales on smaller screens */
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 12px;
+        touch-action: none; /* Prevent scrolling/zooming on canvas */
+        max-width: 100%;
+        max-height: 100%;
     }
-    .signature-buttons {
+    .signature-pad-actions {
         display: flex;
-        gap: 15px;
-        width: 100%;
-        justify-content: center;
+        justify-content: space-around;
+        padding: 15px 20px;
+        background-color: #fff;
+        border-top: 1px solid #eee;
     }
-    .signature-buttons button {
+    .signature-pad-btn {
         padding: 12px 25px;
+        border: none;
         border-radius: 10px;
         font-size: 16px;
         font-weight: 600;
         cursor: pointer;
-        border: none;
-        transition: background-color 0.2s ease;
+        -webkit-tap-highlight-color: transparent;
     }
-    .signature-buttons button.clear-btn {
+    .signature-pad-btn.clear {
         background-color: #e0e0e0;
         color: #333;
     }
-    .signature-buttons button.clear-btn:active {
-        background-color: #d0d0d0;
-    }
-    .signature-buttons button.save-btn {
-        background-color: #007aff; /* iOS blue */
+    .signature-pad-btn.save {
+        background-color: #007aff;
         color: #fff;
-    }
-    .signature-buttons button.save-btn:active {
-        background-color: #005ecb;
-    }
-
-    /* --- Passport Card Signature --- */
-    .passport-signature {
-        position: absolute;
-        bottom: 110px; /* Adjust based on exact position in the image */
-        right: 20px; /* Adjust based on exact position in the image */
-        width: 120px; /* Size of the signature */
-        height: 60px; /* Size of the signature */
-        opacity: 0.8; /* Translucency */
-        transform: rotate(-10deg); /* Diagonal orientation */
-        z-index: 10;
-        pointer-events: none; /* Don't block clicks on card */
-    }
-    .passport-signature img {
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
     }
   </style>
 
@@ -648,133 +650,131 @@
       </div>
 
       <div class="page" id="page-docs">
-        <div>
-            <div class="slider-container">
-              <div class="slider-wrapper">
-                <!-- СЛАЙД 1: єДокумент -->
-                <div class="slide">
-                  <div class="flip-card">
-                    <div class="flip-card-inner">
-                      <div class="flip-card-front">
-                        <div class="document-container">
-                            <div class="document-content">
-                              <h1 class="document-title">єДокумент</h1>
-                              <div class="personal-info">
-                                <div class="photo">
-                                  <img src="./pasport.png" alt="Фото">
-                                </div>
-                                <div class="details">
-                                  <div class="detail-item">
-                                    <span class="label">Дата<br>народження:</span> <!-- Змінено текст з переносом -->
-                                    <span class="value">29.07.2005</span>
+          <div>
+              <div class="slider-container">
+                <div class="slider-wrapper">
+                  <!-- СЛАЙД 1: ЄДОКУМЕНТ -->
+                  <div class="slide">
+                    <div class="flip-card">
+                      <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                          <div class="document-container">
+                              <div class="document-content">
+                                <h1 class="document-title">єДокумент</h1>
+                                <div class="personal-info">
+                                  <div class="photo">
+                                    <img src="./pasport.png" alt="Фото" loading="lazy">
                                   </div>
-                                  <div class="detail-item">
-                                    <span class="label">РНОКПП:</span>
-                                    <span class="value">3856163250</span>
+                                  <div class="details">
+                                    <div class="detail-item">
+                                      <span class="label">Дата<br>народження:</span>
+                                      <span class="value">29.07.2005</span>
+                                    </div>
+                                    <div class="detail-item">
+                                      <span class="label">РНОКПП:</span>
+                                      <span class="value">3856163250</span>
+                                    </div>
                                   </div>
                                 </div>
                               </div>
-                            </div>
-                            <div class="status-banner-wrapper">
-                              <div class="status-banner">
-                                <span>А ми нашу славну Україну, гей, гей, розвеселимо!</span>
-                                <span>А ми нашу славну Україну, гей, гей, розвеселимо!</span>
-                              </div>
-                            </div>
-                            <div class="info-section">
-                              <div class="name-section">
-                                <div class="full-name">
-                                  <span class="name-part">Іванов</span>
-                                  <span class="name-part">Іван</span>
-                                  <span class="name-part">Іванович</span>
-                                </div>
-                                <div class="more-options">
-                                  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M6 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm12 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>
+                              <div class="status-banner-wrapper">
+                                <div class="status-banner">
+                                  <span>А ми нашу славну Україну, гей, гей, розвеселимо!</span>
+                                  <span>А ми нашу славну Україну, гей, гей, розвеселимо!</span>
                                 </div>
                               </div>
-                            </div>
+                              <div class="info-section">
+                                <div class="name-section">
+                                  <div class="full-name">
+                                    <span class="name-part">Іванов</span>
+                                    <span class="name-part">Іван</span>
+                                    <span class="name-part">Іванович</span>
+                                  </div>
+                                  <div class="more-options">
+                                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M6 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm12 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>
+                                  </div>
+                                </div>
+                              </div>
+                          </div>
                         </div>
-                      </div>
-                      <div class="flip-card-back">
-                          <h3>QR-код дійсний</h3>
-                          <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=Example" alt="QR">
-                          <div id="qr-timer"></div>
+                        <div class="flip-card-back">
+                            <h3>QR-код дійсний</h3>
+                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=Example" alt="QR">
+                            <div id="qr-timer"></div>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-                <!-- СЛАЙД 2: Паспорт громадянина України (новий документ) -->
-                <div class="slide">
+                  <!-- СЛАЙД 2: ПАСПОРТ ГРОМАДЯНИНА УКРАЇНИ (З ПІДПИСОМ) -->
+                  <div class="slide" id="passport-ukraine-slide">
                     <div class="flip-card">
-                        <div class="flip-card-inner">
-                            <div class="flip-card-front">
-                                <div class="document-container passport-document">
-                                    <div class="document-content">
-                                        <h1 class="document-title">Паспорт громадянина<br>України</h1>
-                                        <div class="personal-info">
-                                            <div class="photo">
-                                                <img src="./pasport.png" alt="Фото">
-                                            </div>
-                                            <div class="details">
-                                                <div class="detail-item">
-                                                    <span class="label">Дата<br>народження:</span>
-                                                    <span class="value">29.07.2005</span>
-                                                </div>
-                                                <div class="detail-item">
-                                                    <span class="label">Номер:</span>
-                                                    <span class="value">013407632</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- Місце для підпису -->
-                                        <div class="passport-signature" id="passport-signature-display" style="display: none;">
-                                            <img src="" alt="Ваш підпис">
-                                        </div>
-
-                                        <div class="status-banner-wrapper">
-                                            <div class="status-banner">
-                                                <span>Документ оновлено 12.09.2025 19:32 • Документ оновлено 12.09.2025 19:32 • </span>
-                                                <span>Документ оновлено 12.09.2025 19:32 • Документ оновлено 12.09.2025 19:32 • </span>
-                                            </div>
-                                        </div>
-                                        <div class="info-section">
-                                            <div class="name-section">
-                                                <div class="full-name">
-                                                    <span class="name-part">Іванов</span>
-                                                    <span class="name-part">Іван</span>
-                                                    <span class="name-part">Іванович</span>
-                                                </div>
-                                                <div class="more-options">
-                                                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M6 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm12 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>
-                                                </div>
-                                            </div>
-                                        </div>
+                      <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                          <div class="document-container">
+                              <div class="document-content">
+                                <h1 class="document-title">Паспорт громадянина<br>України</h1>
+                                <div class="personal-info">
+                                  <div class="photo">
+                                    <img src="./pasport.png" alt="Фото" loading="lazy">
+                                  </div>
+                                  <div class="details">
+                                    <div class="detail-item">
+                                      <span class="label">Дата<br>народження:</span>
+                                      <span class="value">29.07.2005</span>
                                     </div>
+                                    <div class="detail-item">
+                                      <span class="label">Номер:</span>
+                                      <span class="value">013407632</span>
+                                    </div>
+                                    <div class="detail-item" style="margin-top: 5px;">
+                                      <img id="passport-signature-image" class="signature-placeholder" src="" alt="Підпис" style="display: none;">
+                                    </div>
+                                  </div>
                                 </div>
-                            </div>
-                            <div class="flip-card-back">
-                                <h3>QR-код дійсний</h3>
-                                <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=PassportExample" alt="QR">
-                                <div id="qr-timer-passport"></div>
-                            </div>
+                              </div>
+                              <div class="status-banner-wrapper">
+                                <div class="status-banner">
+                                  <span>FakeDiia FakeDiia FakeDiia FakeDiia FakeDiia FakeDiia FakeDiia FakeDiia FakeDiia FakeDiia FakeDiia FakeDiia </span>
+                                  <span>FakeDiia FakeDiia FakeDiia FakeDiia FakeDiia FakeDiia FakeDiia FakeDiia FakeDiia FakeDiia FakeDiia FakeDiia </span>
+                                </div>
+                              </div>
+                              <div class="info-section">
+                                <div class="name-section">
+                                  <div class="full-name">
+                                    <span class="name-part">Іванов</span>
+                                    <span class="name-part">Іван</span>
+                                    <span class="name-part">Іванович</span>
+                                  </div>
+                                  <div class="more-options">
+                                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M6 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm12 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>
+                                  </div>
+                                </div>
+                              </div>
+                          </div>
                         </div>
+                        <div class="flip-card-back">
+                            <h3>QR-код дійсний</h3>
+                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=ExamplePassport" alt="QR">
+                            <div id="qr-timer-passport"></div>
+                        </div>
+                      </div>
                     </div>
+                  </div>
+                  <!-- СЛАЙД 3 -->
+                  <div class="slide"><div class="document-container empty-card">Картка платника податків</div></div>
+                  <!-- СЛАЙД 4 -->
+                  <div class="slide"><div class="document-container empty-card">Додати документ</div></div>
                 </div>
-                <!-- СЛАЙД 3 -->
-                <div class="slide"><div class="document-container empty-card">Картка платника податків</div></div>
-                <!-- СЛАЙД 4 -->
-                <div class="slide"><div class="document-container empty-card">Додати документ</div></div>
               </div>
-            </div>
-        </div>
-        <div class="page-indicator-container">
-            <div class="page-indicator">
-              <span class="dot active"></span>
-              <span class="dot"></span>
-              <span class="dot"></span>
-              <span class="dot"></span>
-            </div>
-        </div>
+          </div>
+          <div class="page-indicator-container">
+              <div class="page-indicator">
+                <span class="dot active"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+              </div>
+          </div>
       </div>
 
       <div class="page" id="page-services">
@@ -783,90 +783,150 @@
 
       <div class="page" id="page-menu">
         <div class="menu-header">
-            <h1>Меню</h1>
+            <h1 style="color: #000;">Меню</h1>
             <p>Версія Дії: 4.13.1.1488</p>
         </div>
+        <div class="menu-sections">
+            <div class="menu-section">
+                <div class="menu-item" id="menu-notifications">
+                    <div class="menu-item-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M21 6H3C2.44772 6 2 6.44772 2 7V17C2 17.5523 2.44772 18 3 18H21C21.5523 18 22 17.5523 22 17V7C22 6.44772 21.5523 6 21 6ZM3 4C1.34315 4 0 5.34315 0 7V17C0 18.6569 1.34315 20 3 20H21C22.6569 20 24 18.6569 24 17V7C24 5.34315 22.6569 4 21 4H3ZM3.29289 8.29289C3.68342 7.90237 4.31658 7.90237 4.70711 8.29289L12 15.5858L19.2929 8.29289C19.6834 7.90237 20.3166 7.90237 20.7071 8.29289C21.0976 8.68342 21.0976 9.31658 20.7071 9.70711L12.7071 17.7071C12.3166 18.0976 11.6834 18.0976 11.2929 17.7071L3.29289 9.70711C2.90237 9.31658 2.90237 8.68342 3.29289 8.29289Z" fill="currentColor"/>
+                        </svg>
+                    </div>
+                    <span class="menu-item-label">Повідомлення</span>
+                    <div class="menu-item-arrow">
+                        <svg width="8" height="14" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M1 1L7 7L1 13" stroke="#CCCCCC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
 
-        <div class="menu-section">
-            <div class="menu-item" id="menu-notifications">
-                <div class="menu-item-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-mail"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+            <div class="menu-section">
+                <div class="menu-item" id="menu-diia-signature">
+                    <div class="menu-item-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2Z" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M11 8V16L17 12L11 8Z" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M11.5 12H17" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <span class="menu-item-label">Дія.Підпис</span>
+                    <div class="menu-item-arrow">
+                        <svg width="8" height="14" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M1 1L7 7L1 13" stroke="#CCCCCC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
                 </div>
-                <span class="menu-item-text">Повідомлення</span>
-                <div class="menu-item-arrow"></div>
-            </div>
-            <div class="menu-item" id="menu-diia-signature">
-                <div class="menu-item-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-key"><path d="M21 2L14 9l6.5 6.5c.6.6.6 1.5 0 2.1l-1.9 1.9c-.6.6-1.5.6-2.1 0L9 14 2 21"></path></svg>
+                <div class="menu-item" id="menu-signature-history">
+                    <div class="menu-item-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 3V12L16.5 14.25" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <span class="menu-item-label">Історія підписань</span>
+                    <div class="menu-item-arrow">
+                        <svg width="8" height="14" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M1 1L7 7L1 13" stroke="#CCCCCC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
                 </div>
-                <span class="menu-item-text">Дія.Підпис</span>
-                <div class="menu-item-arrow"></div>
             </div>
-            <div class="menu-item" id="menu-signature-history">
-                <div class="menu-item-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 10 9"></polyline></svg>
-                </div>
-                <span class="menu-item-text">Історія підписань</span>
-                <div class="menu-item-arrow"></div>
-            </div>
-        </div>
 
-        <div class="menu-section">
-            <div class="menu-item" id="menu-settings">
-                <div class="menu-item-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-settings"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+            <div class="menu-section">
+                <div class="menu-item" id="menu-settings">
+                    <div class="menu-item-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2C13.6568 2 15.1569 2.87321 16 4.29289C16.8431 2.87321 18.3432 2 20 2C22.2091 2 24 3.79086 24 6C24 7.65685 23.1268 9.15693 21.7071 10C23.1268 10.8431 24 12.3431 24 14C24 16.2091 22.2091 18 20 18C18.3432 18 16.8431 17.1268 16 15.7071C15.1569 17.1268 13.6568 18 12 18C9.79086 18 8 16.2091 8 14C8 12.3431 8.87321 10.8431 10.2929 10C8.87321 9.15693 8 7.65685 8 6C8 3.79086 9.79086 2 12 2Z" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12 18V22" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M20 18V22" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M4 18V22" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <span class="menu-item-label">Налаштування</span>
+                    <div class="menu-item-arrow">
+                        <svg width="8" height="14" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M1 1L7 7L1 13" stroke="#CCCCCC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
                 </div>
-                <span class="menu-item-text">Налаштування</span>
-                <div class="menu-item-arrow"></div>
-            </div>
-            <div class="menu-item" id="menu-update-app">
-                <div class="menu-item-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-refresh-cw"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.5 14h-3a9 9 0 0 1 16.7-6.2"></path><path d="M20.5 10h3a9 9 0 0 1-16.7 6.2"></path></svg>
+                <div class="menu-item" id="menu-update-app">
+                    <div class="menu-item-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M21 12V3H3V12" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12 3L12 21" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M16 17L12 21L8 17" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <span class="menu-item-label">Оновити застосунок</span>
+                    <div class="menu-item-arrow">
+                        <svg width="8" height="14" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M1 1L7 7L1 13" stroke="#CCCCCC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
                 </div>
-                <span class="menu-item-text">Оновити застосунок</span>
-                <div class="menu-item-arrow"></div>
-            </div>
-            <div class="menu-item" id="menu-connected-devices">
-                <div class="menu-item-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-smartphone"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12" y2="18"></line></svg>
+                <div class="menu-item" id="menu-connected-devices">
+                    <div class="menu-item-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M7 21H17C18.1046 21 19 20.1046 19 19V5C19 3.89543 18.1046 3 17 3H7C5.89543 3 5 3.89543 5 5V19C5 20.1046 5.89543 21 7 21Z" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12 18V18.01" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <span class="menu-item-label">Підключені пристрої</span>
+                    <div class="menu-item-arrow">
+                        <svg width="8" height="14" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M1 1L7 7L1 13" stroke="#CCCCCC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
                 </div>
-                <span class="menu-item-text">Підключені пристрої</span>
-                <div class="menu-item-arrow"></div>
             </div>
-        </div>
 
-        <div class="menu-section">
-            <div class="menu-item" id="menu-support">
-                <div class="menu-item-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-message-square"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+            <div class="menu-section">
+                <div class="menu-item" id="menu-support">
+                    <div class="menu-item-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M8 9H16" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M8 13H12" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <span class="menu-item-label">Служба підтримки</span>
+                    <div class="menu-item-arrow">
+                        <svg width="8" height="14" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M1 1L7 7L1 13" stroke="#CCCCCC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
                 </div>
-                <span class="menu-item-text">Служба підтримки</span>
-                <div class="menu-item-arrow"></div>
-            </div>
-            <div class="menu-item" id="menu-copy-device-number">
-                <div class="menu-item-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-copy"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                <div class="menu-item" id="menu-copy-device-number">
+                    <div class="menu-item-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M8 4H18C19.1046 4 20 4.89543 20 6V16C20 17.1046 19.1046 18 18 18H8C6.89543 18 6 17.1046 6 16V6C6 4.89543 6.89543 4 8 4Z" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M4 8H2C2 6.89543 2.89543 6 4 6V8ZM4 8V18C4 19.1046 3.10457 20 2 20H14V22C15.1046 22 16 21.1046 16 20V18L18 18L18 16L16 16V14L18 14L18 12L16 12V10L18 10L18 8L16 8H4Z" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <span class="menu-item-label">Копіювати номер пристрою</span>
+                    <div class="menu-item-arrow">
+                        <svg width="8" height="14" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M1 1L7 7L1 13" stroke="#CCCCCC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
                 </div>
-                <span class="menu-item-text">Копіювати номер пристрою</span>
-                <div class="menu-item-arrow"></div>
-            </div>
-            <div class="menu-item" id="menu-faq">
-                <div class="menu-item-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-help-circle"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
-                </div>
-                <span class="menu-item-text">Питання та відповіді</span>
-                <div class="menu-item-arrow"></div>
-            </div>
-        </div>
-
-        <!-- Signature Modal -->
-        <div class="signature-modal-overlay" id="signature-modal-overlay">
-            <div class="signature-modal">
-                <h2>Ваш підпис</h2>
-                <canvas id="signature-canvas" width="300" height="150"></canvas>
-                <div class="signature-buttons">
-                    <button class="clear-btn" id="clear-signature-btn">Стерти</button>
-                    <button class="save-btn" id="save-signature-btn">Продовжити</button>
+                <div class="menu-item" id="menu-faq">
+                    <div class="menu-item-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2Z" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12 16.5V17" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12 13C12.8284 13 13.5 12.3284 13.5 11.5C13.5 10.6716 12.8284 10 12 10C11.1716 10 10.5 10.6716 10.5 11.5C10.5 12.3284 11.1716 13 12 13Z" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <span class="menu-item-label">Питання та відповіді</span>
+                    <div class="menu-item-arrow">
+                        <svg width="8" height="14" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M1 1L7 7L1 13" stroke="#CCCCCC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
                 </div>
             </div>
         </div>
@@ -885,484 +945,478 @@
           <span class="nav-label">Документи</span>
         </div>
         <div class="nav-item" data-page="page-services">
-          <div class="nav-icon"><svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg"><mask id="path-1-inside-1_13657_22172" fill="white"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 23.6154C5.84037 23.6154 4.18232 23.3034 2.74717 21.8682C1.30306 20.4241 1 18.775 1 12.6154C1 6.45573 1.31199 4.80661 2.74717 3.36253C4.18232 1.92735 5.84037 1.61536 12 1.61536C18.1596 1.61536 19.8177 1.92735 21.2528 3.36253C22.6969 4.80661 23 6.45573 23 12.6154C23 18.775 22.6969 20.4241 21.2528 21.8682C19.8177 23.3034 18.1596 23.6154 12 23.6154Z"/></mask><path d="M2.74717 21.8682L3.80785 20.8075L3.80782 20.8075L2.74717 21.8682ZM2.74717 3.36253L1.68649 2.30188L1.68324 2.30515L2.74717 3.36253ZM21.2528 3.36253L20.1922 4.42318L20.1922 4.42319L21.2528 3.36253ZM21.2528 21.8682L20.1922 20.8075L20.1922 20.8075L21.2528 21.8682ZM12 22.1154C8.90493 22.1154 7.08603 22.0336 5.88008 21.806C4.78166 21.5987 4.2908 21.2905 3.80785 20.8075L1.6865 22.9288C2.63869 23.881 3.69443 24.4465 5.32373 24.7539C6.84551 25.0411 8.93544 25.1154 12 25.1154V22.1154ZM3.80782 20.8075C3.31966 20.3194 3.01222 19.8284 2.80620 18.7329C2.57961 17.528 2.5 15.7117 2.5 12.6154H-0.5C-0.5 15.6786 -0.428084 17.7667 -0.142115 19.2873C0.164424 20.9173 0.730574 21.9729 1.68652 22.9289L3.80782 20.8075ZM2.5 12.6154C2.5 9.52026 2.58179 7.70371 2.80933 6.49901C3.01645 5.40245 3.32467 4.90936 3.81111 4.4199L1.68324 2.30515C0.734497 3.25978 0.169128 4.31329 -0.138544 5.94221C-0.425792 7.46301 -0.5 9.55083 -0.5 12.6154H2.5ZM3.80785 4.42318C4.2908 3.94021 4.78166 3.63203 5.88008 3.42473C7.08603 3.19714 8.90493 3.11536 12 3.11536V0.115356C8.93544 0.115356 6.84551 0.189572 5.32373 0.476771C3.69443 0.784262 2.63869 1.34967 1.68650 2.30188L3.80785 4.42318ZM12 3.11536C15.0951 3.11536 16.914 3.19714 18.1199 3.42473C19.2183 3.63203 19.7092 3.94021 20.1922 4.42318L22.3135 2.30188C21.3613 1.34967 20.3056 0.784261 18.6763 0.476771C17.1545 0.189572 15.0646 0.115356 12 0.115356V3.11536ZM20.1922 4.42319C20.6803 4.91135 20.9878 5.40236 21.1938 6.49785C21.4204 7.70272 21.5 9.51898 21.5 12.6154H24.5C24.5 9.55211 24.4281 7.46400 24.1421 5.94338C23.8356 4.31338 23.2694 3.25779 22.3135 2.30187L20.1922 4.42319ZM21.5 12.6154C21.5 15.7117 21.4204 17.528 21.1938 18.7329C20.9878 19.8284 20.6803 20.3194 20.1922 20.8075L22.3135 22.9288C23.2694 21.9729 23.8356 20.9173 24.1421 19.2873C24.4281 17.7667 24.5 15.6786 24.5 12.6154H21.5ZM20.1922 20.8075C19.7092 21.2905 19.2183 21.5987 18.1199 21.806C16.9140 22.0336 15.0951 22.1154 12 22.1154V25.1154C15.0646 25.1154 17.1545 25.0411 18.6763 24.7539C20.3056 24.4465 21.3613 23.8810 22.3135 22.9288L20.1922 20.8075Z" fill="white" mask="url(#path-1-inside-1_13657_22172)"/><path d="M14.1433 5.61549C14.1302 5.61651 14.1171 5.61817 14.1041 5.62046C14.0557 5.62707 14.0093 5.64237 13.9678 5.66544C13.9263 5.68851 13.8906 5.71885 13.8628 5.7546L7.39955 13.6136C7.36155 13.6611 7.33901 13.7169 7.33439 13.775C7.32976 13.8331 7.34323 13.8912 7.37333 13.9429C7.40342 13.9947 7.44899 14.0381 7.50506 14.0685C7.56113 14.099 7.62555 14.1151 7.69130 14.1154H11.1418L9.32393 19.1885C9.29398 19.2613 9.29508 19.3413 9.32702 19.4134C9.35895 19.4856 9.41953 19.5449 9.49737 19.5803C9.57521 19.6156 9.66495 19.6246 9.74976 19.6056C9.83456 19.5865 9.90858 19.5407 9.95792 19.4767L16.6007 11.6171C16.6387 11.5696 16.6613 11.5138 16.6659 11.4557C16.6705 11.3976 16.6571 11.3396 16.6270 11.2878C16.5969 11.2360 16.5513 11.1926 16.4952 11.1622C16.4392 11.1318 16.3748 11.1156 16.3090 11.1154H12.8417L14.4968 6.02785C14.5138 5.97950 14.5175 5.92825 14.5076 5.87837C14.4977 5.82850 14.4745 5.78143 14.4400 5.74109C14.4054 5.70076 14.3604 5.66831 14.3088 5.64647C14.2573 5.62462 14.2005 5.61400 14.1433 5.61549Z" fill="white"/></svg></div>
+          <div class="nav-icon"><svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg"><mask id="path-1-inside-1_13657_22172" fill="white"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 23.6154C5.84037 23.6154 4.18232 23.3034 2.74717 21.8682C1.30306 20.4241 1 18.775 1 12.6154C1 6.45573 1.31199 4.80661 2.74717 3.36253C4.18232 1.92735 5.84037 1.61536 12 1.61536C18.1596 1.61536 19.8177 1.92735 21.2528 3.36253C22.6969 4.80661 23 6.45573 23 12.6154C23 18.775 22.6969 20.4241 21.2528 21.8682C19.8177 23.3034 18.1596 23.6154 12 23.6154Z"/></mask><path d="M2.74717 21.8682L3.80785 20.8075L3.80782 20.8075L2.74717 21.8682ZM2.74717 3.36253L1.68649 2.30188L1.68324 2.30515L2.74717 3.36253ZM21.2528 3.36253L20.1922 4.42318L20.1922 4.42319L21.2528 3.36253ZM21.2528 21.8682L20.1922 20.8075L20.1922 20.8075L21.2528 21.8682ZM12 22.1154C8.90493 22.1154 7.08603 22.0336 5.88008 21.806C4.78166 21.5987 4.2908 21.2905 3.80785 20.8075L1.6865 22.9288C2.63869 23.881 3.69443 24.4465 5.32373 24.7539C6.84551 25.0411 8.93544 25.1154 12 25.1154V22.1154ZM3.80782 20.8075C3.31966 20.3194 3.01222 19.8284 2.80620 18.7329C2.57961 17.528 2.5 15.7117 2.5 12.6154H-0.5C-0.5 15.6786 -0.428084 17.7667 -0.142115 19.2873C0.164424 20.9173 0.730574 21.9729 1.68652 22.9289L3.80782 20.8075ZM2.5 12.6154C2.5 9.52026 2.58179 7.70371 2.80933 6.49901C3.01645 5.40245 3.32467 4.90936 3.81111 4.4199L1.68324 2.30515C0.734497 3.25978 0.169128 4.31329 -0.138544 5.94221C-0.425792 7.46301 -0.5 9.55083 -0.5 12.6154H2.5ZM3.80785 4.42318C4.2908 3.94021 4.78166 3.63203 5.88008 3.42473C7.08603 3.19714 8.90493 3.11536 12 3.11536V0.115356C8.93544 0.115356 6.84551 0.189572 5.32373 0.476771C3.69443 0.784262 2.63869 1.34967 1.68650 2.30188L3.80785 4.42318ZM12 3.11536C15.0951 3.11536 16.914 3.19714 18.1199 3.42473C19.2183 3.63203 19.7092 3.94021 20.1922 4.42318L22.3135 2.30188C21.3613 1.34967 20.3056 0.784261 18.6763 0.476771C17.1545 0.189572 15.0646 0.115356 12 0.115356V3.11536ZM20.1922 4.42319C20.6803 4.91135 20.9878 5.40236 21.1938 6.49785C21.4204 7.70272 21.5 9.51898 21.5 12.6154H24.5C24.5 9.55211 24.4281 7.464 24.1421 5.94338C23.8356 4.31338 23.2694 3.25779 22.3135 2.30187L20.1922 4.42319ZM21.5 12.6154C21.5 15.7117 21.4204 17.528 21.1938 18.7329C20.9878 19.8284 20.6803 20.3194 20.1922 20.8075L22.3135 22.9288C23.2694 21.9729 23.8356 20.9173 24.1421 19.2873C24.4281 17.7667 24.5 15.6786 24.5 12.6154H21.5ZM20.1922 20.8075C19.7092 21.2905 19.2183 21.5987 18.1199 21.806C16.914 22.0336 15.0951 22.1154 12 22.1154V25.1154C15.0646 25.1154 17.1545 25.0411 18.6763 24.7539C20.3056 24.4465 21.3613 23.881 22.3135 22.9288L20.1922 20.8075Z" fill="white" mask="url(#path-1-inside-1_13657_22172)"/><path d="M14.1433 5.61549C14.1302 5.61651 14.1171 5.61817 14.1041 5.62046C14.0557 5.62707 14.0093 5.64237 13.9678 5.66544C13.9263 5.68851 13.8906 5.71885 13.8628 5.7546L7.39955 13.6136C7.36155 13.6611 7.33901 13.7169 7.33439 13.775C7.32976 13.8331 7.34323 13.8912 7.37333 13.9429C7.40342 13.9947 7.44899 14.0381 7.50506 14.0685C7.56113 14.099 7.62555 14.1151 7.69130 14.1154H11.1418L9.32393 19.1885C9.29398 19.2613 9.29508 19.3413 9.32702 19.4134C9.35895 19.4856 9.41953 19.5449 9.49737 19.5803C9.57521 19.6156 9.66495 19.6246 9.74976 19.6056C9.83456 19.5865 9.90858 19.5407 9.95792 19.4767L16.6007 11.6171C16.6387 11.5696 16.6613 11.5138 16.6659 11.4557C16.6705 11.3976 16.6571 11.3396 16.627 11.2878C16.5969 11.236 16.5513 11.1926 16.4952 11.1622C16.4392 11.1318 16.3748 11.1156 16.3090 11.1154H12.8417L14.4968 6.02785C14.5138 5.97950 14.5175 5.92825 14.5076 5.87837C14.4977 5.82850 14.4745 5.78143 14.4400 5.74109C14.4054 5.70076 14.3604 5.66831 14.3088 5.64647C14.2573 5.62462 14.2005 5.614 14.1433 5.61549Z" fill="white"/></svg></div>
           <span class="nav-label">Сервіси</span>
         </div>
         <div class="nav-item" data-page="page-menu">
           <div class="nav-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_5391_4802)"><circle cx="12" cy="12" r="11.25" stroke="white" stroke-width="1.5"/><path d="M2.25208 19C4.43043 15.9719 7.98493 14 12 14C16.015 14 19.5695 15.9719 21.7479 19C21.4436 19.423 21.1125 19.8253 20.7571 20.2045C18.877 17.3693 15.6568 15.5 12 15.5C8.34319 15.5 5.12301 17.3693 3.24289 20.2045C2.88744 19.8253 2.55633 19.4229 2.25208 19Z" fill="white"/><rect x="9" y="5" width="6" height="7" rx="3" stroke="white" stroke-width="1.5"/></g><defs><clipPath id="clip0_5391_4802"><rect width="24" height="24" rx="12" fill="white"/></clipPath></defs></svg></div>
           <span class="nav-label">Меню</span>
         </div>
-      </nav>
+    </nav>
+  </div>
+
+  <!-- SIGNATURE PAD -->
+  <div id="signature-pad-container">
+    <div class="signature-pad-header">
+        <span class="signature-pad-close" id="signature-close-btn">Закрити</span>
+        <h2>Ваш підпис</h2>
+        <span></span> <!-- Placeholder for alignment -->
+    </div>
+    <div class="signature-canvas-wrapper">
+        <canvas id="signature-canvas"></canvas>
+    </div>
+    <div class="signature-pad-actions">
+        <button class="signature-pad-btn clear" id="signature-clear-btn">Стерти</button>
+        <button class="signature-pad-btn save" id="signature-save-btn">Продовжити</button>
+    </div>
   </div>
 
   <script>
-document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('DOMContentLoaded', () => {
 
-  // --- ЛОГІКА СТАРТОВОГО ЕКРАНУ ТА ЕКРАНУ ВХОДУ ---
-  const splashScreen = document.getElementById('splash-screen');
-  const loginScreen = document.getElementById('login-screen');
-  const appContainer = document.querySelector('.app-container');
-  
-
-
-  setTimeout(() => {
-      splashScreen.classList.add('hidden');
-      loginScreen.classList.add('visible');
+      // --- ЛОГІКА СТАРТОВОГО ЕКРАНУ ТА ЕКРАНУ ВХОДУ ---
+      const splashScreen = document.getElementById('splash-screen');
+      const loginScreen = document.getElementById('login-screen');
+      const appContainer = document.querySelector('.app-container');
       
       setTimeout(() => {
-          if (splashScreen) {
-            splashScreen.remove();
-          }
-      }, 500);
-
-  }, 2500);
-
-  // --- ЛОГІКА ВВОДУ ПАРОЛЮ ---
-  const passcodeDotsContainer = document.querySelector('.passcode-dots');
-  const passcodeDots = document.querySelectorAll('.passcode-dot');
-  const keypadBtns = document.querySelectorAll('.keypad-btn');
-  const backspaceBtn = document.getElementById('backspace-btn');
-  let passcode = '';
-  const correctPasscode = '0000';
-
-  const updateDots = () => {
-    passcodeDots.forEach((dot, index) => {
-      dot.classList.toggle('filled', index < passcode.length);
-    });
-  };
-
-  const resetLogin = () => {
-    passcode = '';
-    updateDots();
-    passcodeDotsContainer.classList.remove('shake');
-  }
-
-  const handleKeyPress = (key) => {
-    if (passcode.length < 4) {
-      passcode += key;
-      updateDots();
-    }
-
-    if (passcode.length === 4) {
-      setTimeout(() => {
-        if (passcode === correctPasscode) {
-          loginScreen.style.opacity = '0';
+          splashScreen.classList.add('hidden');
+          loginScreen.classList.add('visible');
+          
           setTimeout(() => {
-            loginScreen.remove();
-            appContainer.style.display = 'flex';
-            navigateToPage('page-docs');
-          }, 300);
-        } else {
-          passcodeDotsContainer.classList.add('shake');
-          setTimeout(resetLogin, 500);
-        }
-      }, 200);
-    }
-  };
+              if (splashScreen) {
+                splashScreen.remove();
+              }
+          }, 500);
 
-  keypadBtns.forEach(btn => {
-    if (btn.textContent.trim() !== '' && !btn.querySelector('img') && !btn.querySelector('svg')) {
-      btn.addEventListener('click', () => {
-        handleKeyPress(btn.textContent);
-      });
-    }
-  });
-  
-  backspaceBtn.addEventListener('click', () => {
-    if (passcode.length > 0) {
-        passcode = passcode.slice(0, -1);
+      }, 2500);
+
+      // --- ЛОГІКА ВВОДУ ПАРОЛЮ ---
+      const passcodeDotsContainer = document.querySelector('.passcode-dots');
+      const passcodeDots = document.querySelectorAll('.passcode-dot');
+      const keypadBtns = document.querySelectorAll('.keypad-btn');
+      const backspaceBtn = document.getElementById('backspace-btn');
+      let passcode = '';
+      const correctPasscode = '0000';
+
+      const updateDots = () => {
+        passcodeDots.forEach((dot, index) => {
+          dot.classList.toggle('filled', index < passcode.length);
+        });
+      };
+
+      const resetLogin = () => {
+        passcode = '';
         updateDots();
         passcodeDotsContainer.classList.remove('shake');
-    }
-  });
+      }
 
-  // --- НАВІГАЦІЯ ---
-  const navItems = document.querySelectorAll('.nav-item');
-  
-  const navigateToPage = (targetPageId) => {
-    const oldPage = document.querySelector('.page.active');
-    const newPage = document.getElementById(targetPageId);
-    
-    if (oldPage) oldPage.classList.remove('active');
-    if (newPage) newPage.classList.add('active');
-
-    navItems.forEach(nav => {
-        nav.classList.toggle('active', nav.dataset.page === targetPageId);
-    });
-
-    if (targetPageId === 'page-docs') {
-        setTimeout(initializeCarousel, 0); 
-    }
-  }
-
-  navItems.forEach(item => {
-    item.addEventListener('click', () => {
-      navigateToPage(item.dataset.page);
-    });
-  });
-  
-  document.querySelector('.page.active')?.classList.remove('active');
-  document.querySelector('.nav-item.active')?.classList.remove('active');
-
-
-  // --- ЛОГІКА СЛАЙДЕРА (ІНТЕРАКТИВНА АНІМАЦІЯ) ---
-  const sliderContainer = document.querySelector('.slider-container');
-  const sliderWrapper = document.querySelector('.slider-wrapper');
-  const slides = document.querySelectorAll('.slide');
-  const dots = document.querySelectorAll('.page-indicator .dot');
-  const slideCount = slides.length;
-
-  let currentIndex = 0;
-  let isDragging = false;
-  let startPos = 0;
-  let currentTranslate = 0;
-  let prevTranslate = 0;
-  let animationID;
-
-  const getPositionX = (e) => e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
-  
-  const updateSliderDots = () => {
-      dots.forEach((dot, index) => dot.classList.toggle('active', index === currentIndex));
-  };
-
-  const animation = () => {
-    sliderWrapper.style.transform = `translateX(${currentTranslate}px)`;
-    
-    const containerCenter = sliderContainer.offsetWidth / 2;
-    slides.forEach(slide => {
-        const slideCenter = slide.offsetLeft + slide.offsetWidth / 2 + currentTranslate;
-        const distance = Math.abs(containerCenter - slideCenter);
-        const slideWidth = slide.offsetWidth;
-        const distanceFactor = Math.min(distance / slideWidth, 1);
-        
-        const scale = 1 - (0.1 * distanceFactor);
-        const opacity = 1 - (0.3 * distanceFactor);
-
-        slide.style.transform = `scale(${scale})`;
-        slide.style.opacity = `${opacity}`;
-        slide.style.pointerEvents = scale > 0.99 ? 'auto' : 'none';
-    });
-
-    if (isDragging) requestAnimationFrame(animation);
-  }
-  
-  const setFinalSliderPosition = () => {
-    sliderWrapper.style.transition = 'transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-    slides.forEach(slide => {
-        slide.style.transition = 'transform 0.4s ease, opacity 0.4s ease';
-    });
-
-    const targetSlide = slides[currentIndex];
-    if (!targetSlide) return;
-    const containerCenter = sliderContainer.offsetWidth / 2;
-    const slideCenter = targetSlide.offsetLeft + targetSlide.offsetWidth / 2;
-    
-    currentTranslate = containerCenter - slideCenter;
-    prevTranslate = currentTranslate;
-    
-    sliderWrapper.style.transform = `translateX(${currentTranslate}px)`;
-
-    slides.forEach((slide, index) => {
-        const scale = index === currentIndex ? 1 : 0.9;
-        const opacity = index === currentIndex ? 1 : 0.7;
-        slide.style.transform = `scale(${scale})`;
-        slide.style.opacity = `${opacity}`;
-        slide.style.pointerEvents = index === currentIndex ? 'auto' : 'none';
-    });
-    
-    updateSliderDots();
-  }
-
-  const positionSliderByIndex = () => {
-    setFinalSliderPosition();
-  }
-
-  const dragStart = (e) => {
-    isDragging = true;
-    startPos = getPositionX(e);
-    sliderWrapper.style.transition = 'none';
-    slides.forEach(slide => slide.style.transition = 'none');
-    animationID = requestAnimationFrame(animation);
-    sliderContainer.style.cursor = 'grabbing';
-  };
-
-  const dragMove = (e) => {
-    if (!isDragging) return;
-    const currentPosition = getPositionX(e);
-    currentTranslate = prevTranslate + currentPosition - startPos;
-  };
-
-  const dragEnd = () => {
-    if (!isDragging) return;
-    isDragging = false;
-    cancelAnimationFrame(animationID);
-    sliderContainer.style.cursor = 'grab';
-
-    const movedBy = currentTranslate - prevTranslate;
-    
-    if (movedBy < -80 && currentIndex < slideCount - 1) {
-      currentIndex++;
-    }
-    if (movedBy > 80 && currentIndex > 0) {
-      currentIndex--;
-    }
-
-    positionSliderByIndex();
-  };
-  
-  const initializeCarousel = () => {
-      if (!slides[currentIndex] || sliderContainer.offsetWidth === 0) return;
-      
-      sliderWrapper.style.transition = 'none';
-      slides.forEach(slide => slide.style.transition = 'none');
-
-      const targetSlide = slides[currentIndex];
-      const containerCenter = sliderContainer.offsetWidth / 2;
-      const slideCenter = targetSlide.offsetLeft + targetSlide.offsetWidth / 2;
-      
-      currentTranslate = containerCenter - slideCenter;
-      prevTranslate = currentTranslate;
-      
-      animation();
-      updateSliderDots();
-  }
-  
-  window.addEventListener('resize', initializeCarousel);
-
-  ['mousedown', 'touchstart'].forEach(e => sliderContainer.addEventListener(e, dragStart, { passive: true }));
-  ['mouseup', 'touchend', 'mouseleave'].forEach(e => document.addEventListener(e, dragEnd));
-  ['mousemove', 'touchmove'].forEach(e => document.addEventListener(e, dragMove, { passive: true }));
-
-  // --- ЛОГІКА ПЕРЕВЕРТАННЯ КАРТКИ І ТАЙМЕРА ---
-  const flipCards = document.querySelectorAll('.flip-card');
-  const timerEl = document.getElementById('qr-timer'); // For єДокумент
-
-  function startTimer(element) {
-      clearInterval(element.timerInterval); // Use a property on the element to store its interval
-      let timeLeft = 180;
-      const updateTimerText = () => {
-        const minutes = Math.floor(timeLeft / 60);
-        let seconds = timeLeft % 60;
-        seconds = seconds < 10 ? '0' + seconds : seconds;
-        element.textContent = `${minutes}:${seconds}`;
-      };
-      updateTimerText();
-      element.timerInterval = setInterval(() => {
-          timeLeft--;
-          updateTimerText();
-          if (timeLeft <= 0) {
-              clearInterval(element.timerInterval);
-              element.textContent = "Час вийшов";
-          }
-      }, 1000);
-  }
-
-  flipCards.forEach(card => {
-    card.addEventListener('click', (e) => {
-        const movedBy = Math.abs(currentTranslate - prevTranslate);
-        if (isDragging && movedBy > 10) return;
-        
-        const slide = card.closest('.slide');
-        if (slide.style.transform !== 'scale(1)') return; // Only flip if it's the centered card
-
-        const inner = card.querySelector('.flip-card-inner');
-        const timerElement = card.closest('.slide').querySelector('[id^="qr-timer"]'); // Find the correct timer for this card
-        
-        inner.classList.toggle('is-flipped');
-        if (inner.classList.contains('is-flipped')) {
-            startTimer(timerElement);
-        } else {
-            clearInterval(timerElement.timerInterval);
-            setTimeout(() => {
-                if (!inner.classList.contains('is-flipped')) {
-                    timerElement.textContent = "";
-                }
-            }, 600);
+      const handleKeyPress = (key) => {
+        if (passcode.length < 4) {
+          passcode += key;
+          updateDots();
         }
-    });
-  });
 
-  // --- ЛОГІКА ДІЯ.ПІДПИСУ ТА ПАСПОРТА ---
-  const diiaSignatureMenuItem = document.getElementById('menu-diia-signature');
-  const signatureModalOverlay = document.getElementById('signature-modal-overlay');
-  const signatureCanvas = document.getElementById('signature-canvas');
-  const clearSignatureBtn = document.getElementById('clear-signature-btn');
-  const saveSignatureBtn = document.getElementById('save-signature-btn');
-  const passportSignatureDisplay = document.getElementById('passport-signature-display');
-  const passportSignatureImage = passportSignatureDisplay.querySelector('img');
-
-  const ctx = signatureCanvas.getContext('2d');
-  let isSigning = false;
-  let lastX = 0;
-  let lastY = 0;
-  let signatureDataURL = localStorage.getItem('diiaSignature') || null; // Load saved signature
-
-  // Function to initialize canvas for drawing
-  function initCanvas() {
-    ctx.lineWidth = 3;
-    ctx.lineCap = 'round';
-    ctx.strokeStyle = '#000';
-    clearCanvas(); // Clear canvas when modal opens
-    if (signatureDataURL) { // If there's a saved signature, load it temporarily for editing
-      const img = new Image();
-      img.onload = () => {
-        ctx.drawImage(img, 0, 0, signatureCanvas.width, signatureCanvas.height);
+        if (passcode.length === 4) {
+          setTimeout(() => {
+            if (passcode === correctPasscode) {
+              loginScreen.style.opacity = '0';
+              setTimeout(() => {
+                loginScreen.remove();
+                appContainer.style.display = 'flex';
+                navigateToPage('page-docs');
+                loadSignatureToPassport(); // Load signature after login
+              }, 300);
+            } else {
+              passcodeDotsContainer.classList.add('shake');
+              setTimeout(resetLogin, 500);
+            }
+          }, 200);
+        }
       };
-      img.src = signatureDataURL;
-    }
-  }
 
-  // Function to clear the canvas
-  function clearCanvas() {
-    ctx.clearRect(0, 0, signatureCanvas.width, signatureCanvas.height);
-  }
+      keypadBtns.forEach(btn => {
+        if (btn.textContent.trim() !== '' && !btn.querySelector('img') && !btn.querySelector('svg')) {
+          btn.addEventListener('click', () => {
+            handleKeyPress(btn.textContent);
+          });
+        }
+      });
+      
+      backspaceBtn.addEventListener('click', () => {
+        if (passcode.length > 0) {
+            passcode = passcode.slice(0, -1);
+            updateDots();
+            passcodeDotsContainer.classList.remove('shake');
+        }
+      });
 
-  // Event listeners for drawing on canvas
-  function drawStart(e) {
-    isSigning = true;
-    [lastX, lastY] = getCanvasCoordinates(e);
-    ctx.beginPath();
-    ctx.moveTo(lastX, lastY);
-  }
+      // --- НАВІГАЦІЯ ---
+      const navItems = document.querySelectorAll('.nav-item');
+      
+      const navigateToPage = (targetPageId) => {
+        const oldPage = document.querySelector('.page.active');
+        const newPage = document.getElementById(targetPageId);
+        
+        if (oldPage) oldPage.classList.remove('active');
+        if (newPage) newPage.classList.add('active');
 
-  function drawMove(e) {
-    if (!isSigning) return;
-    e.preventDefault(); // Prevent scrolling on touch devices
-    let [currentX, currentY] = getCanvasCoordinates(e);
-    ctx.lineTo(currentX, currentY);
-    ctx.stroke();
-    [lastX, lastY] = [currentX, currentY];
-  }
+        navItems.forEach(nav => {
+            nav.classList.toggle('active', nav.dataset.page === targetPageId);
+        });
 
-  function drawEnd() {
-    isSigning = false;
-    ctx.closePath();
-  }
+        if (targetPageId === 'page-docs') {
+            setTimeout(initializeCarousel, 0); 
+        }
+      }
 
-  function getCanvasCoordinates(event) {
-    const rect = signatureCanvas.getBoundingClientRect();
-    let clientX, clientY;
-    if (event.touches) {
-      clientX = event.touches[0].clientX;
-      clientY = event.touches[0].clientY;
-    } else {
-      clientX = event.clientX;
-      clientY = event.clientY;
-    }
-    return [
-      clientX - rect.left,
-      clientY - rect.top
-    ];
-  }
-
-  // Add event listeners to canvas
-  signatureCanvas.addEventListener('mousedown', drawStart);
-  signatureCanvas.addEventListener('mousemove', drawMove);
-  signatureCanvas.addEventListener('mouseup', drawEnd);
-  signatureCanvas.addEventListener('mouseout', drawEnd); // Stop drawing if mouse leaves canvas
-
-  signatureCanvas.addEventListener('touchstart', drawStart, { passive: false }); // Prevent scrolling
-  signatureCanvas.addEventListener('touchmove', drawMove, { passive: false });
-  signatureCanvas.addEventListener('touchend', drawEnd);
-  signatureCanvas.addEventListener('touchcancel', drawEnd);
-
-  // Show signature modal when "Дія.Підпис" is clicked
-  diiaSignatureMenuItem.addEventListener('click', () => {
-    signatureModalOverlay.classList.add('visible');
-    // Ensure canvas size is correct for retina displays, then clear and load
-    const dpi = window.devicePixelRatio || 1;
-    signatureCanvas.width = signatureCanvas.offsetWidth * dpi;
-    signatureCanvas.height = signatureCanvas.offsetHeight * dpi;
-    ctx.scale(dpi, dpi);
-    initCanvas();
-  });
-
-  // Hide modal when clicking outside (on overlay)
-  signatureModalOverlay.addEventListener('click', (e) => {
-    if (e.target === signatureModalOverlay) {
-      signatureModalOverlay.classList.remove('visible');
-    }
-  });
-
-  // Clear button functionality
-  clearSignatureBtn.addEventListener('click', () => {
-    clearCanvas();
-    signatureDataURL = null; // Clear saved signature as well
-    localStorage.removeItem('diiaSignature');
-    updatePassportSignature();
-  });
-
-  // Save button functionality
-  saveSignatureBtn.addEventListener('click', () => {
-    // Only save if something was drawn (canvas is not empty)
-    const dataURL = signatureCanvas.toDataURL();
-    const blank = document.createElement('canvas');
-    blank.width = signatureCanvas.width;
-    blank.height = signatureCanvas.height;
-    ctx.clearRect(0, 0, blank.width, blank.height); // Ensure blank canvas is truly blank
-    if (dataURL !== blank.toDataURL()) { // Check if canvas is not blank
-      signatureDataURL = dataURL;
-      localStorage.setItem('diiaSignature', signatureDataURL); // Save to local storage
-      updatePassportSignature();
-    }
-    signatureModalOverlay.classList.remove('visible');
-  });
-
-  // Function to update the signature in the Passport card
-  function updatePassportSignature() {
-    if (signatureDataURL) {
-      passportSignatureImage.src = signatureDataURL;
-      passportSignatureDisplay.style.display = 'block';
-    } else {
-      passportSignatureDisplay.style.display = 'none';
-      passportSignatureImage.src = '';
-    }
-  }
-
-  // Call this function when the app loads to display any previously saved signature
-  updatePassportSignature();
-
-  // --- ЛОГІКА SERVICE WORKER ---
-  const VERSION = new Date().getTime();
-  const CACHE_NAME = `diia-clone-cache-v${VERSION}`;
-  const manifest = {
-    "name": "єДокумент", "short_name": "єДокумент", "start_url": ".", "display": "standalone", "background_color": "#c9e3eb", "theme_color": "#111111",
-    "icons": [{"src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAYAAABS3GwHAAAAAXNSR0IArs4c6QAAAyJJREFUeF7t0AEBAAAAEADC/2H5NEbDAwKChAAAAAAAAAAAAAD45wEAAAAAAAAAAAAA8McDAAAAAAAAAAAAAODjBwAAAAAAAAAAAABA/3kAAAAAAAAAAAAAwB8PAAAAAAAAAAAAAHg4AQAAAAAAAAAAAMD/eQAAAAAAAAAAAADAHw8AAAAAAAAAAAAA8HACAAAAAAAAAAAAgP7zAAAAAAAAAAAAAIC/HAAAAAAAAAAAAACAhxMAAAAAAAAAAAAA+s8DAAAAAAAAAAAAAOBfDwAAAAAAAAAAAACAxxMAAAAAAAAAAAAA4f88AAAAAAAAAAAAAOAfDwAAAAAAAAAAAADw4AQAAAAAAAAAAAD8nwcAAAAAAAAAAAAA8K8HAAAAAAAAAAAAAPBhAgAAAAAAAAAAAPh/ngAAAAAAAAAAAADA/x4AAAAAAAAAAAAA8OECAAAAAAAAAAAA+M8DAAAAAAAAAAAAAOBfDwAAAAAAAAAAAACAxxMAAAAAAAAAAAAA4f88AAAAAAAAAAAAAOAfDwAAAAAAAAAAAADw4AQAAAAAAAAAAAD8nwcAAAAAAAAAAAAA8K8HAAAAAAAAAAAAAPBhAgAAAAAAAAAAAPh/ngAAAAAAAAAAAADA/x4AAAAAAAAAAAAA8OECAAAAAAAAAAAA+M8DAAAAAAAAAAAAAOBfDwAAAAAAAAAAAACAxxMAAAAAAAAAAAAA4f88AAAAAAAAAAAAAOAfDwAAAAAAAAAAAADw4AQAAAAAAAAAAAD8nwcAAAAAAAAAAAAA8K8HAAAAAAAAAAAAAPBhAgAAAAAAAAAAAPh/ngAAAAAAAAAAAADA/x4AAAAAAAAAAAAA8OECAAAAAAAAAAAA+M8DAAAAAAAAAAAAAOBfDwAAAAAAAAAAAACAxxMAAAAAAAAAAAAA4f88AAAAAAAAAAAAAOAfDwAAAAAAAAAAAADw4AQAAAAAAAAAAAD8nwcAAAAAAAAAAAAA8K8HAAAAAAAAAAAAAPBhAgAAAAAAAAAAAPh/ngAAAAAAAAAAAADA/x4AAAAAAAAAAAAA8OECAAAAAAAAAAAA+M8DAAAAAAAAAAAAAOBfDwAAAAAAAAAAAACAxxMAAAAAAAAAAAAA4f88AAAAAAAAAAAAAOAfDwAAAAAAAAAAAADw4AQAAAAAAAAAAAD8nwcAAAAAAAAAAAAA8K8HAAAAAAAAAAAAAPBhAgAAAAAAAAAAAPh/ngAAAAAAAAAAAADA/xsA3g4Y9QAAAABJRU5ErkJggg==", "sizes": "192x192", "type": "image/png"}]
-  };
-  const manifestBlob = new Blob([JSON.stringify(manifest)], { type: 'application/json' });
-  document.getElementById('manifest').href = URL.createObjectURL(manifestBlob);
-  const swCode = `
-    const CACHE_NAME = '${CACHE_NAME}';
-    const urlsToCache = ['${location.href.replace(/\?.*$/, '')}'];
-    self.addEventListener('install', e => e.waitUntil(caches.open(CACHE_NAME).then(c => c.addAll(urlsToCache))));
-    self.addEventListener('activate', e => e.waitUntil(caches.keys().then(names => Promise.all(names.map(name => name !== CACHE_NAME && caches.delete(name))))));
-    self.addEventListener('fetch', e => e.respondWith(caches.match(e.request).then(r => r || fetch(e.request))));
-    self.addEventListener('message', e => { if (e.data.action === 'skipWaiting') self.skipWaiting(); });
-  `;
-  const swBlob = new Blob([swCode], { type: 'application/javascript' });
-
-  if ('serviceWorker' in navigator) {
-    let newWorker;
-    const updateNotification = document.getElementById('update-notification');
-    updateNotification.addEventListener('click', () => newWorker.postMessage({ action: 'skipWaiting' }));
-    navigator.serviceWorker.register(URL.createObjectURL(swBlob)).then(reg => {
-      reg.addEventListener('updatefound', () => {
-        newWorker = reg.installing;
-        newWorker.addEventListener('statechange', () => {
-          if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-            updateNotification.style.display = 'block';
-          }
+      navItems.forEach(item => {
+        item.addEventListener('click', () => {
+          navigateToPage(item.dataset.page);
         });
       });
+      
+      document.querySelector('.page.active')?.classList.remove('active');
+      document.querySelector('.nav-item.active')?.classList.remove('active');
+
+
+      // --- ЛОГІКА СЛАЙДЕРА (ІНТЕРАКТИВНА АНІМАЦІЯ) ---
+      const sliderContainer = document.querySelector('.slider-container');
+      const sliderWrapper = document.querySelector('.slider-wrapper');
+      const slides = document.querySelectorAll('.slide');
+      const dots = document.querySelectorAll('.page-indicator .dot');
+      const slideCount = slides.length;
+
+      let currentIndex = 0;
+      let isDragging = false;
+      let startPos = 0;
+      let currentTranslate = 0;
+      let prevTranslate = 0;
+      let animationID;
+
+      const getPositionX = (e) => e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
+      
+      const updateSliderDots = () => {
+          dots.forEach((dot, index) => dot.classList.toggle('active', index === currentIndex));
+      };
+
+      const animation = () => {
+        sliderWrapper.style.transform = `translateX(${currentTranslate}px)`;
+        
+        const containerCenter = sliderContainer.offsetWidth / 2;
+        slides.forEach(slide => {
+            const slideCenter = slide.offsetLeft + slide.offsetWidth / 2 + currentTranslate;
+            const distance = Math.abs(containerCenter - slideCenter);
+            const slideWidth = slide.offsetWidth;
+            const distanceFactor = Math.min(distance / slideWidth, 1);
+            
+            const scale = 1 - (0.1 * distanceFactor);
+            const opacity = 1 - (0.3 * distanceFactor);
+
+            slide.style.transform = `scale(${scale})`;
+            slide.style.opacity = `${opacity}`;
+            slide.style.pointerEvents = scale > 0.99 ? 'auto' : 'none';
+        });
+
+        if (isDragging) requestAnimationFrame(animation);
+      }
+      
+      const setFinalSliderPosition = () => {
+        sliderWrapper.style.transition = 'transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+        slides.forEach(slide => {
+            slide.style.transition = 'transform 0.4s ease, opacity 0.4s ease';
+        });
+
+        const targetSlide = slides[currentIndex];
+        if (!targetSlide) return;
+        const containerCenter = sliderContainer.offsetWidth / 2;
+        const slideCenter = targetSlide.offsetLeft + targetSlide.offsetWidth / 2;
+        
+        currentTranslate = containerCenter - slideCenter;
+        prevTranslate = currentTranslate;
+        
+        sliderWrapper.style.transform = `translateX(${currentTranslate}px)`;
+
+        slides.forEach((slide, index) => {
+            const scale = index === currentIndex ? 1 : 0.9;
+            const opacity = index === currentIndex ? 1 : 0.7;
+            slide.style.transform = `scale(${scale})`;
+            slide.style.opacity = `${opacity}`;
+            slide.style.pointerEvents = index === currentIndex ? 'auto' : 'none';
+        });
+        
+        updateSliderDots();
+      }
+
+      const positionSliderByIndex = () => {
+        setFinalSliderPosition();
+      }
+
+      const dragStart = (e) => {
+        isDragging = true;
+        startPos = getPositionX(e);
+        sliderWrapper.style.transition = 'none';
+        slides.forEach(slide => slide.style.transition = 'none');
+        animationID = requestAnimationFrame(animation);
+        sliderContainer.style.cursor = 'grabbing';
+      };
+
+      const dragMove = (e) => {
+        if (!isDragging) return;
+        const currentPosition = getPositionX(e);
+        currentTranslate = prevTranslate + currentPosition - startPos;
+      };
+
+      const dragEnd = () => {
+        if (!isDragging) return;
+        isDragging = false;
+        cancelAnimationFrame(animationID);
+        sliderContainer.style.cursor = 'grab';
+
+        const movedBy = currentTranslate - prevTranslate;
+        
+        if (movedBy < -80 && currentIndex < slideCount - 1) {
+          currentIndex++;
+        }
+        if (movedBy > 80 && currentIndex > 0) {
+          currentIndex--;
+        }
+
+        positionSliderByIndex();
+      };
+      
+      const initializeCarousel = () => {
+          if (!slides[currentIndex] || sliderContainer.offsetWidth === 0) return;
+          
+          sliderWrapper.style.transition = 'none';
+          slides.forEach(slide => slide.style.transition = 'none');
+
+          const targetSlide = slides[currentIndex];
+          const containerCenter = sliderContainer.offsetWidth / 2;
+          const slideCenter = targetSlide.offsetLeft + targetSlide.offsetWidth / 2;
+          
+          currentTranslate = containerCenter - slideCenter;
+          prevTranslate = currentTranslate;
+          
+          animation();
+          updateSliderDots();
+      }
+      
+      window.addEventListener('resize', initializeCarousel);
+
+      ['mousedown', 'touchstart'].forEach(e => sliderContainer.addEventListener(e, dragStart, { passive: true }));
+      ['mouseup', 'touchend', 'mouseleave'].forEach(e => document.addEventListener(e, dragEnd));
+      ['mousemove', 'touchmove'].forEach(e => document.addEventListener(e, dragMove, { passive: true }));
+
+      // --- ЛОГІКА ПЕРЕВЕРТАННЯ КАРТКИ І ТАЙМЕРА ---
+      const flipCards = document.querySelectorAll('.flip-card');
+      const timerEl = document.getElementById('qr-timer');
+      const timerPassportEl = document.getElementById('qr-timer-passport'); // Timer for passport
+      let timerInterval = null;
+
+      function startTimer(element, initialTime = 180) {
+          clearInterval(timerInterval); // Clear any existing timer
+          let timeLeft = initialTime;
+          const updateTimerText = () => {
+            const minutes = Math.floor(timeLeft / 60);
+            let seconds = timeLeft % 60;
+            seconds = seconds < 10 ? '0' + seconds : seconds;
+            element.textContent = `${minutes}:${seconds}`;
+          };
+          updateTimerText();
+          timerInterval = setInterval(() => {
+              timeLeft--;
+              updateTimerText();
+              if (timeLeft <= 0) {
+                  clearInterval(timerInterval);
+                  element.textContent = "Час вийшов";
+              }
+          }, 1000);
+      }
+
+      flipCards.forEach(card => {
+        card.addEventListener('click', () => {
+            const movedBy = Math.abs(currentTranslate - prevTranslate);
+            if (isDragging && movedBy > 10) return;
+            
+            const slide = card.closest('.slide');
+            if (slide.style.transform !== 'scale(1)') return; // Only flip the centered card
+
+            const inner = card.querySelector('.flip-card-inner');
+            inner.classList.toggle('is-flipped');
+            
+            const isPassportCard = card.closest('#passport-ukraine-slide');
+            const currentTimerEl = isPassportCard ? timerPassportEl : timerEl;
+
+            if (inner.classList.contains('is-flipped')) {
+                startTimer(currentTimerEl);
+            } else {
+                clearInterval(timerInterval);
+                setTimeout(() => {
+                    if (!inner.classList.contains('is-flipped')) {
+                        currentTimerEl.textContent = "";
+                    }
+                }, 600);
+            }
+        });
+      });
+
+      // --- ЛОГІКА ДІЯ.ПІДПИС ---
+      const signaturePadContainer = document.getElementById('signature-pad-container');
+      const signatureCanvas = document.getElementById('signature-canvas');
+      const signatureClearBtn = document.getElementById('signature-clear-btn');
+      const signatureSaveBtn = document.getElementById('signature-save-btn');
+      const signatureCloseBtn = document.getElementById('signature-close-btn');
+      const menuDiiaSignature = document.getElementById('menu-diia-signature');
+      const passportSignatureImage = document.getElementById('passport-signature-image');
+
+      let ctx = signatureCanvas.getContext('2d');
+      let isDrawing = false;
+      let lastX = 0;
+      let lastY = 0;
+
+      function resizeCanvas() {
+          const wrapper = signatureCanvas.closest('.signature-canvas-wrapper');
+          signatureCanvas.width = wrapper.clientWidth - 40; // Subtract padding
+          signatureCanvas.height = wrapper.clientHeight - 40; // Subtract padding
+
+          ctx.strokeStyle = '#000';
+          ctx.lineWidth = 3;
+          ctx.lineCap = 'round';
+          ctx.lineJoin = 'round';
+
+          // If a signature is already saved, redraw it after resize
+          if (localStorage.getItem('savedSignature')) {
+              const img = new Image();
+              img.onload = () => {
+                  ctx.drawImage(img, 0, 0, signatureCanvas.width, signatureCanvas.height);
+              };
+              img.src = localStorage.getItem('savedSignature');
+          }
+      }
+
+      function startDrawing(e) {
+          isDrawing = true;
+          [lastX, lastY] = getCanvasCoordinates(e);
+      }
+
+      function draw(e) {
+          if (!isDrawing) return;
+          e.preventDefault(); // Prevent scrolling on touch devices
+          const [currentX, currentY] = getCanvasCoordinates(e);
+          ctx.beginPath();
+          ctx.moveTo(lastX, lastY);
+          ctx.lineTo(currentX, currentY);
+          ctx.stroke();
+          [lastX, lastY] = [currentX, currentY];
+      }
+
+      function stopDrawing() {
+          isDrawing = false;
+      }
+
+      function getCanvasCoordinates(e) {
+          const rect = signatureCanvas.getBoundingClientRect();
+          if (e.touches && e.touches.length > 0) {
+              return [e.touches[0].clientX - rect.left, e.touches[0].clientY - rect.top];
+          } else {
+              return [e.clientX - rect.left, e.clientY - rect.top];
+          }
+      }
+
+      function clearSignature() {
+          ctx.clearRect(0, 0, signatureCanvas.width, signatureCanvas.height);
+      }
+
+      function saveSignature() {
+          const dataURL = signatureCanvas.toDataURL();
+          localStorage.setItem('savedSignature', dataURL);
+          signaturePadContainer.classList.remove('visible');
+          loadSignatureToPassport();
+      }
+
+      function loadSignatureToPassport() {
+          const savedSignature = localStorage.getItem('savedSignature');
+          if (savedSignature) {
+              passportSignatureImage.src = savedSignature;
+              passportSignatureImage.style.display = 'block';
+          } else {
+              passportSignatureImage.src = '';
+              passportSignatureImage.style.display = 'none';
+          }
+      }
+
+      // Event Listeners for Signature Pad
+      menuDiiaSignature.addEventListener('click', () => {
+          signaturePadContainer.classList.add('visible');
+          setTimeout(resizeCanvas, 100); // Resize after container is visible
+          clearSignature(); // Start with a clean canvas
+      });
+
+      signatureCloseBtn.addEventListener('click', () => {
+          signaturePadContainer.classList.remove('visible');
+      });
+
+      signatureClearBtn.addEventListener('click', clearSignature);
+      signatureSaveBtn.addEventListener('click', saveSignature);
+
+      // Canvas drawing events
+      signatureCanvas.addEventListener('mousedown', startDrawing);
+      signatureCanvas.addEventListener('mousemove', draw);
+      signatureCanvas.addEventListener('mouseup', stopDrawing);
+      signatureCanvas.addEventListener('mouseout', stopDrawing); // Stop drawing if mouse leaves canvas
+
+      signatureCanvas.addEventListener('touchstart', startDrawing, { passive: false });
+      signatureCanvas.addEventListener('touchmove', draw, { passive: false });
+      signatureCanvas.addEventListener('touchend', stopDrawing);
+
+      window.addEventListener('resize', () => {
+          if (signaturePadContainer.classList.contains('visible')) {
+              resizeCanvas();
+          }
+      });
+
+      // --- ЛОГІКА SERVICE WORKER ---
+      const VERSION = new Date().getTime();
+      const CACHE_NAME = `diia-clone-cache-v${VERSION}`;
+      const manifest = {
+        "name": "Дія", "short_name": "Дія", "start_url": ".", "display": "standalone", "background_color": "#c9e3eb", "theme_color": "#111111",
+        "icons": [{"src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAYAAABS3GwHAAAAAXNSR0IArs4c6QAAAyJJREFUeF7t0AEBAAAAEADC/2H5NEbDAwKChAAAAAAAAAAAAAD45wEAAAAAAAAAAAAA8McDAAAAAAAAAAAAAODjBwAAAAAAAAAAAABA/3kAAAAAAAAAAAAAwB8PAAAAAAAAAAAAAHg4AQAAAAAAAAAAAMD/eQAAAAAAAAAAAADAHw8AAAAAAAAAAAAA8HACAAAAAAAAAAAAgP7zAAAAAAAAAAAAAIC/HAAAAAAAAAAAAACAhxMAAAAAAAAAAAAA+s8DAAAAAAAAAAAAAOBfDwAAAAAAAAAAAACAxxMAAAAAAAAAAAAA4f88AAAAAAAAAAAAAOAfDwAAAAAAAAAAAADw4AQAAAAAAAAAAAD8nwcAAAAAAAAAAAAA8K8HAAAAAAAAAAAAAPBhAgAAAAAAAAAAAPh/ngAAAAAAAAAAAADA/x4AAAAAAAAAAAAA8OECAAAAAAAAAAAA+M8DAAAAAAAAAAAAAOBfDwAAAAAAAAAAAACAxxMAAAAAAAAAAAAA4f88AAAAAAAAAAAAAOAfDwAAAAAAAAAAAADw4AQAAAAAAAAAAAD8nwcAAAAAAAAAAAAA8K8HAAAAAAAAAAAAAPBhAgAAAAAAAAAAAPh/ngAAAAAAAAAAAADA/x4AAAAAAAAAAAAA8OECAAAAAAAAAAAA+M8DAAAAAAAAAAAAAOBfDwAAAAAAAAAAAACAxxMAAAAAAAAAAAAA4f88AAAAAAAAAAAAAOAfDwAAAAAAAAAAAADw4AQAAAAAAAAAAAD8nwcAAAAAAAAAAAAA8K8HAAAAAAAAAAAAAPBhAgAAAAAAAAAAAPh/ngAAAAAAAAAAAADA/x4AAAAAAAAAAAAA8OECAAAAAAAAAAAA+M8DAAAAAAAAAAAAAOBfDwAAAAAAAAAAAACAxxMAAAAAAAAAAAAA4f88AAAAAAAAAAAAAOAfDwAAAAAAAAAAAADw4AQAAAAAAAAAAAD8nwcAAAAAAAAAAAAA8K8HAAAAAAAAAAAAAPBhAgAAAAAAAAAAAPh/ngAAAAAAAAAAAADA/x4AAAAAAAAAAAAA8OECAAAAAAAAAAAA+M8DAAAAAAAAAAAAAOBfDwAAAAAAAAAAAACAxxMAAAAAAAAAAAAA4f88AAAAAAAAAAAAAOAfDwAAAAAAAAAAAADw4AQAAAAAAAAAAAD8nwcAAAAAAAAAAAAA8K8HAAAAAAAAAAAAAPBhAgAAAAAAAAAAAPh/ngAAAAAAAAAAAADA/xsA3g4Y9QAAAABJRU5ErkJggg==", "sizes": "192x192", "type": "image/png"}]
+      };
+      const manifestBlob = new Blob([JSON.stringify(manifest)], { type: 'application/json' });
+      document.getElementById('manifest').href = URL.createObjectURL(manifestBlob);
+      const swCode = `
+        const CACHE_NAME = '${CACHE_NAME}';
+        const urlsToCache = ['${location.href.replace(/\?.*$/, '')}'];
+        self.addEventListener('install', e => e.waitUntil(caches.open(CACHE_NAME).then(c => c.addAll(urlsToCache))));
+        self.addEventListener('activate', e => e.waitUntil(caches.keys().then(names => Promise.all(names.map(name => name !== CACHE_NAME && caches.delete(name))))));
+        self.addEventListener('fetch', e => e.respondWith(caches.match(e.request).then(r => r || fetch(e.request))));
+        self.addEventListener('message', e => { if (e.data.action === 'skipWaiting') self.skipWaiting(); });
+      `;
+      const swBlob = new Blob([swCode], { type: 'application/javascript' });
+
+      if ('serviceWorker' in navigator) {
+        let newWorker;
+        const updateNotification = document.getElementById('update-notification');
+        updateNotification.addEventListener('click', () => newWorker.postMessage({ action: 'skipWaiting' }));
+        navigator.serviceWorker.register(URL.createObjectURL(swBlob)).then(reg => {
+          reg.addEventListener('updatefound', () => {
+            newWorker = reg.installing;
+            newWorker.addEventListener('statechange', () => {
+              if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                updateNotification.style.display = 'block';
+              }
+            });
+          });
+        });
+        let refreshing;
+        navigator.serviceWorker.addEventListener('controllerchange', () => {
+          if (refreshing) return;
+          window.location.reload();
+          refreshing = true;
+        });
+      }
     });
-    let refreshing;
-    navigator.serviceWorker.addEventListener('controllerchange', () => {
-      if (refreshing) return;
-      window.location.reload();
-      refreshing = true;
-    });
-  }
-});
   </script>
 </body>
 </html>
