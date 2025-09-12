@@ -20,7 +20,7 @@
     :root {
       --text-color: #000;
       --label-color: #333;
-      --background-gradient: 
+      --background-gradient:
         radial-gradient(ellipse at 5% 5%, hsla(70, 88%, 88%, 0.8) 0, transparent 40%),
         radial-gradient(ellipse at 95% 90%, hsla(180, 88%, 85%, 0.7) 0, transparent 50%),
         linear-gradient(155deg, #e1f6b8, #bdecf3, #f5f0d5);
@@ -61,8 +61,9 @@
     }
 
     .app-container { height: 100%; display: flex; flex-direction: column; }
-    .content { flex-grow: 1; overflow: hidden; position: relative; }
-    
+    /* --- ВИДАЛЕНО overflow: hidden для виправлення обрізання --- */
+    .content { flex-grow: 1; position: relative; }
+
     /* --- Анімація переходу між сторінками (Fade) --- */
     .page {
       width: 100%; height: 100%; position: absolute; top: 0; left: 0;
@@ -73,22 +74,45 @@
     .page.active { visibility: visible; opacity: 1; }
 
     #page-docs.active { display: flex; flex-direction: column; justify-content: center; }
-    
+
     .placeholder-page { display: flex; justify-content: center; align-items: center; height: 100%; font-size: 24px; color: #555; }
-    
+
     /* --- Слайдер документів --- */
-    .slider-container { width: 100%; max-width: 400px; margin: 0 auto; overflow: visible; perspective: 1000px; } /* Зміна на visible, щоб уникнути обрізання */
-    .slider-wrapper { display: flex; transition: transform 0.3s ease-in-out; }
-    .slide { flex: 0 0 100%; padding: 5px; transition: transform 0.3s ease-in-out; height: 490px; } /* Фіксована висота для всіх слайдів */
-    
+    .slider-container {
+      width: 100%;
+      max-width: 400px;
+      margin: 0 auto;
+      position: relative;
+      perspective: 1200px; /* Додано для 3D ефекту */
+      height: 520px; /* Збільшено висоту для анімації */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .slider-wrapper {
+      position: relative;
+      width: 100%;
+      height: 490px;
+      transform-style: preserve-3d;
+    }
+    .slide {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      left: 0;
+      top: 0;
+      /* --- Нова анімація для плавності --- */
+      transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.5s ease;
+      -webkit-tap-highlight-color: transparent; /* Прибирає синю підсвітку при кліку на мобільних */
+    }
+
     /* --- Анімація перевертання картки --- */
     .flip-card {
         background-color: transparent;
         width: 100%;
-        height: 490px; /* Фіксована висота для всіх карток */
+        height: 100%;
         perspective: 1000px;
         cursor: pointer;
-        transition: transform 0.3s ease-in-out;
     }
     .flip-card-inner {
         position: relative;
@@ -121,7 +145,7 @@
         -webkit-backdrop-filter: blur(25px);
         border: 1px solid rgba(255, 255, 255, 0.3);
     }
-    
+
     .document-container {
         background: var(--card-background);
         border-radius: 24px;
@@ -129,9 +153,9 @@
         -webkit-backdrop-filter: blur(25px);
         border: 1px solid rgba(255, 255, 255, 0.3);
         overflow: hidden;
-        height: 490px; /* Фіксована висота для всіх контейнерів */
+        height: 490px;
     }
-    .empty-card { height: 490px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: #888; }
+    .empty-card { height: 100%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: #888; }
     .document-content { padding: 20px; }
     .document-title { font-size: 24px; font-weight: 800; margin-bottom: 20px; }
     .personal-info { display: flex; align-items: center; gap: 15px; }
@@ -140,12 +164,12 @@
     .detail-item { display: flex; flex-direction: column; }
     .detail-item .label { font-size: 15px; color: var(--label-color); font-weight: 500; }
     .detail-item .value { font-size: 18px; font-weight: 700; color: var(--text-color); }
-    
-    .status-banner-wrapper { 
-      background: var(--banner-background); 
-      background-size: 200% 200%; 
+
+    .status-banner-wrapper {
+      background: var(--banner-background);
+      background-size: 200% 200%;
       animation: animatedBanner 30s ease infinite;
-      padding: 9px 0; overflow: hidden; white-space: nowrap; 
+      padding: 9px 0; overflow: hidden; white-space: nowrap;
     }
     @keyframes marquee { 0% { transform: translateX(50%); } 100% { transform: translateX(-150%); } }
     .status-banner { display: inline-block; font-size: 14px; font-weight: 500; padding-right: 50%; animation: marquee 12s linear infinite; }
@@ -156,7 +180,7 @@
     .name-part { font-size: 28px; font-weight: 800; line-height: 1.2; word-break: break-word; }
     .more-options { width: 36px; height: 36px; background-color: #2c2c2e; border-radius: 50%; display: flex; justify-content: center; align-items: center; flex-shrink: 0; margin-left: 10px; }
     .more-options svg { width: 20px; height: 20px; fill: #fff; }
-    
+
     .page-indicator-container { padding: 30px 0; width: 100%; max-width: 400px; margin: 0 auto; }
     .page-indicator { display: flex; justify-content: center; gap: 6px; }
     .dot { width: 7px; height: 7px; background-color: rgba(255, 255, 255, 0.3); border-radius: 50%; transition: background-color 0.3s ease; }
@@ -167,9 +191,9 @@
     .nav-icon { width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; }
     .nav-label { font-size: 10px; }
     .nav-item.active .nav-label { color: var(--nav-active-color); }
-    
+
     #update-notification { position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%); background-color: #28a745; color: white; padding: 10px 20px; border-radius: 20px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); z-index: 200; cursor: pointer; font-size: 14px; font-weight: 500; display: none; }
-    
+
     #qr-timer { font-size: 18px; font-weight: 700; color: var(--text-color); }
     .flip-card-back h3 { font-weight: 700; font-size: 16px; }
     .flip-card-back img { width: 200px; height: 200px; }
@@ -188,7 +212,7 @@
             <div class="slider-container">
               <div class="slider-wrapper">
                 <!-- СЛАЙД 1 -->
-                <div class="slide active-slide">
+                <div class="slide">
                   <div class="flip-card">
                     <div class="flip-card-inner">
                       <div class="flip-card-front">
@@ -197,7 +221,7 @@
                               <h1 class="document-title">єДокумент</h1>
                               <div class="personal-info">
                                 <div class="photo">
-                                  <img src="./pasport.png" alt="Фото Пупченко Роман">
+                                  <img src="./pasport.png" alt="Фото">
                                 </div>
                                 <div class="details">
                                   <div class="detail-item">
@@ -229,9 +253,9 @@
                         </div>
                       </div>
                       <div class="flip-card-back">
-                          <h3>QR-код дійсний 2 хв 56 сек</h3>
+                          <h3>QR-код дійсний</h3>
                           <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=Example" alt="QR">
-                          <div id="qr-timer">2:56</div>
+                          <div id="qr-timer"></div>
                       </div>
                     </div>
                   </div>
@@ -261,32 +285,33 @@
         <div class="placeholder-page"><h1>Меню</h1></div>
       </div>
     </main>
-    
+
     <div id="update-notification">Доступне оновлення. Оновити?</div>
 
     <nav class="bottom-nav">
-      <div class="nav-item" data-page="page-feed">
-        <div class="nav-icon"><svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6.99986 2.61536H12.9999C15.8283 2.61536 17.2425 2.61536 18.1212 3.49404C18.9999 4.37272 18.9999 5.78693 18.9999 8.61536V15.6154V20.6152C18.9999 21.7199 19.8954 22.6154 21 22.6154H6.99986C4.17143 22.6154 2.75722 22.6154 1.87854 21.7367C0.999861 20.858 0.999861 19.4438 0.999861 16.6154V8.61536C0.999861 5.78693 0.999861 4.37272 1.87854 3.49404C2.75722 2.61536 4.17143 2.61536 6.99986 2.61536Z" stroke="white" stroke-width="1.5"/><path d="M19 20.6154V13.6154H21C22.1046 13.6154 23 14.5108 23 15.6154V20.6154C23 21.7199 22.1046 22.6154 21 22.6154C19.8954 22.6154 19 21.7199 19 20.6154Z" stroke="white" stroke-width="1.5"/><rect x="4.5" y="17.1154" width="11" height="1.5" rx="0.5" fill="white"/><rect width="10" height="7" rx="1" transform="matrix(-1 0 0 1 15 6.61536)" stroke="white" stroke-width="1.5"/></svg></div>
-        <span class="nav-label">Стрічка</span>
-      </div>
-      <div class="nav-item active" data-page="page-docs">
-        <div class="nav-icon"><svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2.75" y="2.36536" width="18.5" height="20.5" rx="3.25" fill="white" stroke="white" stroke-width="1.5"/><path d="M6 18.6154C6 18.3392 6.22386 18.1154 6.5 18.1154H14.5C14.7761 18.1154 15 18.3392 15 18.6154V19.1154C15 19.3915 14.7761 19.6154 14.5 19.6154H6.5C6.22386 19.6154 6 19.3915 6 19.1154V18.6154Z" fill="black"/><path d="M6 15.1154C6 14.8392 6.22386 14.6154 6.5 14.6154H17.5C17.7761 14.6154 18 14.8392 18 15.1154V15.6154C18 15.8915 17.7761 16.1154 17.5 16.1154H6.5C6.22386 16.1154 6 15.8915 6 15.6154V15.1154Z" fill="black"/><mask id="path-4-inside-1_13657_22158" fill="white"><rect x="6" y="5.61536" width="7" height="7" rx="1"/></mask><rect x="6" y="5.61536" width="7" height="7" rx="1" stroke="black" stroke-width="3" mask="url(#path-4-inside-1_13657_22158)"/></svg></div>
-        <span class="nav-label">Документи</span>
-      </div>
-      <div class="nav-item" data-page="page-services">
-        <div class="nav-icon"><svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg"><mask id="path-1-inside-1_13657_22172" fill="white"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 23.6154C5.84037 23.6154 4.18232 23.3034 2.74717 21.8682C1.30306 20.4241 1 18.775 1 12.6154C1 6.45573 1.31199 4.80661 2.74717 3.36253C4.18232 1.92735 5.84037 1.61536 12 1.61536C18.1596 1.61536 19.8177 1.92735 21.2528 3.36253C22.6969 4.80661 23 6.45573 23 12.6154C23 18.775 22.6969 20.4241 21.2528 21.8682C19.8177 23.3034 18.1596 23.6154 12 23.6154Z"/></mask><path d="M2.74717 21.8682L3.80785 20.8075L3.80782 20.8075L2.74717 21.8682ZM2.74717 3.36253L1.68649 2.30188L1.68324 2.30515L2.74717 3.36253ZM21.2528 3.36253L20.1922 4.42318L20.1922 4.42319L21.2528 3.36253ZM21.2528 21.8682L20.1922 20.8075L20.1922 20.8075L21.2528 21.8682ZM12 22.1154C8.90493 22.1154 7.08603 22.0336 5.88008 21.806C4.78166 21.5987 4.2908 21.2905 3.80785 20.8075L1.6865 22.9288C2.63869 23.881 3.69443 24.4465 5.32373 24.7539C6.84551 25.0411 8.93544 25.1154 12 25.1154V22.1154ZM3.80782 20.8075C3.31966 20.3194 3.01222 19.8284 2.8062 18.7329C2.57961 17.528 2.5 15.7117 2.5 12.6154H-0.5C-0.5 15.6786 -0.428084 17.7667 -0.142115 19.2873C0.164424 20.9173 0.730574 21.9729 1.68652 22.9289L3.80782 20.8075ZM2.5 12.6154C2.5 9.52026 2.58179 7.70371 2.80933 6.49901C3.01645 5.40245 3.32467 4.90936 3.81111 4.4199L1.68324 2.30515C0.734497 3.25978 0.169128 4.31329 -0.138544 5.94221C-0.425792 7.46301 -0.5 9.55083 -0.5 12.6154H2.5ZM3.80785 4.42318C4.2908 3.94021 4.78166 3.63203 5.88008 3.42473C7.08603 3.19714 8.90493 3.11536 12 3.11536V0.115356C8.93544 0.115356 6.84551 0.189572 5.32373 0.476771C3.69443 0.784262 2.63869 1.34967 1.6865 2.30188L3.80785 4.42318ZM12 3.11536C15.0951 3.11536 16.914 3.19714 18.1199 3.42473C19.2183 3.63203 19.7092 3.94021 20.1922 4.42318L22.3135 2.30188C21.3613 1.34967 20.3056 0.784261 18.6763 0.476771C17.1545 0.189572 15.0646 0.115356 12 0.115356V3.11536ZM20.1922 4.42319C20.6803 4.91135 20.9878 5.40236 21.1938 6.49785C21.4204 7.70272 21.5 9.51898 21.5 12.6154H24.5C24.5 9.55211 24.4281 7.464 24.1421 5.94338C23.8356 4.31338 23.2694 3.25779 22.3135 2.30187L20.1922 4.42319ZM21.5 12.6154C21.5 15.7117 21.4204 17.528 21.1938 18.7329C20.9878 19.8284 20.6803 20.3194 20.1922 20.8075L22.3135 22.9288C23.2694 21.9729 23.8356 20.9173 24.1421 19.2873C24.4281 17.7667 24.5 15.6786 24.5 12.6154H21.5ZM20.1922 20.8075C19.7092 21.2905 19.2183 21.5987 18.1199 21.806C16.914 22.0336 15.0951 22.1154 12 22.1154V25.1154C15.0646 25.1154 17.1545 25.0411 18.6763 24.7539C20.3056 24.4465 21.3613 23.881 22.3135 22.9288L20.1922 20.8075Z" fill="white" mask="url(#path-1-inside-1_13657_22172)"/><path d="M14.1433 5.61549C14.1302 5.61651 14.1171 5.61817 14.1041 5.62046C14.0557 5.62707 14.0093 5.64237 13.9678 5.66544C13.9263 5.68851 13.8906 5.71885 13.8628 5.7546L7.39955 13.6136C7.36155 13.6611 7.33901 13.7169 7.33439 13.775C7.32976 13.8331 7.34323 13.8912 7.37333 13.9429C7.40342 13.9947 7.44899 14.0381 7.50506 14.0685C7.56113 14.099 7.62555 14.1151 7.6913 14.1154H11.1418L9.32393 19.1885C9.29398 19.2613 9.29508 19.3413 9.32702 19.4134C9.35895 19.4856 9.41953 19.5449 9.49737 19.5803C9.57521 19.6156 9.66495 19.6246 9.74976 19.6056C9.83456 19.5865 9.90858 19.5407 9.95792 19.4767L16.6007 11.6171C16.6387 11.5696 16.6613 11.5138 16.6659 11.4557C16.6705 11.3976 16.6571 11.3396 16.627 11.2878C16.5969 11.236 16.5513 11.1926 16.4952 11.1622C16.4392 11.1318 16.3748 11.1156 16.309 11.1154H12.8417L14.4968 6.02785C14.5138 5.9795 14.5175 5.92825 14.5076 5.87837C14.4977 5.8285 14.4745 5.78143 14.44 5.74109C14.4054 5.70076 14.3604 5.66831 14.3088 5.64647C14.2573 5.62462 14.2005 5.614 14.1433 5.61549Z" fill="white"/></svg></div>
-        <span class="nav-label">Сервіси</span>
-      </div>
-      <div class="nav-item" data-page="page-menu">
-        <div class="nav-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_5391_4802)"><circle cx="12" cy="12" r="11.25" stroke="white" stroke-width="1.5"/><path d="M2.25208 19C4.43043 15.9719 7.98493 14 12 14C16.015 14 19.5695 15.9719 21.7479 19C21.4436 19.423 21.1125 19.8253 20.7571 20.2045C18.877 17.3693 15.6568 15.5 12 15.5C8.34319 15.5 5.12301 17.3693 3.24289 20.2045C2.88744 19.8253 2.55633 19.4229 2.25208 19Z" fill="white"/><rect x="9" y="5" width="6" height="7" rx="3" stroke="white" stroke-width="1.5"/></g><defs><clipPath id="clip0_5391_4802"><rect width="24" height="24" rx="12" fill="white"/></clipPath></defs></svg></div>
-        <span class="nav-label">Меню</span>
-      </div>
-    </nav>
+        <div class="nav-item" data-page="page-feed">
+          <div class="nav-icon"><svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6.99986 2.61536H12.9999C15.8283 2.61536 17.2425 2.61536 18.1212 3.49404C18.9999 4.37272 18.9999 5.78693 18.9999 8.61536V15.6154V20.6152C18.9999 21.7199 19.8954 22.6154 21 22.6154H6.99986C4.17143 22.6154 2.75722 22.6154 1.87854 21.7367C0.999861 20.858 0.999861 19.4438 0.999861 16.6154V8.61536C0.999861 5.78693 0.999861 4.37272 1.87854 3.49404C2.75722 2.61536 4.17143 2.61536 6.99986 2.61536Z" stroke="white" stroke-width="1.5"/><path d="M19 20.6154V13.6154H21C22.1046 13.6154 23 14.5108 23 15.6154V20.6154C23 21.7199 22.1046 22.6154 21 22.6154C19.8954 22.6154 19 21.7199 19 20.6154Z" stroke="white" stroke-width="1.5"/><rect x="4.5" y="17.1154" width="11" height="1.5" rx="0.5" fill="white"/><rect width="10" height="7" rx="1" transform="matrix(-1 0 0 1 15 6.61536)" stroke="white" stroke-width="1.5"/></svg></div>
+          <span class="nav-label">Стрічка</span>
+        </div>
+        <div class="nav-item active" data-page="page-docs">
+          <div class="nav-icon"><svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2.75" y="2.36536" width="18.5" height="20.5" rx="3.25" fill="white" stroke="white" stroke-width="1.5"/><path d="M6 18.6154C6 18.3392 6.22386 18.1154 6.5 18.1154H14.5C14.7761 18.1154 15 18.3392 15 18.6154V19.1154C15 19.3915 14.7761 19.6154 14.5 19.6154H6.5C6.22386 19.6154 6 19.3915 6 19.1154V18.6154Z" fill="black"/><path d="M6 15.1154C6 14.8392 6.22386 14.6154 6.5 14.6154H17.5C17.7761 14.6154 18 14.8392 18 15.1154V15.6154C18 15.8915 17.7761 16.1154 17.5 16.1154H6.5C6.22386 16.1154 6 15.8915 6 15.6154V15.1154Z" fill="black"/><mask id="path-4-inside-1_13657_22158" fill="white"><rect x="6" y="5.61536" width="7" height="7" rx="1"/></mask><rect x="6" y="5.61536" width="7" height="7" rx="1" stroke="black" stroke-width="3" mask="url(#path-4-inside-1_13657_22158)"/></svg></div>
+          <span class="nav-label">Документи</span>
+        </div>
+        <div class="nav-item" data-page="page-services">
+          <div class="nav-icon"><svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg"><mask id="path-1-inside-1_13657_22172" fill="white"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 23.6154C5.84037 23.6154 4.18232 23.3034 2.74717 21.8682C1.30306 20.4241 1 18.775 1 12.6154C1 6.45573 1.31199 4.80661 2.74717 3.36253C4.18232 1.92735 5.84037 1.61536 12 1.61536C18.1596 1.61536 19.8177 1.92735 21.2528 3.36253C22.6969 4.80661 23 6.45573 23 12.6154C23 18.775 22.6969 20.4241 21.2528 21.8682C19.8177 23.3034 18.1596 23.6154 12 23.6154Z"/></mask><path d="M2.74717 21.8682L3.80785 20.8075L3.80782 20.8075L2.74717 21.8682ZM2.74717 3.36253L1.68649 2.30188L1.68324 2.30515L2.74717 3.36253ZM21.2528 3.36253L20.1922 4.42318L20.1922 4.42319L21.2528 3.36253ZM21.2528 21.8682L20.1922 20.8075L20.1922 20.8075L21.2528 21.8682ZM12 22.1154C8.90493 22.1154 7.08603 22.0336 5.88008 21.806C4.78166 21.5987 4.2908 21.2905 3.80785 20.8075L1.6865 22.9288C2.63869 23.881 3.69443 24.4465 5.32373 24.7539C6.84551 25.0411 8.93544 25.1154 12 25.1154V22.1154ZM3.80782 20.8075C3.31966 20.3194 3.01222 19.8284 2.8062 18.7329C2.57961 17.528 2.5 15.7117 2.5 12.6154H-0.5C-0.5 15.6786 -0.428084 17.7667 -0.142115 19.2873C0.164424 20.9173 0.730574 21.9729 1.68652 22.9289L3.80782 20.8075ZM2.5 12.6154C2.5 9.52026 2.58179 7.70371 2.80933 6.49901C3.01645 5.40245 3.32467 4.90936 3.81111 4.4199L1.68324 2.30515C0.734497 3.25978 0.169128 4.31329 -0.138544 5.94221C-0.425792 7.46301 -0.5 9.55083 -0.5 12.6154H2.5ZM3.80785 4.42318C4.2908 3.94021 4.78166 3.63203 5.88008 3.42473C7.08603 3.19714 8.90493 3.11536 12 3.11536V0.115356C8.93544 0.115356 6.84551 0.189572 5.32373 0.476771C3.69443 0.784262 2.63869 1.34967 1.6865 2.30188L3.80785 4.42318ZM12 3.11536C15.0951 3.11536 16.914 3.19714 18.1199 3.42473C19.2183 3.63203 19.7092 3.94021 20.1922 4.42318L22.3135 2.30188C21.3613 1.34967 20.3056 0.784261 18.6763 0.476771C17.1545 0.189572 15.0646 0.115356 12 0.115356V3.11536ZM20.1922 4.42319C20.6803 4.91135 20.9878 5.40236 21.1938 6.49785C21.4204 7.70272 21.5 9.51898 21.5 12.6154H24.5C24.5 9.55211 24.4281 7.464 24.1421 5.94338C23.8356 4.31338 23.2694 3.25779 22.3135 2.30187L20.1922 4.42319ZM21.5 12.6154C21.5 15.7117 21.4204 17.528 21.1938 18.7329C20.9878 19.8284 20.6803 20.3194 20.1922 20.8075L22.3135 22.9288C23.2694 21.9729 23.8356 20.9173 24.1421 19.2873C24.4281 17.7667 24.5 15.6786 24.5 12.6154H21.5ZM20.1922 20.8075C19.7092 21.2905 19.2183 21.5987 18.1199 21.806C16.914 22.0336 15.0951 22.1154 12 22.1154V25.1154C15.0646 25.1154 17.1545 25.0411 18.6763 24.7539C20.3056 24.4465 21.3613 23.881 22.3135 22.9288L20.1922 20.8075Z" fill="white" mask="url(#path-1-inside-1_13657_22172)"/><path d="M14.1433 5.61549C14.1302 5.61651 14.1171 5.61817 14.1041 5.62046C14.0557 5.62707 14.0093 5.64237 13.9678 5.66544C13.9263 5.68851 13.8906 5.71885 13.8628 5.7546L7.39955 13.6136C7.36155 13.6611 7.33901 13.7169 7.33439 13.775C7.32976 13.8331 7.34323 13.8912 7.37333 13.9429C7.40342 13.9947 7.44899 14.0381 7.50506 14.0685C7.56113 14.099 7.62555 14.1151 7.6913 14.1154H11.1418L9.32393 19.1885C9.29398 19.2613 9.29508 19.3413 9.32702 19.4134C9.35895 19.4856 9.41953 19.5449 9.49737 19.5803C9.57521 19.6156 9.66495 19.6246 9.74976 19.6056C9.83456 19.5865 9.90858 19.5407 9.95792 19.4767L16.6007 11.6171C16.6387 11.5696 16.6613 11.5138 16.6659 11.4557C16.6705 11.3976 16.6571 11.3396 16.627 11.2878C16.5969 11.236 16.5513 11.1926 16.4952 11.1622C16.4392 11.1318 16.3748 11.1156 16.309 11.1154H12.8417L14.4968 6.02785C14.5138 5.9795 14.5175 5.92825 14.5076 5.87837C14.4977 5.8285 14.4745 5.78143 14.44 5.74109C14.4054 5.70076 14.3604 5.66831 14.3088 5.64647C14.2573 5.62462 14.2005 5.614 14.1433 5.61549Z" fill="white"/></svg></div>
+          <span class="nav-label">Сервіси</span>
+        </div>
+        <div class="nav-item" data-page="page-menu">
+          <div class="nav-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_5391_4802)"><circle cx="12" cy="12" r="11.25" stroke="white" stroke-width="1.5"/><path d="M2.25208 19C4.43043 15.9719 7.98493 14 12 14C16.015 14 19.5695 15.9719 21.7479 19C21.4436 19.423 21.1125 19.8253 20.7571 20.2045C18.877 17.3693 15.6568 15.5 12 15.5C8.34319 15.5 5.12301 17.3693 3.24289 20.2045C2.88744 19.8253 2.55633 19.4229 2.25208 19Z" fill="white"/><rect x="9" y="5" width="6" height="7" rx="3" stroke="white" stroke-width="1.5"/></g><defs><clipPath id="clip0_5391_4802"><rect width="24" height="24" rx="12" fill="white"/></clipPath></defs></svg></div>
+          <span class="nav-label">Меню</span>
+        </div>
+      </nav>
   </div>
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
 
+      // --- НАВІГАЦІЯ ---
       const navItems = document.querySelectorAll('.nav-item');
       navItems.forEach(item => {
         item.addEventListener('click', () => {
@@ -303,116 +328,154 @@
         });
       });
 
+
+      // --- НОВА ЛОГІКА СЛАЙДЕРА ---
       const sliderContainer = document.querySelector('.slider-container');
-      const sliderWrapper = document.querySelector('.slider-wrapper');
       const slides = document.querySelectorAll('.slide');
       const dots = document.querySelectorAll('.page-indicator .dot');
-      let currentIndex = 0, isDragging = false, startPos = 0, currentTranslate = 0, prevTranslate = 0, animationID = 0;
+      const slideCount = slides.length;
 
-      const updateActiveSlide = i => {
-        slides.forEach((s, idx) => s.classList.toggle('active-slide', idx === i));
-        dots.forEach((d, idx) => d.classList.toggle('active', idx === i));
-      };
-      const setSliderPosition = () => sliderWrapper.style.transform = `translateX(${currentTranslate}px)`;
-      const getPositionX = e => e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
-      
+      let currentIndex = 0;
+      let isDragging = false;
+      let startPos = 0;
+      let currentTranslate = 0;
+
+      function getPositionX(e) {
+        return e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
+      }
+
+      function updateSliderStyles(dragOffset = 0) {
+        slides.forEach((slide, index) => {
+          // Відстань від поточного активного слайду
+          const distance = index - currentIndex;
+          // Прогрес перетягування до наступного/попереднього слайду
+          const dragProgress = dragOffset / sliderContainer.offsetWidth;
+
+          let newTransform = '';
+          let newOpacity = 1;
+
+          // Розраховуємо позицію, враховуючи перетягування
+          const currentPosition = distance - dragProgress;
+
+          // Не показуємо слайди, що знаходяться далеко
+          if (Math.abs(currentPosition) > 1.5) {
+            newOpacity = 0;
+          }
+
+          // Розраховуємо 3D трансформацію
+          const rotation = currentPosition * -30;
+          const translateX = currentPosition * 70; // Зсув вбік
+          const scale = 1 - Math.abs(currentPosition) * 0.2;
+          const translateZ = -Math.abs(currentPosition) * 150; // Глибина
+
+          newTransform = `translateX(${translateX}%) scale(${scale}) rotateY(${rotation}deg) translateZ(${translateZ}px)`;
+
+          slide.style.transform = newTransform;
+          slide.style.opacity = newOpacity;
+          // Робимо неактивні слайди неклікабельними
+          slide.style.pointerEvents = (index === currentIndex) ? 'auto' : 'none';
+        });
+      }
+
       function dragStart(e) {
         isDragging = true;
         startPos = getPositionX(e);
-        sliderWrapper.style.transition = 'none';
-        animationID = requestAnimationFrame(animation);
+        // Прибираємо плавний перехід під час перетягування
+        slides.forEach(slide => slide.style.transition = 'none');
         sliderContainer.style.cursor = 'grabbing';
       }
 
       function dragMove(e) {
-        if (isDragging) {
-          const currentPosition = getPositionX(e);
-          currentTranslate = prevTranslate + currentPosition - startPos;
-          setSliderPosition();
-
-          // Піксельна анімація підняття/опускання
-          const dragDistance = (currentPosition - startPos) / sliderContainer.offsetWidth; // Нормалізована відстань
-          const potentialIndex = -Math.round(currentTranslate / sliderContainer.offsetWidth);
-
-          slides.forEach((s, idx) => {
-            const flipCard = s.querySelector('.flip-card');
-            let yOffset = 0;
-            if (idx === currentIndex) {
-              yOffset = dragDistance * 10; // Плавне опускання при перетягуванні
-            } else if (idx === potentialIndex) {
-              yOffset = -dragDistance * 10; // Плавне підняття наступної
-            } else {
-              yOffset = 10; // Інші опущені
-            }
-            flipCard.style.transform = `translateY(${yOffset}px)`;
-          });
-        }
+        if (!isDragging) return;
+        const currentPosition = getPositionX(e);
+        currentTranslate = currentPosition - startPos;
+        updateSliderStyles(currentTranslate);
       }
 
       function dragEnd() {
-        cancelAnimationFrame(animationID);
+        if (!isDragging) return;
         isDragging = false;
-        const movedBy = currentTranslate - prevTranslate;
 
-        if (movedBy < -100 && currentIndex < slides.length - 1) currentIndex++;
-        if (movedBy > 100 && currentIndex > 0) currentIndex--;
+        const movedBy = currentTranslate;
+        const threshold = sliderContainer.offsetWidth / 4;
 
-        currentTranslate = -currentIndex * sliderContainer.offsetWidth;
-        prevTranslate = currentTranslate;
+        // Визначаємо, чи потрібно перемкнути слайд
+        if (movedBy < -threshold && currentIndex < slideCount - 1) {
+          currentIndex++;
+        }
+        if (movedBy > threshold && currentIndex > 0) {
+          currentIndex--;
+        }
+
+        // Повертаємо плавний перехід
+        slides.forEach(slide => slide.style.transition = 'transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.5s ease');
+        // Оновлюємо стилі до фінальної позиції
+        updateSliderStyles(0);
+        updateDots();
         
-        sliderWrapper.style.transition = 'transform 0.3s ease-in-out';
-        setSliderPosition();
-        updateActiveSlide(currentIndex);
-        slides.forEach(s => {
-          const flipCard = s.querySelector('.flip-card');
-          flipCard.style.transition = 'transform 0.3s ease-in-out';
-          flipCard.style.transform = s.classList.contains('active-slide') ? 'translateY(-10px)' : 'translateY(10px)';
-        });
+        currentTranslate = 0;
         sliderContainer.style.cursor = 'grab';
       }
-
-      function animation() {
-        setSliderPosition();
-        if (isDragging) requestAnimationFrame(animation);
+      
+      function updateDots() {
+          dots.forEach((dot, index) => {
+              dot.classList.toggle('active', index === currentIndex);
+          });
       }
-      
+
+      // Ініціалізація
+      updateSliderStyles(0);
+      updateDots();
+
       ['mousedown', 'touchstart'].forEach(e => sliderContainer.addEventListener(e, dragStart, { passive: true }));
-      ['mouseup', 'touchend', 'mouseleave'].forEach(e => sliderContainer.addEventListener(e, dragEnd));
-      ['mousemove', 'touchmove'].forEach(e => sliderContainer.addEventListener(e, dragMove, { passive: true }));
-      
+      ['mouseup', 'touchend', 'mouseleave'].forEach(e => document.addEventListener(e, dragEnd));
+      ['mousemove', 'touchmove'].forEach(e => document.addEventListener(e, dragMove, { passive: true }));
+
+
+      // --- ЛОГІКА ПЕРЕВЕРТАННЯ КАРТКИ І ТАЙМЕРА ---
       const flipCards = document.querySelectorAll('.flip-card');
       const timerEl = document.getElementById('qr-timer');
       let timerInterval = null;
 
       function startTimer() {
           clearInterval(timerInterval);
-          let timeLeft = 176;
+          let timeLeft = 180; // 3 хвилини
+          const updateTimerText = () => {
+            const minutes = Math.floor(timeLeft / 60);
+            let seconds = timeLeft % 60;
+            seconds = seconds < 10 ? '0' + seconds : seconds;
+            timerEl.textContent = `${minutes}:${seconds}`;
+          };
+
+          updateTimerText();
           timerInterval = setInterval(() => {
               timeLeft--;
-              const minutes = Math.floor(timeLeft / 60);
-              let seconds = timeLeft % 60;
-              seconds = seconds < 10 ? '0' + seconds : seconds;
-              timerEl.textContent = `${minutes}:${seconds}`;
+              updateTimerText();
               if (timeLeft <= 0) {
                   clearInterval(timerInterval);
                   timerEl.textContent = "Час вийшов";
               }
           }, 1000);
       }
-      
+
       flipCards.forEach(card => {
-        card.addEventListener('click', () => {
+        card.addEventListener('click', (e) => {
+            // Щоб клік не спрацьовував під час перетягування слайдера
+            if (Math.abs(currentTranslate) > 10) return;
+
             const inner = card.querySelector('.flip-card-inner');
             inner.classList.toggle('is-flipped');
             if (inner.classList.contains('is-flipped')) {
                 startTimer();
             } else {
                 clearInterval(timerInterval);
-                timerEl.textContent = "2:56";
+                timerEl.textContent = "";
             }
         });
       });
-      
+
+
+      // --- ЛОГІКА SERVICE WORKER ---
       const VERSION = new Date().getTime();
       const CACHE_NAME = `diia-clone-cache-v${VERSION}`;
 
