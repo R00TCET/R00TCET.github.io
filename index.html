@@ -15,7 +15,6 @@
   <meta name="theme-color" content="#4e8cde">
 
   <style>
-    /* Підключення шрифту Manrope з Google Fonts */
     @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap');
 
     :root {
@@ -32,14 +31,10 @@
       --banner-color: #b1d8b4;
     }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
-      font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       background: var(--background-gradient);
       height: 100vh;
       color: var(--text-color);
@@ -51,79 +46,64 @@
       user-select: none;
     }
 
-    .app-container {
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .content {
-      flex-grow: 1;
-      overflow: hidden;
-      position: relative;
-    }
+    .app-container { height: 100%; display: flex; flex-direction: column; }
+    .content { flex-grow: 1; overflow: hidden; position: relative; }
     
+    /* --- Анімація переходу між сторінками (Fade) --- */
     .page {
-      width: 100%;
-      height: 100%;
-      position: absolute;
-      top: 0;
-      left: 0;
-      padding: 0 10px;
-      overflow-y: auto;
-      transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      width: 100%; height: 100%; position: absolute; top: 0; left: 0;
+      padding: 0 10px; overflow-y: auto;
+      transition: opacity 0.25s ease-in-out, visibility 0.25s ease-in-out;
+      visibility: hidden; opacity: 0;
     }
-    .page:not(.active) {
-      transform: translateX(100vw);
-    }
-    .page.active {
-      transform: translateX(0);
-    }
-    .page.is-exiting {
-      transform: translateX(-100vw);
-    }
+    .page.active { visibility: visible; opacity: 1; }
 
-    #page-docs.active {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
+    #page-docs.active { display: flex; flex-direction: column; justify-content: center; }
     
-    .placeholder-page {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100%;
-        font-size: 24px;
-        color: #555;
-    }
+    .placeholder-page { display: flex; justify-content: center; align-items: center; height: 100%; font-size: 24px; color: #555; }
     
-    .slider-container {
+    /* --- Слайдер документів --- */
+    .slider-container { width: 100%; max-width: 400px; margin: 0 auto; overflow: hidden; }
+    .slider-wrapper { display: flex; }
+    .slide { flex: 0 0 100%; padding: 5px; } /* Жорстка ширина слайду */
+    
+    /* --- Анімація перевертання картки --- */
+    .flip-card {
+        background-color: transparent;
         width: 100%;
-        max-width: 400px;
-        margin: 0 auto;
-        overflow: hidden;
+        height: 490px;
+        perspective: 1000px;
+        cursor: pointer;
     }
-
-    .slider-wrapper {
+    .flip-card-inner {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        transition: transform 0.6s;
+        transform-style: preserve-3d;
+    }
+    .flip-card-inner.is-flipped {
+        transform: rotateY(180deg);
+    }
+    .flip-card-front, .flip-card-back {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+    }
+    .flip-card-back {
+        transform: rotateY(180deg);
         display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 15px;
+        background: white;
+        border-radius: 24px;
+        padding: 20px;
     }
-
-    .slide {
-        flex: 0 0 100%;
-        padding: 5px;
-        transition: opacity 0.4s ease, transform 0.4s ease;
-    }
-
-    .slide:not(.active-slide) {
-        opacity: 0.5;
-        transform: scale(0.95);
-    }
-    .slide.active-slide {
-        opacity: 1;
-        transform: scale(1);
-    }
-
+    
     .document-container {
         background: var(--card-background);
         border-radius: 24px;
@@ -131,233 +111,45 @@
         -webkit-backdrop-filter: blur(25px);
         border: 1px solid rgba(255, 255, 255, 0.3);
         overflow: hidden;
-        cursor: pointer;
     }
-
-    .empty-card {
-        height: 480px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.2rem;
-        color: #888;
-    }
+    .empty-card { height: 490px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: #888; }
+    .document-content { padding: 20px; }
+    .document-title { font-size: 24px; font-weight: 800; margin-bottom: 20px; }
+    .personal-info { display: flex; align-items: center; gap: 15px; }
+    .photo img { width: 100px; height: 133px; border-radius: 12px; object-fit: cover; }
+    .details { display: flex; flex-direction: column; gap: 15px; }
+    .detail-item { display: flex; flex-direction: column; }
+    .detail-item .label { font-size: 15px; color: var(--label-color); font-weight: 500; }
+    .detail-item .value { font-size: 18px; font-weight: 700; color: var(--text-color); }
     
-    .document-content {
-        padding: 20px;
-    }
+    .status-banner-wrapper { background-color: var(--banner-color); padding: 9px 0; overflow: hidden; white-space: nowrap; }
+    @keyframes marquee { 0% { transform: translateX(50%); } 100% { transform: translateX(-150%); } }
+    .status-banner { display: inline-block; font-size: 14px; font-weight: 500; padding-right: 50%; animation: marquee 12s linear infinite; }
 
-    .document-title {
-      font-size: 24px;
-      font-weight: 800;
-      margin-bottom: 20px;
-    }
-
-    .personal-info {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-    }
-
-    .photo img {
-      width: 100px;
-      height: 133px;
-      border-radius: 12px;
-      object-fit: cover;
-    }
-
-    .details {
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-    }
-
-    .detail-item {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .detail-item .label {
-      font-size: 15px;
-      color: var(--label-color);
-      font-weight: 500;
-    }
-
-    .detail-item .value {
-      font-size: 18px;
-      font-weight: 700;
-      color: var(--text-color);
-    }
+    .info-section { padding: 20px; }
+    .name-section { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; min-width: 0; }
+    .full-name { display: flex; flex-direction: column; min-width: 0; }
+    .name-part { font-size: 28px; font-weight: 800; line-height: 1.2; word-break: break-word; }
+    .more-options { width: 36px; height: 36px; background-color: #2c2c2e; border-radius: 50%; display: flex; justify-content: center; align-items: center; flex-shrink: 0; margin-left: 10px; }
+    .more-options svg { width: 20px; height: 20px; fill: #fff; }
     
-    .status-banner-wrapper {
-        background-color: var(--banner-color);
-        padding: 9px 0;
-        overflow: hidden;
-        white-space: nowrap;
-    }
+    .page-indicator-container { padding: 15px 0; width: 100%; max-width: 400px; margin: 0 auto; }
+    .page-indicator { display: flex; justify-content: center; gap: 6px; }
+    .dot { width: 7px; height: 7px; background-color: rgba(0, 0, 0, 0.15); border-radius: 50%; transition: background-color 0.3s ease; }
+    .dot.active { background-color: rgba(0, 0, 0, 0.6); }
+
+    .bottom-nav { display: flex; justify-content: space-around; background-color: var(--nav-background); padding: 8px 0 20px 0; position: fixed; bottom: 0; left: 0; width: 100%; border-top-left-radius: 20px; border-top-right-radius: 20px; z-index: 100; }
+    .nav-item { display: flex; flex-direction: column; align-items: center; text-decoration: none; color: var(--nav-text-color); gap: 4px; padding: 0 10px; cursor: pointer; }
+    .nav-icon { width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; }
+    .nav-label { font-size: 10px; }
+    .nav-item.active .nav-label { color: var(--nav-active-color); }
     
-    @keyframes marquee {
-        0% { transform: translateX(50%); }
-        100% { transform: translateX(-150%); }
-    }
-
-    .status-banner {
-        display: inline-block;
-        font-size: 14px;
-        font-weight: 500;
-        padding-right: 50%; 
-        animation: marquee 12s linear infinite;
-    }
-
-    .info-section {
-        padding: 20px;
-    }
-
-    .name-section {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 20px;
-      min-width: 0;
-    }
-
-    .full-name {
-      display: flex;
-      flex-direction: column;
-      min-width: 0; /* Вирішує проблему переповнення */
-    }
-
-    .name-part {
-      font-size: 28px;
-      font-weight: 800;
-      line-height: 1.2;
-      word-break: break-word; /* Дозволяє переносити довгі слова */
-    }
-
-    .more-options {
-      width: 36px;
-      height: 36px;
-      background-color: #2c2c2e;
-      border-radius: 50%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      cursor: pointer;
-      flex-shrink: 0;
-      margin-left: 10px;
-    }
+    #update-notification { position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%); background-color: #28a745; color: white; padding: 10px 20px; border-radius: 20px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); z-index: 200; cursor: pointer; font-size: 14px; font-weight: 500; display: none; }
     
-    .more-options svg {
-        width: 20px;
-        height: 20px;
-        fill: #fff;
-    }
-    
-    .page-indicator-container {
-        padding: 15px 0;
-        width: 100%;
-        max-width: 400px;
-        margin: 0 auto;
-    }
+    #qr-timer { font-size: 18px; font-weight: 700; color: var(--text-color); }
+    .flip-card-back h3 { font-weight: 700; font-size: 16px; }
+    .flip-card-back svg { width: 200px; height: 200px; }
 
-    .page-indicator {
-      display: flex;
-      justify-content: center;
-      gap: 6px;
-    }
-
-    .dot {
-      width: 7px;
-      height: 7px;
-      background-color: rgba(0, 0, 0, 0.15);
-      border-radius: 50%;
-      transition: background-color 0.3s ease;
-    }
-
-    .dot.active {
-      background-color: rgba(0, 0, 0, 0.6);
-    }
-
-    .bottom-nav {
-      display: flex;
-      justify-content: space-around;
-      background-color: var(--nav-background);
-      padding: 8px 0 20px 0;
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      border-top-left-radius: 20px;
-      border-top-right-radius: 20px;
-      z-index: 100;
-    }
-
-    .nav-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-decoration: none;
-      color: var(--nav-text-color);
-      gap: 4px;
-      padding: 0 10px;
-      cursor: pointer;
-    }
-
-    .nav-icon {
-      width: 28px;
-      height: 28px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    
-    .nav-label {
-      font-size: 10px;
-    }
-
-    .nav-item.active .nav-label {
-      color: var(--nav-active-color);
-    }
-    
-    #update-notification {
-        position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%);
-        background-color: #28a745; color: white; padding: 10px 20px;
-        border-radius: 20px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-        z-index: 200; cursor: pointer; font-size: 14px; font-weight: 500; display: none;
-    }
-
-    /* --- СТИЛІ ДЛЯ QR-КОДУ --- */
-    #qr-modal {
-        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-        background-color: rgba(0,0,0,0.6);
-        display: flex; align-items: center; justify-content: center;
-        z-index: 1000;
-        opacity: 0; visibility: hidden;
-        transition: opacity 0.3s ease, visibility 0.3s ease;
-    }
-    #qr-modal.visible {
-        opacity: 1; visibility: visible;
-    }
-    .qr-modal-content {
-        background: white; padding: 30px; border-radius: 20px;
-        text-align: center;
-        transform: scale(0.9); transition: transform 0.3s ease;
-    }
-    #qr-modal.visible .qr-modal-content {
-        transform: scale(1);
-    }
-    .qr-modal-content h3 {
-        margin-bottom: 15px; font-weight: 700;
-    }
-    .qr-modal-content svg {
-        width: 200px; height: 200px;
-    }
-    .close-modal {
-        position: absolute; top: 15px; right: 15px;
-        width: 30px; height: 30px;
-        font-size: 24px; font-weight: bold;
-        color: #555; cursor: pointer; border: none; background: none;
-    }
   </style>
 </head>
 <body>
@@ -374,39 +166,50 @@
               <div class="slider-wrapper">
                 <!-- СЛАЙД 1 -->
                 <div class="slide active-slide">
-                  <div class="document-container">
-                    <div class="document-content">
-                      <h1 class="document-title">єДокумент</h1>
-                      <div class="personal-info">
-                        <div class="photo">
-                          <!-- ВАЖЛИВО: Шлях /pasport.png не працюватиме. Потрібно вставити зображення у форматі Base64 -->
-                          <img src="data:image/jpeg;base64,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" alt="Фото Пупченко Роман">
-                        </div>
-                        <div class="details">
-                          <div class="detail-item">
-                            <span class="label">Дата народження:</span>
-                            <span class="value">00.00.0000</span>
-                          </div>
-                          <div class="detail-item">
-                            <span class="label">РНОКПП:</span>
-                            <span class="value">000000000</span>
-                          </div>
+                  <div class="flip-card">
+                    <div class="flip-card-inner">
+                      <div class="flip-card-front">
+                        <div class="document-container">
+                            <div class="document-content">
+                              <h1 class="document-title">єДокумент</h1>
+                              <div class="personal-info">
+                                <div class="photo">
+                                  <!-- ВАЖЛИВО: Щоб це фото запрацювало, його треба перетворити в Base64 і вставити отриманий код сюди -->
+                                  <img src="./pasport.png" alt="Фото Пупченко Роман">
+                                </div>
+                                <div class="details">
+                                  <div class="detail-item">
+                                    <span class="label">Дата народження:</span>
+                                    <span class="value">00.00.0000</span>
+                                  </div>
+                                  <div class="detail-item">
+                                    <span class="label">РНОКПП:</span>
+                                    <span class="value">000000000</span>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="status-banner-wrapper">
+                              <div class="status-banner">Документ діє під час воєнного стану. Ой у лузі червона калина.</div>
+                            </div>
+                            <div class="info-section">
+                              <div class="name-section">
+                                <div class="full-name">
+                                  <span class="name-part">Пупченко</span>
+                                  <span class="name-part">Роман</span>
+                                  <span class="name-part">Олександрович</span>
+                                </div>
+                                <div class="more-options">
+                                  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M6 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm12 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>
+                                </div>
+                              </div>
+                            </div>
                         </div>
                       </div>
-                    </div>
-                    <div class="status-banner-wrapper">
-                      <div class="status-banner">Документ діє під час воєнного стану. Ой у лузі червона калина.</div>
-                    </div>
-                    <div class="info-section">
-                      <div class="name-section">
-                        <div class="full-name">
-                          <span class="name-part">Пупченко</span>
-                          <span class="name-part">Роман</span>
-                          <span class="name-part">Олександрович</span>
-                        </div>
-                        <div class="more-options">
-                          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M6 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm12 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>
-                        </div>
+                      <div class="flip-card-back">
+                          <h3>QR-код дійсний 3 хв</h3>
+                          <svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h256v256H0z" fill="#fff"/><path d="M48 48h64v64H48zM56 56v48h48V56zm8 8h32v32H64zM144 48h64v64h-64zM152 56v48h48V56zm8 8h32v32h-32zM48 144h64v64H48zM56 152v48h48v-48zm8 8h32v32H64zM200 144h8v8h-8zM184 144h8v8h-8zM168 144h8v8h-8zM152 144h8v8h-8zM144 152h8v8h-8zM144 168h8v8h-8zM152 176h8v8h-8zM160 184h8v8h-8zM168 192h8v8h-8zM176 200h8v8h-8zM184 200h8v8h-8zM192 192h8v8h-8zM200 184h8v8h-8zM200 176h16v8h-16zM208 168h8v8h-8zM208 160h8v8h-8zM192 152h8v8h-8zM184 160h16v8H184zM176 168h8v8h-8zM168 176h8v8h-8zM160 160h8v8h-8zM144 184h16v8H144zM144 200h8v8h-8zM152 208h8v8h-8zM168 208h16v8H168zM192 208h16v8H192z" fill-rule="evenodd"/></svg>
+                          <div id="qr-timer">3:00</div>
                       </div>
                     </div>
                   </div>
@@ -438,14 +241,6 @@
     </main>
     
     <div id="update-notification">Доступне оновлення. Оновити?</div>
-    
-    <div id="qr-modal">
-        <div class="qr-modal-content">
-            <button class="close-modal">&times;</button>
-            <h3>Покажіть QR-код для перевірки</h3>
-            <svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h256v256H0z" fill="#fff"/><path d="M48 48h64v64H48zM56 56v48h48V56zm8 8h32v32H64zM144 48h64v64h-64zM152 56v48h48V56zm8 8h32v32h-32zM48 144h64v64H48zM56 152v48h48v-48zm8 8h32v32H64zM200 144h8v8h-8zM184 144h8v8h-8zM168 144h8v8h-8zM152 144h8v8h-8zM144 152h8v8h-8zM144 168h8v8h-8zM152 176h8v8h-8zM160 184h8v8h-8zM168 192h8v8h-8zM176 200h8v8h-8zM184 200h8v8h-8zM192 192h8v8h-8zM200 184h8v8h-8zM200 176h16v8h-16zM208 168h8v8h-8zM208 160h8v8h-8zM192 152h8v8h-8zM184 160h16v8H184zM176 168h8v8h-8zM168 176h8v8h-8zM160 160h8v8h-8zM144 184h16v8H144zM144 200h8v8h-8zM152 208h8v8h-8zM168 208h16v8H168zM192 208h16v8H192z" fill-rule="evenodd"/></svg>
-        </div>
-    </div>
 
     <nav class="bottom-nav">
       <div class="nav-item" data-page="page-feed">
@@ -470,68 +265,45 @@
   <script>
     document.addEventListener('DOMContentLoaded', () => {
 
-      // --- ЛОГІКА ПЕРЕМИКАННЯ СТОРІНОК З АНІМАЦІЄЮ ---
       const navItems = document.querySelectorAll('.nav-item');
-      
       navItems.forEach(item => {
         item.addEventListener('click', () => {
           const targetPageId = item.dataset.page;
           const oldPage = document.querySelector('.page.active');
           const newPage = document.getElementById(targetPageId);
-          
           if (oldPage === newPage) return;
 
-          oldPage.classList.add('is-exiting');
           oldPage.classList.remove('active');
-          
-          newPage.classList.remove('is-exiting');
           newPage.classList.add('active');
-          
-          setTimeout(() => oldPage.classList.remove('is-exiting'), 350);
 
           navItems.forEach(nav => nav.classList.remove('active'));
           item.classList.add('active');
         });
       });
 
-      // --- ЛОГІКА СЛАЙДЕРА З АНІМАЦІЄЮ ---
       const sliderContainer = document.querySelector('.slider-container');
       const sliderWrapper = document.querySelector('.slider-wrapper');
       const slides = document.querySelectorAll('.slide');
       const dots = document.querySelectorAll('.page-indicator .dot');
-      let currentIndex = 0;
-      let isDragging = false;
-      let startPos = 0;
-      let currentTranslate = 0;
-      let prevTranslate = 0;
-      let animationID = 0;
+      let currentIndex = 0, isDragging = false, startPos = 0, currentTranslate = 0, prevTranslate = 0, animationID = 0;
 
-      function updateActiveSlide(index) {
-        slides.forEach((slide, i) => slide.classList.toggle('active-slide', i === index));
-        dots.forEach((dot, i) => dot.classList.toggle('active', i === index));
-      }
-
-      function setSliderPosition() {
-        sliderWrapper.style.transform = `translateX(${currentTranslate}px)`;
-      }
-
-      function getPositionX(event) {
-        return event.type.includes('mouse') ? event.pageX : event.touches[0].clientX;
-      }
+      const updateActiveSlide = i => {
+        slides.forEach((s, idx) => s.classList.toggle('active-slide', idx === i));
+        dots.forEach((d, idx) => d.classList.toggle('active', idx === i));
+      };
+      const setSliderPosition = () => sliderWrapper.style.transform = `translateX(${currentTranslate}px)`;
+      const getPositionX = e => e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
       
-      function dragStart(event) {
+      function dragStart(e) {
         isDragging = true;
-        startPos = getPositionX(event);
+        startPos = getPositionX(e);
         sliderWrapper.style.transition = 'none';
         animationID = requestAnimationFrame(animation);
         sliderContainer.style.cursor = 'grabbing';
       }
 
-      function dragMove(event) {
-        if (isDragging) {
-          const currentPosition = getPositionX(event);
-          currentTranslate = prevTranslate + currentPosition - startPos;
-        }
+      function dragMove(e) {
+        if (isDragging) currentTranslate = prevTranslate + getPositionX(e) - startPos;
       }
 
       function dragEnd() {
@@ -556,59 +328,69 @@
         if(isDragging) requestAnimationFrame(animation);
       }
       
-      sliderContainer.addEventListener('mousedown', dragStart);
-      sliderContainer.addEventListener('touchstart', dragStart, { passive: true });
-      sliderContainer.addEventListener('mouseup', dragEnd);
-      sliderContainer.addEventListener('touchend', dragEnd);
-      sliderContainer.addEventListener('mouseleave', dragEnd);
-      sliderContainer.addEventListener('mousemove', dragMove);
-      sliderContainer.addEventListener('touchmove', dragMove, { passive: true });
+      ['mousedown', 'touchstart'].forEach(e => sliderContainer.addEventListener(e, dragStart, { passive: true }));
+      ['mouseup', 'touchend', 'mouseleave'].forEach(e => sliderContainer.addEventListener(e, dragEnd));
+      ['mousemove', 'touchmove'].forEach(e => sliderContainer.addEventListener(e, dragMove, { passive: true }));
       
-      // --- ЛОГІКА QR-КОДУ ---
-      const qrModal = document.getElementById('qr-modal');
-      const closeModalBtn = document.querySelector('.close-modal');
-      const docContainers = document.querySelectorAll('.document-container');
-      
-      const openModal = () => qrModal.classList.add('visible');
-      const closeModal = () => qrModal.classList.remove('visible');
+      const flipCards = document.querySelectorAll('.flip-card');
+      const timerEl = document.getElementById('qr-timer');
+      let timerInterval = null;
 
-      docContainers.forEach(container => container.addEventListener('click', openModal));
-      closeModalBtn.addEventListener('click', closeModal);
-      qrModal.addEventListener('click', (e) => {
-        if (e.target === qrModal) closeModal();
+      function startTimer() {
+          clearInterval(timerInterval);
+          let timeLeft = 180;
+          timerInterval = setInterval(() => {
+              timeLeft--;
+              const minutes = Math.floor(timeLeft / 60);
+              let seconds = timeLeft % 60;
+              seconds = seconds < 10 ? '0' + seconds : seconds;
+              timerEl.textContent = `${minutes}:${seconds}`;
+              if (timeLeft <= 0) {
+                  clearInterval(timerInterval);
+                  timerEl.textContent = "Час вийшов";
+              }
+          }, 1000);
+      }
+      
+      flipCards.forEach(card => {
+        card.addEventListener('click', () => {
+            const inner = card.querySelector('.flip-card-inner');
+            inner.classList.toggle('is-flipped');
+            if (inner.classList.contains('is-flipped')) {
+                startTimer();
+            } else {
+                clearInterval(timerInterval);
+                timerEl.textContent = "3:00";
+            }
+        });
       });
-
-      // --- PWA ЛОГІКА (з оновленням кешу) ---
+      
       const VERSION = new Date().getTime();
       const CACHE_NAME = `diia-clone-cache-v${VERSION}`;
 
       const manifest = {
-        "name": "єДокумент", "short_name": "єДокумент", "start_url": location.href.replace(/\?.*$/, ''),
-        "display": "standalone", "background_color": "#c9e3eb", "theme_color": "#4e8cde",
+        "name": "єДокумент", "short_name": "єДокумент", "start_url": ".", "display": "standalone", "background_color": "#c9e3eb", "theme_color": "#4e8cde",
         "icons": [{"src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAYAAABS3GwHAAAAAXNSR0IArs4c6QAAAyJJREFUeF7t0AEBAAAAEADC/2H5NEbDAwKChAAAAAAAAAAAAAD45wEAAAAAAAAAAAAA8McDAAAAAAAAAAAAAODjBwAAAAAAAAAAAABA/3kAAAAAAAAAAAAAwB8PAAAAAAAAAAAAAHg4AQAAAAAAAAAAAMD/eQAAAAAAAAAAAADAHw8AAAAAAAAAAAAA8HACAAAAAAAAAAAAgP7zAAAAAAAAAAAAAIC/HAAAAAAAAAAAAACAhxMAAAAAAAAAAAAA+s8DAAAAAAAAAAAAAOBfDwAAAAAAAAAAAACAxxMAAAAAAAAAAAAA4f88AAAAAAAAAAAAAOAfDwAAAAAAAAAAAADw4AQAAAAAAAAAAAD8nwcAAAAAAAAAAAAA8K8HAAAAAAAAAAAAAPBhAgAAAAAAAAAAAPh/ngAAAAAAAAAAAADA/x4AAAAAAAAAAAAA8OECAAAAAAAAAAAA+M8DAAAAAAAAAAAAAOBfDwAAAAAAAAAAAACAxxMAAAAAAAAAAAAA4f88AAAAAAAAAAAAAOAfDwAAAAAAAAAAAADw4AQAAAAAAAAAAAD8nwcAAAAAAAAAAAAA8K8HAAAAAAAAAAAAAPBhAgAAAAAAAAAAAPh/ngAAAAAAAAAAAADA/x4AAAAAAAAAAAAA8OECAAAAAAAAAAAA+M8DAAAAAAAAAAAAAOBfDwAAAAAAAAAAAACAxxMAAAAAAAAAAAAA4f88AAAAAAAAAAAAAOAfDwAAAAAAAAAAAADw4AQAAAAAAAAAAAD8nwcAAAAAAAAAAAAA8K8HAAAAAAAAAAAAAPBhAgAAAAAAAAAAAPh/ngAAAAAAAAAAAADA/x4AAAAAAAAAAAAA8OECAAAAAAAAAAAA+M8DAAAAAAAAAAAAAOBfDwAAAAAAAAAAAACAxxMAAAAAAAAAAAAA4f88AAAAAAAAAAAAAOAfDwAAAAAAAAAAAADw4AQAAAAAAAAAAAD8nwcAAAAAAAAAAAAA8K8HAAAAAAAAAAAAAPBhAgAAAAAAAAAAAPh/ngAAAAAAAAAAAADA/x4AAAAAAAAAAAAA8OECAAAAAAAAAAAA+M8DAAAAAAAAAAAAAOBfDwAAAAAAAAAAAACAxxMAAAAAAAAAAAAA4f88AAAAAAAAAAAAAOAfDwAAAAAAAAAAAADw4AQAAAAAAAAAAAD8nwcAAAAAAAAAAAAA8K8HAAAAAAAAAAAAAPBhAgAAAAAAAAAAAPh/ngAAAAAAAAAAAADA/x4AAAAAAAAAAAAA8OECAAAAAAAAAAAA+M8DAAAAAAAAAAAAAOBfDwAAAAAAAAAAAACAxxMAAAAAAAAAAAAA4f88AAAAAAAAAAAAAOAfDwAAAAAAAAAAAADw4AQAAAAAAAAAAAD8nwcAAAAAAAAAAAAA8K8HAAAAAAAAAAAAAPBhAgAAAAAAAAAAAPh/ngAAAAAAAAAAAADA/x4AAAAAAAAAAAAA8OECAAAAAAAAAAAA+M8DAAAAAAAAAAAAAOBfDwAAAAAAAAAAAACAxxMAAAAAAAAAAAAA4f88AAAAAAAAAAAAAOAfDwAAAAAAAAAAAADw4AQAAAAAAAAAAAD8nwcAAAAAAAAAAAAA8K8HAAAAAAAAAAAAAPBhAgAAAAAAAAAAAPh/ngAAAAAAAAAAAADA/xsA3g4Y9QAAAABJRU5ErkJggg==", "sizes": "192x192", "type": "image/png"}]
       };
       const manifestBlob = new Blob([JSON.stringify(manifest)], { type: 'application/json' });
-      const manifestUrl = URL.createObjectURL(manifestBlob);
-      document.getElementById('manifest').setAttribute('href', manifestUrl);
+      document.getElementById('manifest').href = URL.createObjectURL(manifestBlob);
 
       const swCode = `
         const CACHE_NAME = '${CACHE_NAME}';
         const urlsToCache = ['${location.href.replace(/\?.*$/, '')}'];
-
         self.addEventListener('install', e => e.waitUntil(caches.open(CACHE_NAME).then(c => c.addAll(urlsToCache))));
         self.addEventListener('activate', e => e.waitUntil(caches.keys().then(names => Promise.all(names.map(name => name !== CACHE_NAME && caches.delete(name))))));
         self.addEventListener('fetch', e => e.respondWith(caches.match(e.request).then(r => r || fetch(e.request))));
         self.addEventListener('message', e => { if (e.data.action === 'skipWaiting') self.skipWaiting(); });
       `;
       const swBlob = new Blob([swCode], { type: 'application/javascript' });
-      const swUrl = URL.createObjectURL(swBlob);
 
       if ('serviceWorker' in navigator) {
         let newWorker;
         const updateNotification = document.getElementById('update-notification');
         updateNotification.addEventListener('click', () => newWorker.postMessage({ action: 'skipWaiting' }));
 
-        navigator.serviceWorker.register(swUrl).then(reg => {
+        navigator.serviceWorker.register(URL.createObjectURL(swBlob)).then(reg => {
           reg.addEventListener('updatefound', () => {
             newWorker = reg.installing;
             newWorker.addEventListener('statechange', () => {
