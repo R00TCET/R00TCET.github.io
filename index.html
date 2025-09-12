@@ -77,6 +77,7 @@
         justify-content: center;
         align-items: center;
         transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+        gap: 20px; /* Додано проміжок між елементами */
     }
     #splash-screen.hidden {
         opacity: 0;
@@ -88,13 +89,8 @@
         font-weight: 600;
     }
     .lottie-container {
-        position: absolute;
-        bottom: 50px;
-        left: 50%;
-        transform: translateX(-50%);
-        /* ВИПРАВЛЕНО: Додано жорсткий зсув для візуального центрування анімації */
-        margin-left: -25px; 
-        width: 200px;
+        /* ВИПРАВЛЕНО: Прибрано абсолютне позиціонування для коректного центрування */
+        width: 280px; /* Змінено розмір для кращого вигляду */
         height: auto;
     }
     
@@ -178,8 +174,9 @@
         backdrop-filter: none;
     }
     .keypad-btn img {
-        width: 55px;
-        height: 55px;
+        /* ВИПРАВЛЕНО: Збільшено розмір іконки */
+        width: 65px;
+        height: 65px;
         opacity: 0.7;
     }
     .keypad-btn svg {
@@ -228,15 +225,11 @@
     .slider-wrapper {
       display: flex;
       align-items: center;
-      /* ВИПРАВЛЕНО: Додано проміжок між картками */
       gap: 3px; 
-      transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
     .slide {
-      /* ВИПРАВЛЕНО: Змінено ширину та прибрано margin для коректної роботи з gap */
       flex: 0 0 80%; 
       height: 420px;
-      transition: transform 0.4s ease, opacity 0.4s ease;
       -webkit-tap-highlight-color: transparent;
     }
 
@@ -680,7 +673,7 @@
       document.querySelector('.nav-item.active')?.classList.remove('active');
 
 
-      // --- ЛОГІКА СЛАЙДЕРА (ПЛАСКА КАРУСЕЛЬ) ---
+      // --- ВИПРАВЛЕНО: ЛОГІКА СЛАЙДЕРА (ІНТЕРАКТИВНА АНІМАЦІЯ) ---
       const sliderContainer = document.querySelector('.slider-container');
       const sliderWrapper = document.querySelector('.slider-wrapper');
       const slides = document.querySelectorAll('.slide');
@@ -700,8 +693,43 @@
           dots.forEach((dot, index) => dot.classList.toggle('active', index === currentIndex));
       };
 
-      const setSliderPosition = () => {
+      const animation = () => {
         sliderWrapper.style.transform = `translateX(${currentTranslate}px)`;
+        
+        const containerCenter = sliderContainer.offsetWidth / 2;
+        slides.forEach(slide => {
+            const slideCenter = slide.offsetLeft + slide.offsetWidth / 2 + currentTranslate;
+            const distance = Math.abs(containerCenter - slideCenter);
+            const slideWidth = slide.offsetWidth;
+            const distanceFactor = Math.min(distance / slideWidth, 1);
+            
+            const scale = 1 - (0.1 * distanceFactor);
+            const opacity = 1 - (0.3 * distanceFactor);
+
+            slide.style.transform = `scale(${scale})`;
+            slide.style.opacity = `${opacity}`;
+            slide.style.pointerEvents = scale > 0.99 ? 'auto' : 'none';
+        });
+
+        if (isDragging) requestAnimationFrame(animation);
+      }
+      
+      const setFinalSliderPosition = () => {
+        sliderWrapper.style.transition = 'transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+        slides.forEach(slide => {
+            slide.style.transition = 'transform 0.4s ease, opacity 0.4s ease';
+        });
+
+        const targetSlide = slides[currentIndex];
+        if (!targetSlide) return;
+        const containerCenter = sliderContainer.offsetWidth / 2;
+        const slideCenter = targetSlide.offsetLeft + targetSlide.offsetWidth / 2;
+        
+        currentTranslate = containerCenter - slideCenter;
+        prevTranslate = currentTranslate;
+        
+        sliderWrapper.style.transform = `translateX(${currentTranslate}px)`;
+
         slides.forEach((slide, index) => {
             const scale = index === currentIndex ? 1 : 0.9;
             const opacity = index === currentIndex ? 1 : 0.7;
@@ -709,20 +737,22 @@
             slide.style.opacity = `${opacity}`;
             slide.style.pointerEvents = index === currentIndex ? 'auto' : 'none';
         });
-      };
-      
+        
+        updateSliderDots();
+      }
+
+      const positionSliderByIndex = () => {
+        setFinalSliderPosition();
+      }
+
       const dragStart = (e) => {
         isDragging = true;
         startPos = getPositionX(e);
         sliderWrapper.style.transition = 'none';
+        slides.forEach(slide => slide.style.transition = 'none');
         animationID = requestAnimationFrame(animation);
         sliderContainer.style.cursor = 'grabbing';
       };
-      
-      const animation = () => {
-          setSliderPosition();
-          if (isDragging) requestAnimationFrame(animation);
-      }
 
       const dragMove = (e) => {
         if (!isDragging) return;
@@ -738,32 +768,22 @@
 
         const movedBy = currentTranslate - prevTranslate;
         
-        if (movedBy < -50 && currentIndex < slideCount - 1) {
+        if (movedBy < -80 && currentIndex < slideCount - 1) {
           currentIndex++;
         }
-        if (movedBy > 50 && currentIndex > 0) {
+        if (movedBy > 80 && currentIndex > 0) {
           currentIndex--;
         }
 
         positionSliderByIndex();
       };
       
-      const positionSliderByIndex = () => {
-        const targetSlide = slides[currentIndex];
-        if (!targetSlide) return;
-        const containerCenter = sliderContainer.offsetWidth / 2;
-        const slideCenter = targetSlide.offsetLeft + targetSlide.offsetWidth / 2;
-        
-        currentTranslate = containerCenter - slideCenter;
-        prevTranslate = currentTranslate;
-        
-        sliderWrapper.style.transition = 'transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-        setSliderPosition();
-        updateSliderDots();
-      }
-
       const initializeCarousel = () => {
           if (!slides[currentIndex] || sliderContainer.offsetWidth === 0) return;
+          
+          sliderWrapper.style.transition = 'none';
+          slides.forEach(slide => slide.style.transition = 'none');
+
           const targetSlide = slides[currentIndex];
           const containerCenter = sliderContainer.offsetWidth / 2;
           const slideCenter = targetSlide.offsetLeft + targetSlide.offsetWidth / 2;
@@ -771,13 +791,11 @@
           currentTranslate = containerCenter - slideCenter;
           prevTranslate = currentTranslate;
           
-          sliderWrapper.style.transition = 'none';
-          setSliderPosition();
+          animation();
           updateSliderDots();
       }
       
       window.addEventListener('resize', initializeCarousel);
-
 
       ['mousedown', 'touchstart'].forEach(e => sliderContainer.addEventListener(e, dragStart, { passive: true }));
       ['mouseup', 'touchend', 'mouseleave'].forEach(e => document.addEventListener(e, dragEnd));
@@ -811,7 +829,7 @@
       flipCards.forEach(card => {
         card.addEventListener('click', () => {
             const movedBy = Math.abs(currentTranslate - prevTranslate);
-            if (isDragging || movedBy > 5) return;
+            if (isDragging && movedBy > 10) return;
             
             const slide = card.closest('.slide');
             if (slide.style.transform !== 'scale(1)') return;
