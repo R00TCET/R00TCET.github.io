@@ -93,8 +93,6 @@
         font-weight: 600;
     }
     .lottie-container {
-        /* ВИПРАВЛЕНО: Розмір зменшено вдвічі */
-        
         margin: 0 auto;
     }
     
@@ -129,14 +127,13 @@
     }
     .passcode-dots {
         display: flex;
-        gap: 15px; /* ВИПРАВЛЕНО: Зменшено відстань */
-        margin-bottom: 30px; /* ВИПРАВЛЕНО: Підсунуто ближче до клавіатури */
+        gap: 15px;
+        margin-bottom: 30px;
     }
     .passcode-dots.shake {
         animation: shake 0.3s linear;
     }
     .passcode-dot {
-        /* ВИПРАВЛЕНО: Розмір крапок зменшено */
         width: 8px;
         height: 8px;
         background-color: rgba(255, 255, 255, 0.8);
@@ -179,7 +176,6 @@
         backdrop-filter: none;
     }
     .keypad-btn img {
-        /* ВИПРАВЛЕНО: Іконку відбитка збільшено */
         width: 70px;
         height: 70px;
         opacity: 0.7;
@@ -189,7 +185,6 @@
         height: 35px;
     }
     .forgot-password {
-        /* ВИПРАВЛЕНО: Позиціонування змінено */
         position: absolute;
         bottom: 5vh;
         padding: 10px;
@@ -221,7 +216,8 @@
 
     .slider-container {
       width: 100%;
-      height: 420px;
+      /* Зміна 5: Висота картки збільшена */
+      height: 435px;
       margin-top: -50px;
       display: flex;
       align-items: center;
@@ -235,8 +231,9 @@
       gap: 3px; 
     }
     .slide {
-      flex: 0 0 80%; 
-      height: 420px;
+      flex: 0 0 80%;
+      /* Зміна 5: Висота картки збільшена */
+      height: 435px;
       -webkit-tap-highlight-color: transparent;
     }
 
@@ -287,8 +284,10 @@
         height: 100%;
     }
     .empty-card { height: 100%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: #888; }
-    .document-content { padding: 20px; }
-    .document-title { font-size: 24px; font-weight: 700; margin-bottom: 20px; }
+    /* Зміна 5: Збільшено відступ знизу */
+    .document-content { padding: 20px; padding-bottom: 35px; }
+    /* Зміна 1: Зменшено жирність */
+    .document-title { font-size: 24px; font-weight: 600; margin-bottom: 20px; }
     .personal-info {
         display: flex;
         align-items: flex-start;
@@ -307,9 +306,11 @@
     .details { display: flex; flex-direction: column; gap: 15px; }
     .detail-item { display: flex; flex-direction: column; }
     .detail-item .label, .detail-item .value {
-        font-size: 14px;
+        /* Зміна 3: Зменшено шрифт */
+        font-size: 12px;
         font-weight: 500;
         color: var(--text-color);
+        line-height: 1.3;
     }
     .detail-item .label {
         color: var(--label-color);
@@ -352,8 +353,9 @@
         word-break: break-word;
     }
     .more-options {
-        width: 36px;
-        height: 36px;
+        /* Зміна 4: Зменшено кружечок */
+        width: 24px;
+        height: 24px;
         background-color: #2c2c2e;
         border-radius: 50%;
         display: flex;
@@ -363,7 +365,8 @@
         margin-left: 10px;
         margin-bottom: 2px;
     }
-    .more-options svg { width: 20px; height: 20px; fill: #fff; }
+    /* Зміна 4: Зменшено крапки */
+    .more-options svg { width: 14px; height: 14px; fill: #fff; }
 
     .page-indicator-container {
         position: absolute;
@@ -405,6 +408,97 @@
     #qr-timer { font-size: 18px; font-weight: 700; color: var(--text-color); }
     .flip-card-back h3 { font-weight: 700; font-size: 16px; }
     .flip-card-back img { width: 200px; height: 200px; }
+    
+    /* СТИЛІ ДЛЯ ПІДПИСУ */
+    .signature-container {
+        margin-top: 10px;
+        width: 100%;
+    }
+    .signature-container .label {
+        font-size: 12px;
+        color: var(--label-color);
+        margin-bottom: 4px;
+    }
+    .signature-image {
+        width: 100%;
+        max-width: 150px;
+        height: 40px;
+        object-fit: contain;
+        align-self: flex-start;
+        display: none; /* Ховаємо за замовчуванням */
+    }
+
+    /* СТИЛІ ДЛЯ СТОРІНКИ МЕНЮ ТА МОДАЛЬНОГО ВІКНА ПІДПИСУ */
+    #page-menu {
+        padding: 20px;
+        color: #fff;
+        background: #1c1c1e;
+    }
+    .menu-list {
+        list-style: none;
+        padding: 0;
+        margin-top: 40px;
+    }
+    .menu-item {
+        background-color: #2c2c2e;
+        border-radius: 12px;
+        margin-bottom: 10px;
+        padding: 15px;
+        font-size: 17px;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+    .menu-item:active {
+        background-color: #3a3a3c;
+    }
+    
+    #signature-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        z-index: 10001;
+        display: none;
+        justify-content: center;
+        align-items: center;
+    }
+    .signature-pad-container {
+        background: #fff;
+        border-radius: 16px;
+        padding: 20px;
+        width: 90%;
+        max-width: 400px;
+    }
+    #signature-canvas {
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        cursor: crosshair;
+        touch-action: none;
+    }
+    .signature-buttons {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 15px;
+    }
+    .signature-buttons button {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+    }
+    #clear-signature {
+        background: #f0f0f0;
+        color: #007aff;
+    }
+    #save-signature {
+        background: #007aff;
+        color: #fff;
+    }
+
   </style>
 </head>
 <body>
@@ -465,7 +559,7 @@
         <div>
             <div class="slider-container">
               <div class="slider-wrapper">
-                <!-- СЛАЙД 1 -->
+                <!-- СЛАЙД 1: єДокумент -->
                 <div class="slide">
                   <div class="flip-card">
                     <div class="flip-card-inner">
@@ -479,11 +573,12 @@
                                 </div>
                                 <div class="details">
                                   <div class="detail-item">
-                                    <span class="label">Дата народження:</span>
+                                    <!-- Зміна 2: Перенос рядка -->
+                                    <span class="label">Дата<br>народження</span>
                                     <span class="value">29.07.2005</span>
                                   </div>
                                   <div class="detail-item">
-                                    <span class="label">РНОКПП:</span>
+                                    <span class="label">Номер</span>
                                     <span class="value">3856163250</span>
                                   </div>
                                 </div>
@@ -517,8 +612,63 @@
                     </div>
                   </div>
                 </div>
-                <!-- СЛАЙД 2 -->
-                <div class="slide"><div class="document-container empty-card">Паспорт</div></div>
+                <!-- Зміна 6: Створено слайд "Паспорт" за аналогією до "єДокумент" -->
+                <div class="slide">
+                    <div class="flip-card">
+                      <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                          <div class="document-container">
+                              <div class="document-content">
+                                <h1 class="document-title">Паспорт</h1>
+                                <div class="personal-info">
+                                  <div class="photo">
+                                    <img src="./pasport.png" alt="Фото">
+                                  </div>
+                                  <div class="details">
+                                    <div class="detail-item">
+                                      <span class="label">Дата<br>народження</span>
+                                      <span class="value">29.07.2005</span>
+                                    </div>
+                                    <div class="detail-item">
+                                      <span class="label">Номер</span>
+                                      <span class="value">3856163250</span>
+                                    </div>
+                                    <!-- Контейнер для підпису -->
+                                    <div class="signature-container">
+                                        <span class="label">Підпис</span>
+                                        <img id="passport-signature" class="signature-image" alt="Підпис">
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="status-banner-wrapper">
+                                <div class="status-banner">
+                                  <span>А ми нашу славну Україну, гей, гей, розвеселимо!</span>
+                                  <span>А ми нашу славну Україну, гей, гей, розвеселимо!</span>
+                                </div>
+                              </div>
+                              <div class="info-section">
+                                <div class="name-section">
+                                  <div class="full-name">
+                                    <span class="name-part">Іванов</span>
+                                    <span class="name-part">Іван</span>
+                                    <span class="name-part">Іванович</span>
+                                  </div>
+                                  <div class="more-options">
+                                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M6 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm12 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>
+                                  </div>
+                                </div>
+                              </div>
+                          </div>
+                        </div>
+                        <div class="flip-card-back">
+                            <h3>QR-код дійсний</h3>
+                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=PassportExample" alt="QR">
+                            <div class="qr-timer-passport"></div>
+                        </div>
+                      </div>
+                    </div>
+                </div>
                 <!-- СЛАЙД 3 -->
                 <div class="slide"><div class="document-container empty-card">Картка платника податків</div></div>
                 <!-- СЛАЙД 4 -->
@@ -540,8 +690,13 @@
         <div class="placeholder-page"><h1>Сервіси</h1></div>
       </div>
 
+      <!-- Зміна 6: Додано вміст сторінки Меню -->
       <div class="page" id="page-menu">
-        <div class="placeholder-page"><h1>Меню</h1></div>
+        <ul class="menu-list">
+            <li class="menu-item" id="diia-pidpys-btn">Дія.Підпис</li>
+            <li class="menu-item">Налаштування</li>
+            <li class="menu-item">Допомога</li>
+        </ul>
       </div>
     </main>
 
@@ -566,6 +721,18 @@
         </div>
       </nav>
   </div>
+  
+  <!-- Зміна 6: Модальне вікно для підпису -->
+  <div id="signature-modal">
+    <div class="signature-pad-container">
+        <canvas id="signature-canvas" width="300" height="150"></canvas>
+        <div class="signature-buttons">
+            <button id="clear-signature">Стерти</button>
+            <button id="save-signature">Продовжити</button>
+        </div>
+    </div>
+  </div>
+
 
     <script>
     document.addEventListener('DOMContentLoaded', () => {
@@ -575,8 +742,6 @@
       const loginScreen = document.getElementById('login-screen');
       const appContainer = document.querySelector('.app-container');
       
-
-
       setTimeout(() => {
           splashScreen.classList.add('hidden');
           loginScreen.classList.add('visible');
@@ -623,6 +788,8 @@
                 loginScreen.remove();
                 appContainer.style.display = 'flex';
                 navigateToPage('page-docs');
+                // Завантажуємо підпис при вході
+                loadSignature();
               }, 300);
             } else {
               passcodeDotsContainer.classList.add('shake');
@@ -808,16 +975,17 @@
       // --- ЛОГІКА ПЕРЕВЕРТАННЯ КАРТКИ І ТАЙМЕРА ---
       const flipCards = document.querySelectorAll('.flip-card');
       const timerEl = document.getElementById('qr-timer');
+      const timerElPassport = document.querySelector('.qr-timer-passport');
       let timerInterval = null;
 
-      function startTimer() {
+      function startTimer(element) {
           clearInterval(timerInterval);
           let timeLeft = 180;
           const updateTimerText = () => {
             const minutes = Math.floor(timeLeft / 60);
             let seconds = timeLeft % 60;
             seconds = seconds < 10 ? '0' + seconds : seconds;
-            timerEl.textContent = `${minutes}:${seconds}`;
+            element.textContent = `${minutes}:${seconds}`;
           };
           updateTimerText();
           timerInterval = setInterval(() => {
@@ -825,7 +993,7 @@
               updateTimerText();
               if (timeLeft <= 0) {
                   clearInterval(timerInterval);
-                  timerEl.textContent = "Час вийшов";
+                  element.textContent = "Час вийшов";
               }
           }, 1000);
       }
@@ -840,18 +1008,118 @@
 
             const inner = card.querySelector('.flip-card-inner');
             inner.classList.toggle('is-flipped');
+            const timerDisplay = card.querySelector('#qr-timer') || card.querySelector('.qr-timer-passport');
+
             if (inner.classList.contains('is-flipped')) {
-                startTimer();
+                startTimer(timerDisplay);
             } else {
                 clearInterval(timerInterval);
                 setTimeout(() => {
-                    if (!inner.classList.contains('is-flipped')) {
-                        timerEl.textContent = "";
+                    if (!inner.classList.contains('is-flipped') && timerDisplay) {
+                        timerDisplay.textContent = "";
                     }
                 }, 600);
             }
         });
       });
+
+      // --- ЛОГІКА ДЛЯ ДІЯ.ПІДПИС ---
+      const signatureModal = document.getElementById('signature-modal');
+      const diiaPidpysBtn = document.getElementById('diia-pidpys-btn');
+      const saveSignatureBtn = document.getElementById('save-signature');
+      const clearSignatureBtn = document.getElementById('clear-signature');
+      const canvas = document.getElementById('signature-canvas');
+      const ctx = canvas.getContext('2d');
+      let isDrawing = false;
+      let lastX = 0;
+      let lastY = 0;
+
+      // Налаштування полотна для HiDPI екранів
+      const dpr = window.devicePixelRatio || 1;
+      const rect = canvas.getBoundingClientRect();
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+      ctx.scale(dpr, dpr);
+      ctx.lineWidth = 2;
+      ctx.lineCap = 'round';
+      ctx.strokeStyle = '#000';
+      
+      function getMousePos(canvas, evt) {
+        const rect = canvas.getBoundingClientRect();
+        const scaleX = canvas.width / (rect.width * dpr);
+        const scaleY = canvas.height / (rect.height * dpr);
+        const clientX = evt.touches ? evt.touches[0].clientX : evt.clientX;
+        const clientY = evt.touches ? evt.touches[0].clientY : evt.clientY;
+        return {
+          x: (clientX - rect.left) * scaleX,
+          y: (clientY - rect.top) * scaleY
+        };
+      }
+      
+      function draw(e) {
+          if (!isDrawing) return;
+          e.preventDefault();
+          const pos = getMousePos(canvas, e);
+          ctx.beginPath();
+          ctx.moveTo(lastX, lastY);
+          ctx.lineTo(pos.x, pos.y);
+          ctx.stroke();
+          [lastX, lastY] = [pos.x, pos.y];
+      }
+      
+      canvas.addEventListener('mousedown', (e) => {
+          isDrawing = true;
+          const pos = getMousePos(canvas, e);
+          [lastX, lastY] = [pos.x, pos.y];
+      });
+
+      canvas.addEventListener('touchstart', (e) => {
+          isDrawing = true;
+          const pos = getMousePos(canvas, e);
+          [lastX, lastY] = [pos.x, pos.y];
+      });
+
+      ['mouseup', 'mouseout', 'touchend'].forEach(evt => {
+        canvas.addEventListener(evt, () => isDrawing = false);
+      });
+      
+      canvas.addEventListener('mousemove', draw);
+      canvas.addEventListener('touchmove', draw);
+
+      diiaPidpysBtn.addEventListener('click', () => {
+          signatureModal.style.display = 'flex';
+      });
+      
+      clearSignatureBtn.addEventListener('click', () => {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+      });
+      
+      saveSignatureBtn.addEventListener('click', () => {
+          const signatureImage = document.getElementById('passport-signature');
+          const dataUrl = canvas.toDataURL('image/png');
+          
+          // Зберігаємо в localStorage
+          localStorage.setItem('userSignature', dataUrl);
+          
+          // Відображаємо підпис
+          signatureImage.src = dataUrl;
+          signatureImage.style.display = 'block';
+          
+          signatureModal.style.display = 'none';
+          // Повертаємось на сторінку документів
+          navigateToPage('page-docs');
+          // Очищуємо полотно для наступного разу
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+      });
+
+      function loadSignature() {
+        const savedSignature = localStorage.getItem('userSignature');
+        if(savedSignature) {
+           const signatureImage = document.getElementById('passport-signature');
+           signatureImage.src = savedSignature;
+           signatureImage.style.display = 'block';
+        }
+      }
 
       // --- ЛОГІКА SERVICE WORKER ---
       const VERSION = new Date().getTime();
