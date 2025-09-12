@@ -13,7 +13,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAYAAABS3GwHAAAAAXNSR0IArs4c6QAAAyJJREFUeF7t0AEBAAAAEADC/2H5NEbDAwKChAAAAAAAAAAAAAD45wEAAAAAAAAAAAAA8McDAAAAAAAAAAAAAODjBwAAAAAAAAAAAABA/3kAAAAAAAAAAAAAwB8PAAAAAAAAAAAAAHg4AQAAAAAAAAAAAMD/eQAAAAAAAAAAAADAHw8AAAAAAAAAAAAA8HACAAAAAAAAAAAAgP7zAAAAAAAAAAAAAIC/HAAAAAAAAAAAAACAhxMAAAAAAAAAAAAA+s8DAAAAAAAAAAAAAOBfDwAAAAAAAAAAAACAxxMAAAAAAAAAAAAA4f88AAAAAAAAAAAAAOAfDwAAAAAAAAAAAADw4AQAAAAAAAAAAAD8nwcAAAAAAAAAAAAA8K8HAAAAAAAAAAAAAPBhAgAAAAAAAAAAAPh/ngAAAAAAAAAAAADA/x4AAAAAAAAAAAAA8OECAAAAAAAAAAAA+M8DAAAAAAAAAAAAAOBfDwAAAAAAAAAAAACAxxMAAAAAAAAAAAAA4f88AAAAAAAAAAAAAOAfDwAAAAAAAAAAAADw4AQAAAAAAAAAAAD8nwcAAAAAAAAAAAAA8K8HAAAAAAAAAAAAAPBhAgAAAAAAAAAAAPh/ngAAAAAAAAAAAADA/x4AAAAAAAAAAAAA8OECAAAAAAAAAAAA+M8DAAAAAAAAAAAAAOBfDwAAAAAAAAAAAACAxxMAAAAAAAAAAAAA4f88AAAAAAAAAAAAAOAfDwAAAAAAAAAAAADw4AQAAAAAAAAAAAD8nwcAAAAAAAAAAAAA8K8HAAAAAAAAAAAAAPBhAgAAAAAAAAAAAPh/ngAAAAAAAAAAAADA/x4AAAAAAAAAAAAA8OECAAAAAAAAAAAA+M8DAAAAAAAAAAAAAOBfDwAAAAAAAAAAAACAxxMAAAAAAAAAAAAA4f88AAAAAAAAAAAAAOAfDwAAAAAAAAAAAADw4AQAAAAAAAAAAAD8nwcAAAAAAAAAAAAA8K8HAAAAAAAAAAAAAPBhAgAAAAAAAAAAAPh/ngAAAAAAAAAAAADA/x4AAAAAAAAAAAAA8OECAAAAAAAAAAAA+M8DAAAAAAAAAAAAAOBfDwAAAAAAAAAAAACAxxMAAAAAAAAAAAAA4f88AAAAAAAAAAAAAOAfDwAAAAAAAAAAAADw4AQAAAAAAAAAAAD8nwcAAAAAAAAAAAAA8K8HAAAAAAAAAAAAAPBhAgAAAAAAAAAAAPh/ngAAAAAAAAAAAADA/xsA3g4Y9QAAAABJRU5ErkJggg==">
   <meta name="theme-color" content="#111111">
-  
+
   <!-- Скрипт для Lottie Animation -->
   <script src="https://cdn.lottielab.com/s/lottie-player@1.x/player-web.min.js"></script>
 
@@ -93,6 +93,8 @@
         font-weight: 600;
     }
     .lottie-container {
+        /* ВИПРАВЛЕНО: Розмір зменшено вдвічі */
+        
         margin: 0 auto;
     }
     
@@ -127,13 +129,14 @@
     }
     .passcode-dots {
         display: flex;
-        gap: 15px;
-        margin-bottom: 30px;
+        gap: 15px; /* ВИПРАВЛЕНО: Зменшено відстань */
+        margin-bottom: 30px; /* ВИПРАВЛЕНО: Підсунуто ближче до клавіатури */
     }
     .passcode-dots.shake {
         animation: shake 0.3s linear;
     }
     .passcode-dot {
+        /* ВИПРАВЛЕНО: Розмір крапок зменшено */
         width: 8px;
         height: 8px;
         background-color: rgba(255, 255, 255, 0.8);
@@ -176,6 +179,7 @@
         backdrop-filter: none;
     }
     .keypad-btn img {
+        /* ВИПРАВЛЕНО: Іконку відбитка збільшено */
         width: 70px;
         height: 70px;
         opacity: 0.7;
@@ -185,6 +189,7 @@
         height: 35px;
     }
     .forgot-password {
+        /* ВИПРАВЛЕНО: Позиціонування змінено */
         position: absolute;
         bottom: 5vh;
         padding: 10px;
@@ -216,8 +221,7 @@
 
     .slider-container {
       width: 100%;
-      /* Зміна 5: Висота картки збільшена */
-      height: 435px;
+      height: 435px; /* Збільшено висоту картки на 15px */
       margin-top: -50px;
       display: flex;
       align-items: center;
@@ -231,9 +235,8 @@
       gap: 3px; 
     }
     .slide {
-      flex: 0 0 80%;
-      /* Зміна 5: Висота картки збільшена */
-      height: 435px;
+      flex: 0 0 80%; 
+      height: 100%; /* Use 100% of parent slider-container height */
       -webkit-tap-highlight-color: transparent;
     }
 
@@ -282,12 +285,18 @@
         border: 1px solid rgba(255, 255, 255, 0.25);
         overflow: hidden;
         height: 100%;
+        /* Вотермарка "FakeDiia" */
+        background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="300" height="200"><text x="10" y="50" font-family="Manrope" font-size="20" fill="rgba(0,0,0,0.08)" transform="rotate(-30 10 50)">FakeDiia</text><text x="150" y="120" font-family="Manrope" font-size="20" fill="rgba(0,0,0,0.08)" transform="rotate(-30 150 120)">FakeDiia</text><text x="50" y="160" font-family="Manrope" font-size="20" fill="rgba(0,0,0,0.08)" transform="rotate(-30 50 160)">FakeDiia</text></svg>');
+        background-repeat: repeat;
+        background-size: 150px 100px;
     }
     .empty-card { height: 100%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: #888; }
-    /* Зміна 5: Збільшено відступ знизу */
-    .document-content { padding: 20px; padding-bottom: 35px; }
-    /* Зміна 1: Зменшено жирність */
-    .document-title { font-size: 24px; font-weight: 600; margin-bottom: 20px; }
+    .document-content { padding: 20px; }
+    .document-title { 
+        font-size: 24px; 
+        font-weight: 600; /* Зменшено жирність */
+        margin-bottom: 20px; 
+    }
     .personal-info {
         display: flex;
         align-items: flex-start;
@@ -306,11 +315,9 @@
     .details { display: flex; flex-direction: column; gap: 15px; }
     .detail-item { display: flex; flex-direction: column; }
     .detail-item .label, .detail-item .value {
-        /* Зміна 3: Зменшено шрифт */
-        font-size: 12px;
+        font-size: 13px; /* Зменшено розмір букв */
         font-weight: 500;
         color: var(--text-color);
-        line-height: 1.3;
     }
     .detail-item .label {
         color: var(--label-color);
@@ -321,11 +328,7 @@
       overflow: hidden;
       white-space: nowrap;
       padding: 5px 0;
-    }
-    .status-banner {
-      display: flex;
-      width: max-content;
-      animation: marquee 12s linear infinite;
+      margin-top: 30px; /* Збільшено відстань між фото та бігаючою строкою (15px + 15px default gap) */
     }
     @keyframes marquee {
         0% { transform: translateX(0); }
@@ -353,9 +356,8 @@
         word-break: break-word;
     }
     .more-options {
-        /* Зміна 4: Зменшено кружечок */
-        width: 24px;
-        height: 24px;
+        width: 18px; /* Зменшено в 2 рази */
+        height: 18px; /* Зменшено в 2 рази */
         background-color: #2c2c2e;
         border-radius: 50%;
         display: flex;
@@ -365,8 +367,11 @@
         margin-left: 10px;
         margin-bottom: 2px;
     }
-    /* Зміна 4: Зменшено крапки */
-    .more-options svg { width: 14px; height: 14px; fill: #fff; }
+    .more-options svg { 
+        width: 12px; /* Підлаштовано під новий розмір */
+        height: 12px; /* Підлаштовано під новий розмір */
+        fill: #fff; 
+    }
 
     .page-indicator-container {
         position: absolute;
@@ -406,100 +411,188 @@
     #update-notification { position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%); background-color: #28a745; color: white; padding: 10px 20px; border-radius: 20px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); z-index: 200; cursor: pointer; font-size: 14px; font-weight: 500; display: none; }
 
     #qr-timer { font-size: 18px; font-weight: 700; color: var(--text-color); }
+    #qr-timer-passport { font-size: 18px; font-weight: 700; color: var(--text-color); } /* For the new passport card */
     .flip-card-back h3 { font-weight: 700; font-size: 16px; }
     .flip-card-back img { width: 200px; height: 200px; }
-    
-    /* СТИЛІ ДЛЯ ПІДПИСУ */
-    .signature-container {
-        margin-top: 10px;
-        width: 100%;
+
+    /* --- СТИЛІ ДЛЯ СТОРІНКИ МЕНЮ --- */
+    #page-menu {
+        background-color: #e3f2fd; /* Light blue background as in image */
+        display: flex;
+        flex-direction: column;
+        padding-top: env(safe-area-inset-top, 20px); /* Adjust for notch/status bar */
+        padding-bottom: 0; /* Nav bar will cover bottom initially */
+        overflow-y: auto; /* Enable scrolling for menu if too long */
+        -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
     }
-    .signature-container .label {
-        font-size: 12px;
-        color: var(--label-color);
-        margin-bottom: 4px;
-    }
-    .signature-image {
-        width: 100%;
-        max-width: 150px;
-        height: 40px;
-        object-fit: contain;
-        align-self: flex-start;
-        display: none; /* Ховаємо за замовчуванням */
+    #page-menu.active {
+      padding-bottom: 90px; /* Make space for the bottom nav when active */
     }
 
-    /* СТИЛІ ДЛЯ СТОРІНКИ МЕНЮ ТА МОДАЛЬНОГО ВІКНА ПІДПИСУ */
-    #page-menu {
+    .menu-header {
         padding: 20px;
-        color: #fff;
-        background: #1c1c1e;
+        padding-bottom: 10px;
+        text-align: left;
     }
-    .menu-list {
-        list-style: none;
-        padding: 0;
-        margin-top: 40px;
+    .menu-header h1 {
+        font-size: 32px;
+        font-weight: 700;
+        color: var(--text-color);
+        margin-bottom: 5px;
     }
-    .menu-item {
-        background-color: #2c2c2e;
+    .menu-header p {
+        font-size: 14px;
+        font-weight: 500;
+        color: var(--label-color);
+    }
+
+    .menu-section {
+        background-color: #fff;
         border-radius: 12px;
-        margin-bottom: 10px;
-        padding: 15px;
+        margin: 10px 15px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        overflow: hidden; /* For rounded corners on inner items */
+    }
+
+    .menu-item {
+        display: flex;
+        align-items: center;
+        padding: 12px 15px;
+        text-decoration: none;
+        color: var(--text-color);
         font-size: 17px;
+        font-weight: 500;
         cursor: pointer;
-        transition: background-color 0.2s;
+        transition: background-color 0.1s ease;
+        -webkit-tap-highlight-color: rgba(0,0,0,0.1); /* iOS tap effect */
+    }
+    .menu-item:not(:last-child) {
+        border-bottom: 1px solid #f2f2f7; /* Separator line */
     }
     .menu-item:active {
-        background-color: #3a3a3c;
+        background-color: #f5f5f7;
     }
-    
-    #signature-modal {
+    .menu-item-icon {
+        width: 24px;
+        height: 24px;
+        margin-right: 15px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-shrink: 0;
+    }
+    .menu-item-icon img, .menu-item-icon svg {
+        width: 100%;
+        height: 100%;
+        color: #333; /* Default icon color */
+    }
+    .menu-item-text {
+        flex-grow: 1;
+    }
+    .menu-item-arrow {
+        width: 10px;
+        height: 10px;
+        border-right: 2px solid #ccc;
+        border-bottom: 2px solid #ccc;
+        transform: rotate(-45deg);
+        margin-left: 10px;
+    }
+
+    /* --- СТИЛІ ДЛЯ МОДАЛЬНОГО ВІКНА ПІДПИСУ --- */
+    .signature-modal-overlay {
         position: fixed;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        background-color: rgba(0, 0, 0, 0.7);
-        z-index: 10001;
-        display: none;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
         justify-content: center;
         align-items: center;
+        z-index: 1000;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease-out, visibility 0.3s ease-out;
     }
-    .signature-pad-container {
-        background: #fff;
-        border-radius: 16px;
+    .signature-modal-overlay.visible {
+        opacity: 1;
+        visibility: visible;
+    }
+    .signature-modal {
+        background-color: #fff;
+        border-radius: 15px;
         padding: 20px;
-        width: 90%;
+        margin: 20px;
         max-width: 400px;
+        width: calc(100% - 40px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .signature-modal h2 {
+        font-size: 22px;
+        font-weight: 600;
+        margin-bottom: 15px;
+        color: var(--text-color);
     }
     #signature-canvas {
         border: 1px solid #ccc;
         border-radius: 8px;
-        cursor: crosshair;
-        touch-action: none;
+        background-color: #f9f9f9;
+        touch-action: none; /* Prevent scrolling on canvas */
+        margin-bottom: 20px;
+        max-width: 100%; /* Ensure canvas scales on smaller screens */
     }
     .signature-buttons {
         display: flex;
-        justify-content: space-between;
-        margin-top: 15px;
+        gap: 15px;
+        width: 100%;
+        justify-content: center;
     }
     .signature-buttons button {
-        padding: 10px 20px;
-        border: none;
-        border-radius: 8px;
+        padding: 12px 25px;
+        border-radius: 10px;
         font-size: 16px;
         font-weight: 600;
         cursor: pointer;
+        border: none;
+        transition: background-color 0.2s ease;
     }
-    #clear-signature {
-        background: #f0f0f0;
-        color: #007aff;
+    .signature-buttons button.clear-btn {
+        background-color: #e0e0e0;
+        color: #333;
     }
-    #save-signature {
-        background: #007aff;
+    .signature-buttons button.clear-btn:active {
+        background-color: #d0d0d0;
+    }
+    .signature-buttons button.save-btn {
+        background-color: #007aff; /* iOS blue */
         color: #fff;
     }
+    .signature-buttons button.save-btn:active {
+        background-color: #005ecb;
+    }
 
+    /* --- Passport Card Signature --- */
+    .passport-signature {
+        position: absolute;
+        bottom: 110px; /* Adjust based on exact position in the image */
+        right: 20px; /* Adjust based on exact position in the image */
+        width: 120px; /* Size of the signature */
+        height: 60px; /* Size of the signature */
+        opacity: 0.8; /* Translucency */
+        transform: rotate(-10deg); /* Diagonal orientation */
+        z-index: 10;
+        pointer-events: none; /* Don't block clicks on card */
+    }
+    .passport-signature img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
   </style>
+
 </head>
 <body>
 
@@ -547,7 +640,6 @@
     <div class="forgot-password">Не пам’ятаю код для входу</div>
   </div>
 
-
   <!-- ОСНОВНИЙ ДОДАТОК -->
   <div class="app-container">
     <main class="content">
@@ -573,12 +665,11 @@
                                 </div>
                                 <div class="details">
                                   <div class="detail-item">
-                                    <!-- Зміна 2: Перенос рядка -->
-                                    <span class="label">Дата<br>народження</span>
+                                    <span class="label">Дата<br>народження:</span> <!-- Змінено текст з переносом -->
                                     <span class="value">29.07.2005</span>
                                   </div>
                                   <div class="detail-item">
-                                    <span class="label">Номер</span>
+                                    <span class="label">РНОКПП:</span>
                                     <span class="value">3856163250</span>
                                   </div>
                                 </div>
@@ -612,61 +703,61 @@
                     </div>
                   </div>
                 </div>
-                <!-- Зміна 6: Створено слайд "Паспорт" за аналогією до "єДокумент" -->
+                <!-- СЛАЙД 2: Паспорт громадянина України (новий документ) -->
                 <div class="slide">
                     <div class="flip-card">
-                      <div class="flip-card-inner">
-                        <div class="flip-card-front">
-                          <div class="document-container">
-                              <div class="document-content">
-                                <h1 class="document-title">Паспорт</h1>
-                                <div class="personal-info">
-                                  <div class="photo">
-                                    <img src="./pasport.png" alt="Фото">
-                                  </div>
-                                  <div class="details">
-                                    <div class="detail-item">
-                                      <span class="label">Дата<br>народження</span>
-                                      <span class="value">29.07.2005</span>
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <div class="document-container passport-document">
+                                    <div class="document-content">
+                                        <h1 class="document-title">Паспорт громадянина<br>України</h1>
+                                        <div class="personal-info">
+                                            <div class="photo">
+                                                <img src="./pasport.png" alt="Фото">
+                                            </div>
+                                            <div class="details">
+                                                <div class="detail-item">
+                                                    <span class="label">Дата<br>народження:</span>
+                                                    <span class="value">29.07.2005</span>
+                                                </div>
+                                                <div class="detail-item">
+                                                    <span class="label">Номер:</span>
+                                                    <span class="value">013407632</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Місце для підпису -->
+                                        <div class="passport-signature" id="passport-signature-display" style="display: none;">
+                                            <img src="" alt="Ваш підпис">
+                                        </div>
+
+                                        <div class="status-banner-wrapper">
+                                            <div class="status-banner">
+                                                <span>Документ оновлено 12.09.2025 19:32 • Документ оновлено 12.09.2025 19:32 • </span>
+                                                <span>Документ оновлено 12.09.2025 19:32 • Документ оновлено 12.09.2025 19:32 • </span>
+                                            </div>
+                                        </div>
+                                        <div class="info-section">
+                                            <div class="name-section">
+                                                <div class="full-name">
+                                                    <span class="name-part">Іванов</span>
+                                                    <span class="name-part">Іван</span>
+                                                    <span class="name-part">Іванович</span>
+                                                </div>
+                                                <div class="more-options">
+                                                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M6 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm12 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="detail-item">
-                                      <span class="label">Номер</span>
-                                      <span class="value">3856163250</span>
-                                    </div>
-                                    <!-- Контейнер для підпису -->
-                                    <div class="signature-container">
-                                        <span class="label">Підпис</span>
-                                        <img id="passport-signature" class="signature-image" alt="Підпис">
-                                    </div>
-                                  </div>
                                 </div>
-                              </div>
-                              <div class="status-banner-wrapper">
-                                <div class="status-banner">
-                                  <span>А ми нашу славну Україну, гей, гей, розвеселимо!</span>
-                                  <span>А ми нашу славну Україну, гей, гей, розвеселимо!</span>
-                                </div>
-                              </div>
-                              <div class="info-section">
-                                <div class="name-section">
-                                  <div class="full-name">
-                                    <span class="name-part">Іванов</span>
-                                    <span class="name-part">Іван</span>
-                                    <span class="name-part">Іванович</span>
-                                  </div>
-                                  <div class="more-options">
-                                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M6 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm12 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>
-                                  </div>
-                                </div>
-                              </div>
-                          </div>
+                            </div>
+                            <div class="flip-card-back">
+                                <h3>QR-код дійсний</h3>
+                                <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=PassportExample" alt="QR">
+                                <div id="qr-timer-passport"></div>
+                            </div>
                         </div>
-                        <div class="flip-card-back">
-                            <h3>QR-код дійсний</h3>
-                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=PassportExample" alt="QR">
-                            <div class="qr-timer-passport"></div>
-                        </div>
-                      </div>
                     </div>
                 </div>
                 <!-- СЛАЙД 3 -->
@@ -690,13 +781,95 @@
         <div class="placeholder-page"><h1>Сервіси</h1></div>
       </div>
 
-      <!-- Зміна 6: Додано вміст сторінки Меню -->
       <div class="page" id="page-menu">
-        <ul class="menu-list">
-            <li class="menu-item" id="diia-pidpys-btn">Дія.Підпис</li>
-            <li class="menu-item">Налаштування</li>
-            <li class="menu-item">Допомога</li>
-        </ul>
+        <div class="menu-header">
+            <h1>Меню</h1>
+            <p>Версія Дії: 4.13.1.1488</p>
+        </div>
+
+        <div class="menu-section">
+            <div class="menu-item" id="menu-notifications">
+                <div class="menu-item-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-mail"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                </div>
+                <span class="menu-item-text">Повідомлення</span>
+                <div class="menu-item-arrow"></div>
+            </div>
+            <div class="menu-item" id="menu-diia-signature">
+                <div class="menu-item-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-key"><path d="M21 2L14 9l6.5 6.5c.6.6.6 1.5 0 2.1l-1.9 1.9c-.6.6-1.5.6-2.1 0L9 14 2 21"></path></svg>
+                </div>
+                <span class="menu-item-text">Дія.Підпис</span>
+                <div class="menu-item-arrow"></div>
+            </div>
+            <div class="menu-item" id="menu-signature-history">
+                <div class="menu-item-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 10 9"></polyline></svg>
+                </div>
+                <span class="menu-item-text">Історія підписань</span>
+                <div class="menu-item-arrow"></div>
+            </div>
+        </div>
+
+        <div class="menu-section">
+            <div class="menu-item" id="menu-settings">
+                <div class="menu-item-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-settings"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                </div>
+                <span class="menu-item-text">Налаштування</span>
+                <div class="menu-item-arrow"></div>
+            </div>
+            <div class="menu-item" id="menu-update-app">
+                <div class="menu-item-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-refresh-cw"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.5 14h-3a9 9 0 0 1 16.7-6.2"></path><path d="M20.5 10h3a9 9 0 0 1-16.7 6.2"></path></svg>
+                </div>
+                <span class="menu-item-text">Оновити застосунок</span>
+                <div class="menu-item-arrow"></div>
+            </div>
+            <div class="menu-item" id="menu-connected-devices">
+                <div class="menu-item-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-smartphone"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12" y2="18"></line></svg>
+                </div>
+                <span class="menu-item-text">Підключені пристрої</span>
+                <div class="menu-item-arrow"></div>
+            </div>
+        </div>
+
+        <div class="menu-section">
+            <div class="menu-item" id="menu-support">
+                <div class="menu-item-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-message-square"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                </div>
+                <span class="menu-item-text">Служба підтримки</span>
+                <div class="menu-item-arrow"></div>
+            </div>
+            <div class="menu-item" id="menu-copy-device-number">
+                <div class="menu-item-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-copy"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                </div>
+                <span class="menu-item-text">Копіювати номер пристрою</span>
+                <div class="menu-item-arrow"></div>
+            </div>
+            <div class="menu-item" id="menu-faq">
+                <div class="menu-item-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-help-circle"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                </div>
+                <span class="menu-item-text">Питання та відповіді</span>
+                <div class="menu-item-arrow"></div>
+            </div>
+        </div>
+
+        <!-- Signature Modal -->
+        <div class="signature-modal-overlay" id="signature-modal-overlay">
+            <div class="signature-modal">
+                <h2>Ваш підпис</h2>
+                <canvas id="signature-canvas" width="300" height="150"></canvas>
+                <div class="signature-buttons">
+                    <button class="clear-btn" id="clear-signature-btn">Стерти</button>
+                    <button class="save-btn" id="save-signature-btn">Продовжити</button>
+                </div>
+            </div>
+        </div>
       </div>
     </main>
 
@@ -712,7 +885,7 @@
           <span class="nav-label">Документи</span>
         </div>
         <div class="nav-item" data-page="page-services">
-          <div class="nav-icon"><svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg"><mask id="path-1-inside-1_13657_22172" fill="white"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 23.6154C5.84037 23.6154 4.18232 23.3034 2.74717 21.8682C1.30306 20.4241 1 18.775 1 12.6154C1 6.45573 1.31199 4.80661 2.74717 3.36253C4.18232 1.92735 5.84037 1.61536 12 1.61536C18.1596 1.61536 19.8177 1.92735 21.2528 3.36253C22.6969 4.80661 23 6.45573 23 12.6154C23 18.775 22.6969 20.4241 21.2528 21.8682C19.8177 23.3034 18.1596 23.6154 12 23.6154Z"/></mask><path d="M2.74717 21.8682L3.80785 20.8075L3.80782 20.8075L2.74717 21.8682ZM2.74717 3.36253L1.68649 2.30188L1.68324 2.30515L2.74717 3.36253ZM21.2528 3.36253L20.1922 4.42318L20.1922 4.42319L21.2528 3.36253ZM21.2528 21.8682L20.1922 20.8075L20.1922 20.8075L21.2528 21.8682ZM12 22.1154C8.90493 22.1154 7.08603 22.0336 5.88008 21.806C4.78166 21.5987 4.2908 21.2905 3.80785 20.8075L1.6865 22.9288C2.63869 23.881 3.69443 24.4465 5.32373 24.7539C6.84551 25.0411 8.93544 25.1154 12 25.1154V22.1154ZM3.80782 20.8075C3.31966 20.3194 3.01222 19.8284 2.8062 18.7329C2.57961 17.528 2.5 15.7117 2.5 12.6154H-0.5C-0.5 15.6786 -0.428084 17.7667 -0.142115 19.2873C0.164424 20.9173 0.730574 21.9729 1.68652 22.9289L3.80782 20.8075ZM2.5 12.6154C2.5 9.52026 2.58179 7.70371 2.80933 6.49901C3.01645 5.40245 3.32467 4.90936 3.81111 4.4199L1.68324 2.30515C0.734497 3.25978 0.169128 4.31329 -0.138544 5.94221C-0.425792 7.46301 -0.5 9.55083 -0.5 12.6154H2.5ZM3.80785 4.42318C4.2908 3.94021 4.78166 3.63203 5.88008 3.42473C7.08603 3.19714 8.90493 3.11536 12 3.11536V0.115356C8.93544 0.115356 6.84551 0.189572 5.32373 0.476771C3.69443 0.784262 2.63869 1.34967 1.6865 2.30188L3.80785 4.42318ZM12 3.11536C15.0951 3.11536 16.914 3.19714 18.1199 3.42473C19.2183 3.63203 19.7092 3.94021 20.1922 4.42318L22.3135 2.30188C21.3613 1.34967 20.3056 0.784261 18.6763 0.476771C17.1545 0.189572 15.0646 0.115356 12 0.115356V3.11536ZM20.1922 4.42319C20.6803 4.91135 20.9878 5.40236 21.1938 6.49785C21.4204 7.70272 21.5 9.51898 21.5 12.6154H24.5C24.5 9.55211 24.4281 7.464 24.1421 5.94338C23.8356 4.31338 23.2694 3.25779 22.3135 2.30187L20.1922 4.42319ZM21.5 12.6154C21.5 15.7117 21.4204 17.528 21.1938 18.7329C20.9878 19.8284 20.6803 20.3194 20.1922 20.8075L22.3135 22.9288C23.2694 21.9729 23.8356 20.9173 24.1421 19.2873C24.4281 17.7667 24.5 15.6786 24.5 12.6154H21.5ZM20.1922 20.8075C19.7092 21.2905 19.2183 21.5987 18.1199 21.806C16.914 22.0336 15.0951 22.1154 12 22.1154V25.1154C15.0646 25.1154 17.1545 25.0411 18.6763 24.7539C20.3056 24.4465 21.3613 23.881 22.3135 22.9288L20.1922 20.8075Z" fill="white" mask="url(#path-1-inside-1_13657_22172)"/><path d="M14.1433 5.61549C14.1302 5.61651 14.1171 5.61817 14.1041 5.62046C14.0557 5.62707 14.0093 5.64237 13.9678 5.66544C13.9263 5.68851 13.8906 5.71885 13.8628 5.7546L7.39955 13.6136C7.36155 13.6611 7.33901 13.7169 7.33439 13.775C7.32976 13.8331 7.34323 13.8912 7.37333 13.9429C7.40342 13.9947 7.44899 14.0381 7.50506 14.0685C7.56113 14.099 7.62555 14.1151 7.6913 14.1154H11.1418L9.32393 19.1885C9.29398 19.2613 9.29508 19.3413 9.32702 19.4134C9.35895 19.4856 9.41953 19.5449 9.49737 19.5803C9.57521 19.6156 9.66495 19.6246 9.74976 19.6056C9.83456 19.5865 9.90858 19.5407 9.95792 19.4767L16.6007 11.6171C16.6387 11.5696 16.6613 11.5138 16.6659 11.4557C16.6705 11.3976 16.6571 11.3396 16.627 11.2878C16.5969 11.236 16.5513 11.1926 16.4952 11.1622C16.4392 11.1318 16.3748 11.1156 16.309 11.1154H12.8417L14.4968 6.02785C14.5138 5.9795 14.5175 5.92825 14.5076 5.87837C14.4977 5.8285 14.4745 5.78143 14.44 5.74109C14.4054 5.70076 14.3604 5.66831 14.3088 5.64647C14.2573 5.62462 14.2005 5.614 14.1433 5.61549Z" fill="white"/></svg></div>
+          <div class="nav-icon"><svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg"><mask id="path-1-inside-1_13657_22172" fill="white"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 23.6154C5.84037 23.6154 4.18232 23.3034 2.74717 21.8682C1.30306 20.4241 1 18.775 1 12.6154C1 6.45573 1.31199 4.80661 2.74717 3.36253C4.18232 1.92735 5.84037 1.61536 12 1.61536C18.1596 1.61536 19.8177 1.92735 21.2528 3.36253C22.6969 4.80661 23 6.45573 23 12.6154C23 18.775 22.6969 20.4241 21.2528 21.8682C19.8177 23.3034 18.1596 23.6154 12 23.6154Z"/></mask><path d="M2.74717 21.8682L3.80785 20.8075L3.80782 20.8075L2.74717 21.8682ZM2.74717 3.36253L1.68649 2.30188L1.68324 2.30515L2.74717 3.36253ZM21.2528 3.36253L20.1922 4.42318L20.1922 4.42319L21.2528 3.36253ZM21.2528 21.8682L20.1922 20.8075L20.1922 20.8075L21.2528 21.8682ZM12 22.1154C8.90493 22.1154 7.08603 22.0336 5.88008 21.806C4.78166 21.5987 4.2908 21.2905 3.80785 20.8075L1.6865 22.9288C2.63869 23.881 3.69443 24.4465 5.32373 24.7539C6.84551 25.0411 8.93544 25.1154 12 25.1154V22.1154ZM3.80782 20.8075C3.31966 20.3194 3.01222 19.8284 2.80620 18.7329C2.57961 17.528 2.5 15.7117 2.5 12.6154H-0.5C-0.5 15.6786 -0.428084 17.7667 -0.142115 19.2873C0.164424 20.9173 0.730574 21.9729 1.68652 22.9289L3.80782 20.8075ZM2.5 12.6154C2.5 9.52026 2.58179 7.70371 2.80933 6.49901C3.01645 5.40245 3.32467 4.90936 3.81111 4.4199L1.68324 2.30515C0.734497 3.25978 0.169128 4.31329 -0.138544 5.94221C-0.425792 7.46301 -0.5 9.55083 -0.5 12.6154H2.5ZM3.80785 4.42318C4.2908 3.94021 4.78166 3.63203 5.88008 3.42473C7.08603 3.19714 8.90493 3.11536 12 3.11536V0.115356C8.93544 0.115356 6.84551 0.189572 5.32373 0.476771C3.69443 0.784262 2.63869 1.34967 1.68650 2.30188L3.80785 4.42318ZM12 3.11536C15.0951 3.11536 16.914 3.19714 18.1199 3.42473C19.2183 3.63203 19.7092 3.94021 20.1922 4.42318L22.3135 2.30188C21.3613 1.34967 20.3056 0.784261 18.6763 0.476771C17.1545 0.189572 15.0646 0.115356 12 0.115356V3.11536ZM20.1922 4.42319C20.6803 4.91135 20.9878 5.40236 21.1938 6.49785C21.4204 7.70272 21.5 9.51898 21.5 12.6154H24.5C24.5 9.55211 24.4281 7.46400 24.1421 5.94338C23.8356 4.31338 23.2694 3.25779 22.3135 2.30187L20.1922 4.42319ZM21.5 12.6154C21.5 15.7117 21.4204 17.528 21.1938 18.7329C20.9878 19.8284 20.6803 20.3194 20.1922 20.8075L22.3135 22.9288C23.2694 21.9729 23.8356 20.9173 24.1421 19.2873C24.4281 17.7667 24.5 15.6786 24.5 12.6154H21.5ZM20.1922 20.8075C19.7092 21.2905 19.2183 21.5987 18.1199 21.806C16.9140 22.0336 15.0951 22.1154 12 22.1154V25.1154C15.0646 25.1154 17.1545 25.0411 18.6763 24.7539C20.3056 24.4465 21.3613 23.8810 22.3135 22.9288L20.1922 20.8075Z" fill="white" mask="url(#path-1-inside-1_13657_22172)"/><path d="M14.1433 5.61549C14.1302 5.61651 14.1171 5.61817 14.1041 5.62046C14.0557 5.62707 14.0093 5.64237 13.9678 5.66544C13.9263 5.68851 13.8906 5.71885 13.8628 5.7546L7.39955 13.6136C7.36155 13.6611 7.33901 13.7169 7.33439 13.775C7.32976 13.8331 7.34323 13.8912 7.37333 13.9429C7.40342 13.9947 7.44899 14.0381 7.50506 14.0685C7.56113 14.099 7.62555 14.1151 7.69130 14.1154H11.1418L9.32393 19.1885C9.29398 19.2613 9.29508 19.3413 9.32702 19.4134C9.35895 19.4856 9.41953 19.5449 9.49737 19.5803C9.57521 19.6156 9.66495 19.6246 9.74976 19.6056C9.83456 19.5865 9.90858 19.5407 9.95792 19.4767L16.6007 11.6171C16.6387 11.5696 16.6613 11.5138 16.6659 11.4557C16.6705 11.3976 16.6571 11.3396 16.6270 11.2878C16.5969 11.2360 16.5513 11.1926 16.4952 11.1622C16.4392 11.1318 16.3748 11.1156 16.3090 11.1154H12.8417L14.4968 6.02785C14.5138 5.97950 14.5175 5.92825 14.5076 5.87837C14.4977 5.82850 14.4745 5.78143 14.4400 5.74109C14.4054 5.70076 14.3604 5.66831 14.3088 5.64647C14.2573 5.62462 14.2005 5.61400 14.1433 5.61549Z" fill="white"/></svg></div>
           <span class="nav-label">Сервіси</span>
         </div>
         <div class="nav-item" data-page="page-menu">
@@ -721,447 +894,475 @@
         </div>
       </nav>
   </div>
+
+  <script>
+document.addEventListener('DOMContentLoaded', () => {
+
+  // --- ЛОГІКА СТАРТОВОГО ЕКРАНУ ТА ЕКРАНУ ВХОДУ ---
+  const splashScreen = document.getElementById('splash-screen');
+  const loginScreen = document.getElementById('login-screen');
+  const appContainer = document.querySelector('.app-container');
   
-  <!-- Зміна 6: Модальне вікно для підпису -->
-  <div id="signature-modal">
-    <div class="signature-pad-container">
-        <canvas id="signature-canvas" width="300" height="150"></canvas>
-        <div class="signature-buttons">
-            <button id="clear-signature">Стерти</button>
-            <button id="save-signature">Продовжити</button>
-        </div>
-    </div>
-  </div>
 
 
-    <script>
-    document.addEventListener('DOMContentLoaded', () => {
-
-      // --- ЛОГІКА СТАРТОВОГО ЕКРАНУ ТА ЕКРАНУ ВХОДУ ---
-      const splashScreen = document.getElementById('splash-screen');
-      const loginScreen = document.getElementById('login-screen');
-      const appContainer = document.querySelector('.app-container');
+  setTimeout(() => {
+      splashScreen.classList.add('hidden');
+      loginScreen.classList.add('visible');
       
       setTimeout(() => {
-          splashScreen.classList.add('hidden');
-          loginScreen.classList.add('visible');
-          
+          if (splashScreen) {
+            splashScreen.remove();
+          }
+      }, 500);
+
+  }, 2500);
+
+  // --- ЛОГІКА ВВОДУ ПАРОЛЮ ---
+  const passcodeDotsContainer = document.querySelector('.passcode-dots');
+  const passcodeDots = document.querySelectorAll('.passcode-dot');
+  const keypadBtns = document.querySelectorAll('.keypad-btn');
+  const backspaceBtn = document.getElementById('backspace-btn');
+  let passcode = '';
+  const correctPasscode = '0000';
+
+  const updateDots = () => {
+    passcodeDots.forEach((dot, index) => {
+      dot.classList.toggle('filled', index < passcode.length);
+    });
+  };
+
+  const resetLogin = () => {
+    passcode = '';
+    updateDots();
+    passcodeDotsContainer.classList.remove('shake');
+  }
+
+  const handleKeyPress = (key) => {
+    if (passcode.length < 4) {
+      passcode += key;
+      updateDots();
+    }
+
+    if (passcode.length === 4) {
+      setTimeout(() => {
+        if (passcode === correctPasscode) {
+          loginScreen.style.opacity = '0';
           setTimeout(() => {
-              if (splashScreen) {
-                splashScreen.remove();
-              }
-          }, 500);
+            loginScreen.remove();
+            appContainer.style.display = 'flex';
+            navigateToPage('page-docs');
+          }, 300);
+        } else {
+          passcodeDotsContainer.classList.add('shake');
+          setTimeout(resetLogin, 500);
+        }
+      }, 200);
+    }
+  };
 
-      }, 2500);
-
-      // --- ЛОГІКА ВВОДУ ПАРОЛЮ ---
-      const passcodeDotsContainer = document.querySelector('.passcode-dots');
-      const passcodeDots = document.querySelectorAll('.passcode-dot');
-      const keypadBtns = document.querySelectorAll('.keypad-btn');
-      const backspaceBtn = document.getElementById('backspace-btn');
-      let passcode = '';
-      const correctPasscode = '0000';
-
-      const updateDots = () => {
-        passcodeDots.forEach((dot, index) => {
-          dot.classList.toggle('filled', index < passcode.length);
-        });
-      };
-
-      const resetLogin = () => {
-        passcode = '';
+  keypadBtns.forEach(btn => {
+    if (btn.textContent.trim() !== '' && !btn.querySelector('img') && !btn.querySelector('svg')) {
+      btn.addEventListener('click', () => {
+        handleKeyPress(btn.textContent);
+      });
+    }
+  });
+  
+  backspaceBtn.addEventListener('click', () => {
+    if (passcode.length > 0) {
+        passcode = passcode.slice(0, -1);
         updateDots();
         passcodeDotsContainer.classList.remove('shake');
-      }
+    }
+  });
 
-      const handleKeyPress = (key) => {
-        if (passcode.length < 4) {
-          passcode += key;
-          updateDots();
-        }
+  // --- НАВІГАЦІЯ ---
+  const navItems = document.querySelectorAll('.nav-item');
+  
+  const navigateToPage = (targetPageId) => {
+    const oldPage = document.querySelector('.page.active');
+    const newPage = document.getElementById(targetPageId);
+    
+    if (oldPage) oldPage.classList.remove('active');
+    if (newPage) newPage.classList.add('active');
 
-        if (passcode.length === 4) {
-          setTimeout(() => {
-            if (passcode === correctPasscode) {
-              loginScreen.style.opacity = '0';
-              setTimeout(() => {
-                loginScreen.remove();
-                appContainer.style.display = 'flex';
-                navigateToPage('page-docs');
-                // Завантажуємо підпис при вході
-                loadSignature();
-              }, 300);
-            } else {
-              passcodeDotsContainer.classList.add('shake');
-              setTimeout(resetLogin, 500);
-            }
-          }, 200);
-        }
-      };
-
-      keypadBtns.forEach(btn => {
-        if (btn.textContent.trim() !== '' && !btn.querySelector('img') && !btn.querySelector('svg')) {
-          btn.addEventListener('click', () => {
-            handleKeyPress(btn.textContent);
-          });
-        }
-      });
-      
-      backspaceBtn.addEventListener('click', () => {
-        if (passcode.length > 0) {
-            passcode = passcode.slice(0, -1);
-            updateDots();
-            passcodeDotsContainer.classList.remove('shake');
-        }
-      });
-
-      // --- НАВІГАЦІЯ ---
-      const navItems = document.querySelectorAll('.nav-item');
-      
-      const navigateToPage = (targetPageId) => {
-        const oldPage = document.querySelector('.page.active');
-        const newPage = document.getElementById(targetPageId);
-        
-        if (oldPage) oldPage.classList.remove('active');
-        if (newPage) newPage.classList.add('active');
-
-        navItems.forEach(nav => {
-            nav.classList.toggle('active', nav.dataset.page === targetPageId);
-        });
-
-        if (targetPageId === 'page-docs') {
-            setTimeout(initializeCarousel, 0); 
-        }
-      }
-
-      navItems.forEach(item => {
-        item.addEventListener('click', () => {
-          navigateToPage(item.dataset.page);
-        });
-      });
-      
-      document.querySelector('.page.active')?.classList.remove('active');
-      document.querySelector('.nav-item.active')?.classList.remove('active');
-
-
-      // --- ЛОГІКА СЛАЙДЕРА (ІНТЕРАКТИВНА АНІМАЦІЯ) ---
-      const sliderContainer = document.querySelector('.slider-container');
-      const sliderWrapper = document.querySelector('.slider-wrapper');
-      const slides = document.querySelectorAll('.slide');
-      const dots = document.querySelectorAll('.page-indicator .dot');
-      const slideCount = slides.length;
-
-      let currentIndex = 0;
-      let isDragging = false;
-      let startPos = 0;
-      let currentTranslate = 0;
-      let prevTranslate = 0;
-      let animationID;
-
-      const getPositionX = (e) => e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
-      
-      const updateSliderDots = () => {
-          dots.forEach((dot, index) => dot.classList.toggle('active', index === currentIndex));
-      };
-
-      const animation = () => {
-        sliderWrapper.style.transform = `translateX(${currentTranslate}px)`;
-        
-        const containerCenter = sliderContainer.offsetWidth / 2;
-        slides.forEach(slide => {
-            const slideCenter = slide.offsetLeft + slide.offsetWidth / 2 + currentTranslate;
-            const distance = Math.abs(containerCenter - slideCenter);
-            const slideWidth = slide.offsetWidth;
-            const distanceFactor = Math.min(distance / slideWidth, 1);
-            
-            const scale = 1 - (0.1 * distanceFactor);
-            const opacity = 1 - (0.3 * distanceFactor);
-
-            slide.style.transform = `scale(${scale})`;
-            slide.style.opacity = `${opacity}`;
-            slide.style.pointerEvents = scale > 0.99 ? 'auto' : 'none';
-        });
-
-        if (isDragging) requestAnimationFrame(animation);
-      }
-      
-      const setFinalSliderPosition = () => {
-        sliderWrapper.style.transition = 'transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-        slides.forEach(slide => {
-            slide.style.transition = 'transform 0.4s ease, opacity 0.4s ease';
-        });
-
-        const targetSlide = slides[currentIndex];
-        if (!targetSlide) return;
-        const containerCenter = sliderContainer.offsetWidth / 2;
-        const slideCenter = targetSlide.offsetLeft + targetSlide.offsetWidth / 2;
-        
-        currentTranslate = containerCenter - slideCenter;
-        prevTranslate = currentTranslate;
-        
-        sliderWrapper.style.transform = `translateX(${currentTranslate}px)`;
-
-        slides.forEach((slide, index) => {
-            const scale = index === currentIndex ? 1 : 0.9;
-            const opacity = index === currentIndex ? 1 : 0.7;
-            slide.style.transform = `scale(${scale})`;
-            slide.style.opacity = `${opacity}`;
-            slide.style.pointerEvents = index === currentIndex ? 'auto' : 'none';
-        });
-        
-        updateSliderDots();
-      }
-
-      const positionSliderByIndex = () => {
-        setFinalSliderPosition();
-      }
-
-      const dragStart = (e) => {
-        isDragging = true;
-        startPos = getPositionX(e);
-        sliderWrapper.style.transition = 'none';
-        slides.forEach(slide => slide.style.transition = 'none');
-        animationID = requestAnimationFrame(animation);
-        sliderContainer.style.cursor = 'grabbing';
-      };
-
-      const dragMove = (e) => {
-        if (!isDragging) return;
-        const currentPosition = getPositionX(e);
-        currentTranslate = prevTranslate + currentPosition - startPos;
-      };
-
-      const dragEnd = () => {
-        if (!isDragging) return;
-        isDragging = false;
-        cancelAnimationFrame(animationID);
-        sliderContainer.style.cursor = 'grab';
-
-        const movedBy = currentTranslate - prevTranslate;
-        
-        if (movedBy < -80 && currentIndex < slideCount - 1) {
-          currentIndex++;
-        }
-        if (movedBy > 80 && currentIndex > 0) {
-          currentIndex--;
-        }
-
-        positionSliderByIndex();
-      };
-      
-      const initializeCarousel = () => {
-          if (!slides[currentIndex] || sliderContainer.offsetWidth === 0) return;
-          
-          sliderWrapper.style.transition = 'none';
-          slides.forEach(slide => slide.style.transition = 'none');
-
-          const targetSlide = slides[currentIndex];
-          const containerCenter = sliderContainer.offsetWidth / 2;
-          const slideCenter = targetSlide.offsetLeft + targetSlide.offsetWidth / 2;
-          
-          currentTranslate = containerCenter - slideCenter;
-          prevTranslate = currentTranslate;
-          
-          animation();
-          updateSliderDots();
-      }
-      
-      window.addEventListener('resize', initializeCarousel);
-
-      ['mousedown', 'touchstart'].forEach(e => sliderContainer.addEventListener(e, dragStart, { passive: true }));
-      ['mouseup', 'touchend', 'mouseleave'].forEach(e => document.addEventListener(e, dragEnd));
-      ['mousemove', 'touchmove'].forEach(e => document.addEventListener(e, dragMove, { passive: true }));
-
-      // --- ЛОГІКА ПЕРЕВЕРТАННЯ КАРТКИ І ТАЙМЕРА ---
-      const flipCards = document.querySelectorAll('.flip-card');
-      const timerEl = document.getElementById('qr-timer');
-      const timerElPassport = document.querySelector('.qr-timer-passport');
-      let timerInterval = null;
-
-      function startTimer(element) {
-          clearInterval(timerInterval);
-          let timeLeft = 180;
-          const updateTimerText = () => {
-            const minutes = Math.floor(timeLeft / 60);
-            let seconds = timeLeft % 60;
-            seconds = seconds < 10 ? '0' + seconds : seconds;
-            element.textContent = `${minutes}:${seconds}`;
-          };
-          updateTimerText();
-          timerInterval = setInterval(() => {
-              timeLeft--;
-              updateTimerText();
-              if (timeLeft <= 0) {
-                  clearInterval(timerInterval);
-                  element.textContent = "Час вийшов";
-              }
-          }, 1000);
-      }
-
-      flipCards.forEach(card => {
-        card.addEventListener('click', () => {
-            const movedBy = Math.abs(currentTranslate - prevTranslate);
-            if (isDragging && movedBy > 10) return;
-            
-            const slide = card.closest('.slide');
-            if (slide.style.transform !== 'scale(1)') return;
-
-            const inner = card.querySelector('.flip-card-inner');
-            inner.classList.toggle('is-flipped');
-            const timerDisplay = card.querySelector('#qr-timer') || card.querySelector('.qr-timer-passport');
-
-            if (inner.classList.contains('is-flipped')) {
-                startTimer(timerDisplay);
-            } else {
-                clearInterval(timerInterval);
-                setTimeout(() => {
-                    if (!inner.classList.contains('is-flipped') && timerDisplay) {
-                        timerDisplay.textContent = "";
-                    }
-                }, 600);
-            }
-        });
-      });
-
-      // --- ЛОГІКА ДЛЯ ДІЯ.ПІДПИС ---
-      const signatureModal = document.getElementById('signature-modal');
-      const diiaPidpysBtn = document.getElementById('diia-pidpys-btn');
-      const saveSignatureBtn = document.getElementById('save-signature');
-      const clearSignatureBtn = document.getElementById('clear-signature');
-      const canvas = document.getElementById('signature-canvas');
-      const ctx = canvas.getContext('2d');
-      let isDrawing = false;
-      let lastX = 0;
-      let lastY = 0;
-
-      // Налаштування полотна для HiDPI екранів
-      const dpr = window.devicePixelRatio || 1;
-      const rect = canvas.getBoundingClientRect();
-      canvas.width = rect.width * dpr;
-      canvas.height = rect.height * dpr;
-      ctx.scale(dpr, dpr);
-      ctx.lineWidth = 2;
-      ctx.lineCap = 'round';
-      ctx.strokeStyle = '#000';
-      
-      function getMousePos(canvas, evt) {
-        const rect = canvas.getBoundingClientRect();
-        const scaleX = canvas.width / (rect.width * dpr);
-        const scaleY = canvas.height / (rect.height * dpr);
-        const clientX = evt.touches ? evt.touches[0].clientX : evt.clientX;
-        const clientY = evt.touches ? evt.touches[0].clientY : evt.clientY;
-        return {
-          x: (clientX - rect.left) * scaleX,
-          y: (clientY - rect.top) * scaleY
-        };
-      }
-      
-      function draw(e) {
-          if (!isDrawing) return;
-          e.preventDefault();
-          const pos = getMousePos(canvas, e);
-          ctx.beginPath();
-          ctx.moveTo(lastX, lastY);
-          ctx.lineTo(pos.x, pos.y);
-          ctx.stroke();
-          [lastX, lastY] = [pos.x, pos.y];
-      }
-      
-      canvas.addEventListener('mousedown', (e) => {
-          isDrawing = true;
-          const pos = getMousePos(canvas, e);
-          [lastX, lastY] = [pos.x, pos.y];
-      });
-
-      canvas.addEventListener('touchstart', (e) => {
-          isDrawing = true;
-          const pos = getMousePos(canvas, e);
-          [lastX, lastY] = [pos.x, pos.y];
-      });
-
-      ['mouseup', 'mouseout', 'touchend'].forEach(evt => {
-        canvas.addEventListener(evt, () => isDrawing = false);
-      });
-      
-      canvas.addEventListener('mousemove', draw);
-      canvas.addEventListener('touchmove', draw);
-
-      diiaPidpysBtn.addEventListener('click', () => {
-          signatureModal.style.display = 'flex';
-      });
-      
-      clearSignatureBtn.addEventListener('click', () => {
-          ctx.clearRect(0, 0, canvas.width, canvas.height);
-      });
-      
-      saveSignatureBtn.addEventListener('click', () => {
-          const signatureImage = document.getElementById('passport-signature');
-          const dataUrl = canvas.toDataURL('image/png');
-          
-          // Зберігаємо в localStorage
-          localStorage.setItem('userSignature', dataUrl);
-          
-          // Відображаємо підпис
-          signatureImage.src = dataUrl;
-          signatureImage.style.display = 'block';
-          
-          signatureModal.style.display = 'none';
-          // Повертаємось на сторінку документів
-          navigateToPage('page-docs');
-          // Очищуємо полотно для наступного разу
-          ctx.clearRect(0, 0, canvas.width, canvas.height);
-      });
-
-      function loadSignature() {
-        const savedSignature = localStorage.getItem('userSignature');
-        if(savedSignature) {
-           const signatureImage = document.getElementById('passport-signature');
-           signatureImage.src = savedSignature;
-           signatureImage.style.display = 'block';
-        }
-      }
-
-      // --- ЛОГІКА SERVICE WORKER ---
-      const VERSION = new Date().getTime();
-      const CACHE_NAME = `diia-clone-cache-v${VERSION}`;
-      const manifest = {
-        "name": "єДокумент", "short_name": "єДокумент", "start_url": ".", "display": "standalone", "background_color": "#c9e3eb", "theme_color": "#111111",
-        "icons": [{"src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAYAAABS3GwHAAAAAXNSR0IArs4c6QAAAyJJREFUeF7t0AEBAAAAEADC/2H5NEbDAwKChAAAAAAAAAAAAAD45wEAAAAAAAAAAAAA8McDAAAAAAAAAAAAAODjBwAAAAAAAAAAAABA/3kAAAAAAAAAAAAAwB8PAAAAAAAAAAAAAHg4AQAAAAAAAAAAAMD/eQAAAAAAAAAAAADAHw8AAAAAAAAAAAAA8HACAAAAAAAAAAAAgP7zAAAAAAAAAAAAAIC/HAAAAAAAAAAAAACAhxMAAAAAAAAAAAAA+s8DAAAAAAAAAAAAAOBfDwAAAAAAAAAAAACAxxMAAAAAAAAAAAAA4f88AAAAAAAAAAAAAOAfDwAAAAAAAAAAAADw4AQAAAAAAAAAAAD8nwcAAAAAAAAAAAAA8K8HAAAAAAAAAAAAAPBhAgAAAAAAAAAAAPh/ngAAAAAAAAAAAADA/x4AAAAAAAAAAAAA8OECAAAAAAAAAAAA+M8DAAAAAAAAAAAAAOBfDwAAAAAAAAAAAACAxxMAAAAAAAAAAAAA4f88AAAAAAAAAAAAAOAfDwAAAAAAAAAAAADw4AQAAAAAAAAAAAD8nwcAAAAAAAAAAAAA8K8HAAAAAAAAAAAAAPBhAgAAAAAAAAAAAPh/ngAAAAAAAAAAAADA/x4AAAAAAAAAAAAA8OECAAAAAAAAAAAA+M8DAAAAAAAAAAAAAOBfDwAAAAAAAAAAAACAxxMAAAAAAAAAAAAA4f88AAAAAAAAAAAAAOAfDwAAAAAAAAAAAADw4AQAAAAAAAAAAAD8nwcAAAAAAAAAAAAA8K8HAAAAAAAAAAAAAPBhAgAAAAAAAAAAAPh/ngAAAAAAAAAAAADA/x4AAAAAAAAAAAAA8OECAAAAAAAAAAAA+M8DAAAAAAAAAAAAAOBfDwAAAAAAAAAAAACAxxMAAAAAAAAAAAAA4f88AAAAAAAAAAAAAOAfDwAAAAAAAAAAAADw4AQAAAAAAAAAAAD8nwcAAAAAAAAAAAAA8K8HAAAAAAAAAAAAAPBhAgAAAAAAAAAAAPh/ngAAAAAAAAAAAADA/x4AAAAAAAAAAAAA8OECAAAAAAAAAAAA+M8DAAAAAAAAAAAAAOBfDwAAAAAAAAAAAACAxxMAAAAAAAAAAAAA4f88AAAAAAAAAAAAAOAfDwAAAAAAAAAAAADw4AQAAAAAAAAAAAD8nwcAAAAAAAAAAAAA8K8HAAAAAAAAAAAAAPBhAgAAAAAAAAAAAPh/ngAAAAAAAAAAAADA/xsA3g4Y9QAAAABJRU5ErkJggg==", "sizes": "192x192", "type": "image/png"}]
-      };
-      const manifestBlob = new Blob([JSON.stringify(manifest)], { type: 'application/json' });
-      document.getElementById('manifest').href = URL.createObjectURL(manifestBlob);
-      const swCode = `
-        const CACHE_NAME = '${CACHE_NAME}';
-        const urlsToCache = ['${location.href.replace(/\?.*$/, '')}'];
-        self.addEventListener('install', e => e.waitUntil(caches.open(CACHE_NAME).then(c => c.addAll(urlsToCache))));
-        self.addEventListener('activate', e => e.waitUntil(caches.keys().then(names => Promise.all(names.map(name => name !== CACHE_NAME && caches.delete(name))))));
-        self.addEventListener('fetch', e => e.respondWith(caches.match(e.request).then(r => r || fetch(e.request))));
-        self.addEventListener('message', e => { if (e.data.action === 'skipWaiting') self.skipWaiting(); });
-      `;
-      const swBlob = new Blob([swCode], { type: 'application/javascript' });
-
-      if ('serviceWorker' in navigator) {
-        let newWorker;
-        const updateNotification = document.getElementById('update-notification');
-        updateNotification.addEventListener('click', () => newWorker.postMessage({ action: 'skipWaiting' }));
-        navigator.serviceWorker.register(URL.createObjectURL(swBlob)).then(reg => {
-          reg.addEventListener('updatefound', () => {
-            newWorker = reg.installing;
-            newWorker.addEventListener('statechange', () => {
-              if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                updateNotification.style.display = 'block';
-              }
-            });
-          });
-        });
-        let refreshing;
-        navigator.serviceWorker.addEventListener('controllerchange', () => {
-          if (refreshing) return;
-          window.location.reload();
-          refreshing = true;
-        });
-      }
+    navItems.forEach(nav => {
+        nav.classList.toggle('active', nav.dataset.page === targetPageId);
     });
+
+    if (targetPageId === 'page-docs') {
+        setTimeout(initializeCarousel, 0); 
+    }
+  }
+
+  navItems.forEach(item => {
+    item.addEventListener('click', () => {
+      navigateToPage(item.dataset.page);
+    });
+  });
+  
+  document.querySelector('.page.active')?.classList.remove('active');
+  document.querySelector('.nav-item.active')?.classList.remove('active');
+
+
+  // --- ЛОГІКА СЛАЙДЕРА (ІНТЕРАКТИВНА АНІМАЦІЯ) ---
+  const sliderContainer = document.querySelector('.slider-container');
+  const sliderWrapper = document.querySelector('.slider-wrapper');
+  const slides = document.querySelectorAll('.slide');
+  const dots = document.querySelectorAll('.page-indicator .dot');
+  const slideCount = slides.length;
+
+  let currentIndex = 0;
+  let isDragging = false;
+  let startPos = 0;
+  let currentTranslate = 0;
+  let prevTranslate = 0;
+  let animationID;
+
+  const getPositionX = (e) => e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
+  
+  const updateSliderDots = () => {
+      dots.forEach((dot, index) => dot.classList.toggle('active', index === currentIndex));
+  };
+
+  const animation = () => {
+    sliderWrapper.style.transform = `translateX(${currentTranslate}px)`;
+    
+    const containerCenter = sliderContainer.offsetWidth / 2;
+    slides.forEach(slide => {
+        const slideCenter = slide.offsetLeft + slide.offsetWidth / 2 + currentTranslate;
+        const distance = Math.abs(containerCenter - slideCenter);
+        const slideWidth = slide.offsetWidth;
+        const distanceFactor = Math.min(distance / slideWidth, 1);
+        
+        const scale = 1 - (0.1 * distanceFactor);
+        const opacity = 1 - (0.3 * distanceFactor);
+
+        slide.style.transform = `scale(${scale})`;
+        slide.style.opacity = `${opacity}`;
+        slide.style.pointerEvents = scale > 0.99 ? 'auto' : 'none';
+    });
+
+    if (isDragging) requestAnimationFrame(animation);
+  }
+  
+  const setFinalSliderPosition = () => {
+    sliderWrapper.style.transition = 'transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+    slides.forEach(slide => {
+        slide.style.transition = 'transform 0.4s ease, opacity 0.4s ease';
+    });
+
+    const targetSlide = slides[currentIndex];
+    if (!targetSlide) return;
+    const containerCenter = sliderContainer.offsetWidth / 2;
+    const slideCenter = targetSlide.offsetLeft + targetSlide.offsetWidth / 2;
+    
+    currentTranslate = containerCenter - slideCenter;
+    prevTranslate = currentTranslate;
+    
+    sliderWrapper.style.transform = `translateX(${currentTranslate}px)`;
+
+    slides.forEach((slide, index) => {
+        const scale = index === currentIndex ? 1 : 0.9;
+        const opacity = index === currentIndex ? 1 : 0.7;
+        slide.style.transform = `scale(${scale})`;
+        slide.style.opacity = `${opacity}`;
+        slide.style.pointerEvents = index === currentIndex ? 'auto' : 'none';
+    });
+    
+    updateSliderDots();
+  }
+
+  const positionSliderByIndex = () => {
+    setFinalSliderPosition();
+  }
+
+  const dragStart = (e) => {
+    isDragging = true;
+    startPos = getPositionX(e);
+    sliderWrapper.style.transition = 'none';
+    slides.forEach(slide => slide.style.transition = 'none');
+    animationID = requestAnimationFrame(animation);
+    sliderContainer.style.cursor = 'grabbing';
+  };
+
+  const dragMove = (e) => {
+    if (!isDragging) return;
+    const currentPosition = getPositionX(e);
+    currentTranslate = prevTranslate + currentPosition - startPos;
+  };
+
+  const dragEnd = () => {
+    if (!isDragging) return;
+    isDragging = false;
+    cancelAnimationFrame(animationID);
+    sliderContainer.style.cursor = 'grab';
+
+    const movedBy = currentTranslate - prevTranslate;
+    
+    if (movedBy < -80 && currentIndex < slideCount - 1) {
+      currentIndex++;
+    }
+    if (movedBy > 80 && currentIndex > 0) {
+      currentIndex--;
+    }
+
+    positionSliderByIndex();
+  };
+  
+  const initializeCarousel = () => {
+      if (!slides[currentIndex] || sliderContainer.offsetWidth === 0) return;
+      
+      sliderWrapper.style.transition = 'none';
+      slides.forEach(slide => slide.style.transition = 'none');
+
+      const targetSlide = slides[currentIndex];
+      const containerCenter = sliderContainer.offsetWidth / 2;
+      const slideCenter = targetSlide.offsetLeft + targetSlide.offsetWidth / 2;
+      
+      currentTranslate = containerCenter - slideCenter;
+      prevTranslate = currentTranslate;
+      
+      animation();
+      updateSliderDots();
+  }
+  
+  window.addEventListener('resize', initializeCarousel);
+
+  ['mousedown', 'touchstart'].forEach(e => sliderContainer.addEventListener(e, dragStart, { passive: true }));
+  ['mouseup', 'touchend', 'mouseleave'].forEach(e => document.addEventListener(e, dragEnd));
+  ['mousemove', 'touchmove'].forEach(e => document.addEventListener(e, dragMove, { passive: true }));
+
+  // --- ЛОГІКА ПЕРЕВЕРТАННЯ КАРТКИ І ТАЙМЕРА ---
+  const flipCards = document.querySelectorAll('.flip-card');
+  const timerEl = document.getElementById('qr-timer'); // For єДокумент
+
+  function startTimer(element) {
+      clearInterval(element.timerInterval); // Use a property on the element to store its interval
+      let timeLeft = 180;
+      const updateTimerText = () => {
+        const minutes = Math.floor(timeLeft / 60);
+        let seconds = timeLeft % 60;
+        seconds = seconds < 10 ? '0' + seconds : seconds;
+        element.textContent = `${minutes}:${seconds}`;
+      };
+      updateTimerText();
+      element.timerInterval = setInterval(() => {
+          timeLeft--;
+          updateTimerText();
+          if (timeLeft <= 0) {
+              clearInterval(element.timerInterval);
+              element.textContent = "Час вийшов";
+          }
+      }, 1000);
+  }
+
+  flipCards.forEach(card => {
+    card.addEventListener('click', (e) => {
+        const movedBy = Math.abs(currentTranslate - prevTranslate);
+        if (isDragging && movedBy > 10) return;
+        
+        const slide = card.closest('.slide');
+        if (slide.style.transform !== 'scale(1)') return; // Only flip if it's the centered card
+
+        const inner = card.querySelector('.flip-card-inner');
+        const timerElement = card.closest('.slide').querySelector('[id^="qr-timer"]'); // Find the correct timer for this card
+        
+        inner.classList.toggle('is-flipped');
+        if (inner.classList.contains('is-flipped')) {
+            startTimer(timerElement);
+        } else {
+            clearInterval(timerElement.timerInterval);
+            setTimeout(() => {
+                if (!inner.classList.contains('is-flipped')) {
+                    timerElement.textContent = "";
+                }
+            }, 600);
+        }
+    });
+  });
+
+  // --- ЛОГІКА ДІЯ.ПІДПИСУ ТА ПАСПОРТА ---
+  const diiaSignatureMenuItem = document.getElementById('menu-diia-signature');
+  const signatureModalOverlay = document.getElementById('signature-modal-overlay');
+  const signatureCanvas = document.getElementById('signature-canvas');
+  const clearSignatureBtn = document.getElementById('clear-signature-btn');
+  const saveSignatureBtn = document.getElementById('save-signature-btn');
+  const passportSignatureDisplay = document.getElementById('passport-signature-display');
+  const passportSignatureImage = passportSignatureDisplay.querySelector('img');
+
+  const ctx = signatureCanvas.getContext('2d');
+  let isSigning = false;
+  let lastX = 0;
+  let lastY = 0;
+  let signatureDataURL = localStorage.getItem('diiaSignature') || null; // Load saved signature
+
+  // Function to initialize canvas for drawing
+  function initCanvas() {
+    ctx.lineWidth = 3;
+    ctx.lineCap = 'round';
+    ctx.strokeStyle = '#000';
+    clearCanvas(); // Clear canvas when modal opens
+    if (signatureDataURL) { // If there's a saved signature, load it temporarily for editing
+      const img = new Image();
+      img.onload = () => {
+        ctx.drawImage(img, 0, 0, signatureCanvas.width, signatureCanvas.height);
+      };
+      img.src = signatureDataURL;
+    }
+  }
+
+  // Function to clear the canvas
+  function clearCanvas() {
+    ctx.clearRect(0, 0, signatureCanvas.width, signatureCanvas.height);
+  }
+
+  // Event listeners for drawing on canvas
+  function drawStart(e) {
+    isSigning = true;
+    [lastX, lastY] = getCanvasCoordinates(e);
+    ctx.beginPath();
+    ctx.moveTo(lastX, lastY);
+  }
+
+  function drawMove(e) {
+    if (!isSigning) return;
+    e.preventDefault(); // Prevent scrolling on touch devices
+    let [currentX, currentY] = getCanvasCoordinates(e);
+    ctx.lineTo(currentX, currentY);
+    ctx.stroke();
+    [lastX, lastY] = [currentX, currentY];
+  }
+
+  function drawEnd() {
+    isSigning = false;
+    ctx.closePath();
+  }
+
+  function getCanvasCoordinates(event) {
+    const rect = signatureCanvas.getBoundingClientRect();
+    let clientX, clientY;
+    if (event.touches) {
+      clientX = event.touches[0].clientX;
+      clientY = event.touches[0].clientY;
+    } else {
+      clientX = event.clientX;
+      clientY = event.clientY;
+    }
+    return [
+      clientX - rect.left,
+      clientY - rect.top
+    ];
+  }
+
+  // Add event listeners to canvas
+  signatureCanvas.addEventListener('mousedown', drawStart);
+  signatureCanvas.addEventListener('mousemove', drawMove);
+  signatureCanvas.addEventListener('mouseup', drawEnd);
+  signatureCanvas.addEventListener('mouseout', drawEnd); // Stop drawing if mouse leaves canvas
+
+  signatureCanvas.addEventListener('touchstart', drawStart, { passive: false }); // Prevent scrolling
+  signatureCanvas.addEventListener('touchmove', drawMove, { passive: false });
+  signatureCanvas.addEventListener('touchend', drawEnd);
+  signatureCanvas.addEventListener('touchcancel', drawEnd);
+
+  // Show signature modal when "Дія.Підпис" is clicked
+  diiaSignatureMenuItem.addEventListener('click', () => {
+    signatureModalOverlay.classList.add('visible');
+    // Ensure canvas size is correct for retina displays, then clear and load
+    const dpi = window.devicePixelRatio || 1;
+    signatureCanvas.width = signatureCanvas.offsetWidth * dpi;
+    signatureCanvas.height = signatureCanvas.offsetHeight * dpi;
+    ctx.scale(dpi, dpi);
+    initCanvas();
+  });
+
+  // Hide modal when clicking outside (on overlay)
+  signatureModalOverlay.addEventListener('click', (e) => {
+    if (e.target === signatureModalOverlay) {
+      signatureModalOverlay.classList.remove('visible');
+    }
+  });
+
+  // Clear button functionality
+  clearSignatureBtn.addEventListener('click', () => {
+    clearCanvas();
+    signatureDataURL = null; // Clear saved signature as well
+    localStorage.removeItem('diiaSignature');
+    updatePassportSignature();
+  });
+
+  // Save button functionality
+  saveSignatureBtn.addEventListener('click', () => {
+    // Only save if something was drawn (canvas is not empty)
+    const dataURL = signatureCanvas.toDataURL();
+    const blank = document.createElement('canvas');
+    blank.width = signatureCanvas.width;
+    blank.height = signatureCanvas.height;
+    ctx.clearRect(0, 0, blank.width, blank.height); // Ensure blank canvas is truly blank
+    if (dataURL !== blank.toDataURL()) { // Check if canvas is not blank
+      signatureDataURL = dataURL;
+      localStorage.setItem('diiaSignature', signatureDataURL); // Save to local storage
+      updatePassportSignature();
+    }
+    signatureModalOverlay.classList.remove('visible');
+  });
+
+  // Function to update the signature in the Passport card
+  function updatePassportSignature() {
+    if (signatureDataURL) {
+      passportSignatureImage.src = signatureDataURL;
+      passportSignatureDisplay.style.display = 'block';
+    } else {
+      passportSignatureDisplay.style.display = 'none';
+      passportSignatureImage.src = '';
+    }
+  }
+
+  // Call this function when the app loads to display any previously saved signature
+  updatePassportSignature();
+
+  // --- ЛОГІКА SERVICE WORKER ---
+  const VERSION = new Date().getTime();
+  const CACHE_NAME = `diia-clone-cache-v${VERSION}`;
+  const manifest = {
+    "name": "єДокумент", "short_name": "єДокумент", "start_url": ".", "display": "standalone", "background_color": "#c9e3eb", "theme_color": "#111111",
+    "icons": [{"src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAYAAABS3GwHAAAAAXNSR0IArs4c6QAAAyJJREFUeF7t0AEBAAAAEADC/2H5NEbDAwKChAAAAAAAAAAAAAD45wEAAAAAAAAAAAAA8McDAAAAAAAAAAAAAODjBwAAAAAAAAAAAABA/3kAAAAAAAAAAAAAwB8PAAAAAAAAAAAAAHg4AQAAAAAAAAAAAMD/eQAAAAAAAAAAAADAHw8AAAAAAAAAAAAA8HACAAAAAAAAAAAAgP7zAAAAAAAAAAAAAIC/HAAAAAAAAAAAAACAhxMAAAAAAAAAAAAA+s8DAAAAAAAAAAAAAOBfDwAAAAAAAAAAAACAxxMAAAAAAAAAAAAA4f88AAAAAAAAAAAAAOAfDwAAAAAAAAAAAADw4AQAAAAAAAAAAAD8nwcAAAAAAAAAAAAA8K8HAAAAAAAAAAAAAPBhAgAAAAAAAAAAAPh/ngAAAAAAAAAAAADA/x4AAAAAAAAAAAAA8OECAAAAAAAAAAAA+M8DAAAAAAAAAAAAAOBfDwAAAAAAAAAAAACAxxMAAAAAAAAAAAAA4f88AAAAAAAAAAAAAOAfDwAAAAAAAAAAAADw4AQAAAAAAAAAAAD8nwcAAAAAAAAAAAAA8K8HAAAAAAAAAAAAAPBhAgAAAAAAAAAAAPh/ngAAAAAAAAAAAADA/x4AAAAAAAAAAAAA8OECAAAAAAAAAAAA+M8DAAAAAAAAAAAAAOBfDwAAAAAAAAAAAACAxxMAAAAAAAAAAAAA4f88AAAAAAAAAAAAAOAfDwAAAAAAAAAAAADw4AQAAAAAAAAAAAD8nwcAAAAAAAAAAAAA8K8HAAAAAAAAAAAAAPBhAgAAAAAAAAAAAPh/ngAAAAAAAAAAAADA/x4AAAAAAAAAAAAA8OECAAAAAAAAAAAA+M8DAAAAAAAAAAAAAOBfDwAAAAAAAAAAAACAxxMAAAAAAAAAAAAA4f88AAAAAAAAAAAAAOAfDwAAAAAAAAAAAADw4AQAAAAAAAAAAAD8nwcAAAAAAAAAAAAA8K8HAAAAAAAAAAAAAPBhAgAAAAAAAAAAAPh/ngAAAAAAAAAAAADA/x4AAAAAAAAAAAAA8OECAAAAAAAAAAAA+M8DAAAAAAAAAAAAAOBfDwAAAAAAAAAAAACAxxMAAAAAAAAAAAAA4f88AAAAAAAAAAAAAOAfDwAAAAAAAAAAAADw4AQAAAAAAAAAAAD8nwcAAAAAAAAAAAAA8K8HAAAAAAAAAAAAAPBhAgAAAAAAAAAAAPh/ngAAAAAAAAAAAADA/xsA3g4Y9QAAAABJRU5ErkJggg==", "sizes": "192x192", "type": "image/png"}]
+  };
+  const manifestBlob = new Blob([JSON.stringify(manifest)], { type: 'application/json' });
+  document.getElementById('manifest').href = URL.createObjectURL(manifestBlob);
+  const swCode = `
+    const CACHE_NAME = '${CACHE_NAME}';
+    const urlsToCache = ['${location.href.replace(/\?.*$/, '')}'];
+    self.addEventListener('install', e => e.waitUntil(caches.open(CACHE_NAME).then(c => c.addAll(urlsToCache))));
+    self.addEventListener('activate', e => e.waitUntil(caches.keys().then(names => Promise.all(names.map(name => name !== CACHE_NAME && caches.delete(name))))));
+    self.addEventListener('fetch', e => e.respondWith(caches.match(e.request).then(r => r || fetch(e.request))));
+    self.addEventListener('message', e => { if (e.data.action === 'skipWaiting') self.skipWaiting(); });
+  `;
+  const swBlob = new Blob([swCode], { type: 'application/javascript' });
+
+  if ('serviceWorker' in navigator) {
+    let newWorker;
+    const updateNotification = document.getElementById('update-notification');
+    updateNotification.addEventListener('click', () => newWorker.postMessage({ action: 'skipWaiting' }));
+    navigator.serviceWorker.register(URL.createObjectURL(swBlob)).then(reg => {
+      reg.addEventListener('updatefound', () => {
+        newWorker = reg.installing;
+        newWorker.addEventListener('statechange', () => {
+          if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+            updateNotification.style.display = 'block';
+          }
+        });
+      });
+    });
+    let refreshing;
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      if (refreshing) return;
+      window.location.reload();
+      refreshing = true;
+    });
+  }
+});
   </script>
 </body>
 </html>
