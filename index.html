@@ -19,17 +19,12 @@
     :root {
       --text-color: #000;
       --label-color: #333;
-      --background-gradient:
-        radial-gradient(ellipse at 5% 5%, hsla(70, 88%, 88%, 0.8) 0, transparent 40%),
-        radial-gradient(ellipse at 95% 90%, hsla(240, 88%, 85%, 0.7) 0, transparent 50%),
-        linear-gradient(155deg, #e1f6b8, #bdecf3, #f5d5e5);
+      --background-gradient: #e1f6b8; /* Запасний колір, якщо анімація не завантажиться */
       --card-background: rgba(255, 255, 255, 0.45);
       --nav-background: #111;
       --nav-text-color: #8e8e93;
       --nav-active-color: #fff;
       --banner-background-soft: linear-gradient(90deg, rgba(173, 223, 173, 0.8), rgba(225, 246, 184, 0.85), rgba(173, 223, 173, 0.8));
-
-      /* Menu specific colors */
       --menu-bg-color: #dbe9f5;
       --menu-item-bg: #fff;
       --menu-item-border: #e8e8e8;
@@ -37,12 +32,6 @@
       --menu-section-spacing: 16px;
     }
 
-    @keyframes animatedBackground {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-    
     @keyframes shake {
       0%, 100% { transform: translateX(0); }
       25% { transform: translateX(-5px); }
@@ -54,8 +43,6 @@
     body {
       font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       background: var(--background-gradient);
-      background-size: 200% 200%;
-      animation: animatedBackground 30s ease infinite;
       height: 100vh;
       color: var(--text-color);
       overflow: hidden;
@@ -66,268 +53,133 @@
       user-select: none;
     }
     
-    button, .nav-item, .menu-item {
-        outline: none;
+    /* --- НОВИЙ СТИЛЬ: Контейнер для фонової анімації --- */
+    #background-animation {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: -1;
+        overflow: hidden;
     }
-    button:focus, .nav-item:focus, .menu-item:focus {
-        outline: none;
+    #background-animation > lottie-player {
+        width: 100%;
+        height: 100%;
+        transform: scale(1.5); /* Можна налаштувати масштаб для кращого вигляду */
     }
 
+    button, .nav-item, .menu-item { outline: none; }
+    button:focus, .nav-item:focus, .menu-item:focus { outline: none; }
 
     /* --- СТИЛІ ДЛЯ СТАРТОВОГО ЕКРАНУ --- */
     #splash-screen {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 10000;
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 10000;
         background: linear-gradient(to bottom, #d4e7f5, #e9f3f9);
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-end;
-        padding-bottom: 8vh;
-        align-items: center;
-        transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+        display: flex; flex-direction: column; justify-content: flex-end;
+        padding-bottom: 8vh; align-items: center; transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
     }
-    #splash-screen.hidden {
-        opacity: 0;
-        visibility: hidden;
-    }
-    .splash-content {
-        position: absolute;
-        top: 25vh;
-    }
-    .splash-content h1 {
-        font-size: 48px;
-        color: #000;
-        font-weight: 600;
-    }
-    .lottie-container {
-        margin: 0 auto;
-    }
+    #splash-screen.hidden { opacity: 0; visibility: hidden; }
+    .splash-content { position: absolute; top: 25vh; }
+    .splash-content h1 { font-size: 48px; color: #000; font-weight: 600; }
+    .lottie-container { margin: 0 auto; }
     
     /* --- СТИЛІ ДЛЯ ЕКРАНУ ВВОДУ ПАРОЛЮ --- */
     #login-screen {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 9999;
-        background: var(--background-gradient);
-        background-size: 200% 200%;
-        animation: animatedBackground 30s ease infinite;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-        transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
-        opacity: 0;
-        visibility: hidden;
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999;
+        background: transparent; /* Робимо прозорим, щоб бачити анімований фон */
+        display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
+        transition: opacity 0.5s ease-out, visibility 0.5s ease-out; opacity: 0; visibility: hidden;
     }
-    #login-screen.visible {
-        opacity: 1;
-        visibility: visible;
-    }
-    .login-title {
-        font-size: 28px;
-        font-weight: 600;
-        margin-bottom: 20px;
-    }
-    .passcode-dots {
-        display: flex;
-        gap: 15px;
-        margin-bottom: 30px;
-    }
-    .passcode-dots.shake {
-        animation: shake 0.3s linear;
-    }
-    .passcode-dot {
-        width: 8px;
-        height: 8px;
-        background-color: rgba(255, 255, 255, 0.8);
-        border-radius: 50%;
-        transition: background-color 0.2s ease;
-    }
-    .passcode-dot.filled {
-        background-color: #000;
-    }
-    .keypad {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 20px;
-        width: 280px;
-    }
+    #login-screen.visible { opacity: 1; visibility: visible; }
+    .login-title { font-size: 28px; font-weight: 600; margin-bottom: 20px; }
+    .passcode-dots { display: flex; gap: 15px; margin-bottom: 30px; }
+    .passcode-dots.shake { animation: shake 0.3s linear; }
+    .passcode-dot { width: 8px; height: 8px; background-color: rgba(255, 255, 255, 0.8); border-radius: 50%; transition: background-color 0.2s ease; }
+    .passcode-dot.filled { background-color: #000; }
+    .keypad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; width: 280px; }
     .keypad-btn {
-        width: 75px;
-        height: 75px;
-        border-radius: 50%;
-        border: none;
-        background-color: rgba(255, 255, 255, 0.8);
-        font-size: 28px;
-        font-weight: 500;
-        color: #000;
-        cursor: pointer;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        transition: background-color 0.2s ease;
-        backdrop-filter: blur(5px);
-        -webkit-backdrop-filter: blur(5px);
+        width: 75px; height: 75px; border-radius: 50%; border: none; background-color: rgba(255, 255, 255, 0.8);
+        font-size: 28px; font-weight: 500; color: #000; cursor: pointer; display: flex; justify-content: center;
+        align-items: center; transition: background-color 0.2s ease; backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
         outline: none;
     }
-    .keypad-btn:active {
-        background-color: rgba(255, 255, 255, 1);
-    }
-    .keypad-btn.icon {
-        background: transparent;
-        backdrop-filter: none;
-    }
-    .keypad-btn img {
-        width: 70px;
-        height: 70px;
-        opacity: 0.7;
-    }
-    .keypad-btn svg {
-        width: 35px;
-        height: 35px;
-    }
-    .forgot-password {
-        position: absolute;
-        bottom: 5vh;
-        padding: 10px;
-        color: #000;
-        font-size: 16px;
-        cursor: pointer;
-    }
+    .keypad-btn:active { background-color: rgba(255, 255, 255, 1); }
+    .keypad-btn.icon { background: transparent; backdrop-filter: none; }
+    .keypad-btn img { width: 70px; height: 70px; opacity: 0.7; }
+    .keypad-btn svg { width: 35px; height: 35px; }
+    .forgot-password { position: absolute; bottom: 5vh; padding: 10px; color: #000; font-size: 16px; cursor: pointer; }
 
-    /* --- Ховаємо основний контент на старті --- */
-    .app-container {
-      height: 100%;
-      display: none;
-      flex-direction: column;
-    }
+    /* --- Основний контент --- */
+    .app-container { height: 100%; display: none; flex-direction: column; }
     .content { flex-grow: 1; position: relative; }
-
     .page {
       width: 100%; height: 100%; position: absolute; top: 0; left: 0;
-      padding: 0;
-      overflow: hidden;
-      transition: opacity 0.4s ease-in-out;
+      padding: 0; overflow: hidden; transition: opacity 0.4s ease-in-out;
       visibility: hidden; opacity: 0;
     }
     .page.active { visibility: visible; opacity: 1; }
-
     #page-docs.active { display: flex; flex-direction: column; justify-content: center; }
-
     .placeholder-page { display: flex; justify-content: center; align-items: center; height: 100%; font-size: 24px; color: #555; }
 
+    /* --- СЛАЙДЕР --- */
     .slider-container {
-      width: 100%;
-      height: 435px; 
-      margin-top: -50px;
-      display: flex;
-      align-items: center;
-      position: relative;
-      overflow: hidden;
-      cursor: grab;
+      width: 100%; height: 435px; margin-top: -50px; display: flex;
+      align-items: center; position: relative; overflow: hidden; cursor: grab;
     }
-    .slider-wrapper {
-      display: flex;
-      align-items: center;
-      gap: 3px; 
-    }
+    .slider-wrapper { display: flex; align-items: center; gap: 3px; }
+    
+    /* --- ВИПРАВЛЕНО: Стиль слайда для коректної ширини --- */
     .slide {
-      flex: 0 0 80%; 
+      width: 80%; /* Залежить від .slider-container */
+      flex-shrink: 0; /* Забороняємо стискання */
       height: 435px;
       -webkit-tap-highlight-color: transparent;
-      padding: 0 5px; /* ВІДСТУП ДЛЯ АНІМАЦІЇ */
+      padding: 0 5px;
     }
 
     .flip-card {
-        background-color: transparent;
-        width: 100%;
-        height: 100%;
-        perspective: 2000px; /* ПОКРАЩЕНА ПЕРСПЕКТИВА */
-        cursor: pointer;
+        background-color: transparent; width: 100%; height: 100%;
+        perspective: 2000px; cursor: pointer;
     }
     .flip-card-inner {
-        position: relative;
-        width: 100%;
-        height: 100%;
-        transition: transform 0.6s;
-        transform-style: preserve-3d;
+        position: relative; width: 100%; height: 100%;
+        transition: transform 0.6s; transform-style: preserve-3d;
     }
     .flip-card-inner.is-flipped { transform: rotateY(180deg); }
     .flip-card-front, .flip-card-back {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        -webkit-backface-visibility: hidden;
-        backface-visibility: hidden;
+        position: absolute; width: 100%; height: 100%;
+        -webkit-backface-visibility: hidden; backface-visibility: hidden;
     }
     .flip-card-back {
-        transform: rotateY(180deg);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: space-around;
-        background: rgba(255, 255, 255, 0.9);
-        border-radius: 24px;
-        padding: 20px;
-        backdrop-filter: blur(25px);
-        -webkit-backdrop-filter: blur(25px);
+        transform: rotateY(180deg); display: flex; flex-direction: column;
+        align-items: center; justify-content: space-around;
+        background: rgba(255, 255, 255, 0.9); border-radius: 24px; padding: 20px;
+        backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
         border: 1px solid rgba(255, 255, 255, 0.3);
     }
-
+    /* --- НОВИЙ СТИЛЬ: Контейнер для Lottie-анімації завантажувача --- */
+    .flip-card-back .loader-container {
+        position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+        display: flex; justify-content: center; align-items: center;
+        background: rgba(255, 255, 255, 0.9); border-radius: 24px;
+        z-index: 2;
+    }
     .document-container {
-        background: var(--card-background);
-        border-radius: 24px;
-        backdrop-filter: blur(25px);
-        -webkit-backdrop-filter: blur(25px);
-        border: 1px solid rgba(255, 255, 255, 0.25);
-        overflow: hidden;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
+        background: var(--card-background); border-radius: 24px; backdrop-filter: blur(25px);
+        -webkit-backdrop-filter: blur(25px); border: 1px solid rgba(255, 255, 255, 0.25);
+        overflow: hidden; height: 100%; display: flex; flex-direction: column;
     }
     .empty-card { height: 100%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: #888; }
-    .document-content { padding: 20px; padding-bottom: 0; }
-    .document-title { 
-        font-size: 22px; 
-        font-weight: 600;
-        margin-bottom: 20px; 
-        opacity: 0.8;
-    }
-    .personal-info {
-        display: flex;
-        align-items: flex-start;
-        gap: 15px;
-        margin-bottom: 30px;
-    }
-    .photo {
-        margin-top: 5px;
-    }
-    .photo img {
-        width: 110px;
-        height: 154px;
-        border-radius: 12px;
-        object-fit: cover;
-        border: 1px solid rgba(255, 255, 255, 0.4);
-    }
+    .document-content { padding: 20px; padding-bottom: 0; flex-shrink: 0; }
+    .document-title { font-size: 22px; font-weight: 600; margin-bottom: 20px; opacity: 0.8;}
+    .personal-info { display: flex; align-items: flex-start; gap: 15px; }
+    .photo { margin-top: 5px; }
+    .photo img { width: 110px; height: 154px; border-radius: 12px; object-fit: cover; border: 1px solid rgba(255, 255, 255, 0.4); }
     .details { display: flex; flex-direction: column; gap: 8px; }
     .detail-item { display: flex; flex-direction: column; }
-    .detail-item .label, .detail-item .value {
-        font-size: 13px;
-        font-weight: 500;
-        color: var(--text-color);
-    }
-    .detail-item .label {
-        color: var(--label-color);
-        white-space: pre-wrap;
-    }
+    .detail-item .label, .detail-item .value { font-size: 13px; font-weight: 500; color: var(--text-color); }
+    .detail-item .label { color: var(--label-color); white-space: pre-wrap; }
     .signature-placeholder {
         width: 100px;
         height: 45px;
@@ -336,77 +188,42 @@
     }
 
     .status-banner-wrapper {
-      background: var(--banner-background-soft);
-      overflow: hidden;
-      white-space: nowrap;
-      padding: 5px 0;
-      flex-shrink: 0;
+      background: var(--banner-background-soft); overflow: hidden;
+      white-space: nowrap; padding: 5px 0; flex-shrink: 0;
     }
-    .status-banner {
-      display: flex;
-      width: max-content;
-      animation: marquee 12s linear infinite;
-    }
-    @keyframes marquee {
-        0% { transform: translateX(0); }
-        100% { transform: translateX(-50%); }
-    }
-    .status-banner span {
-        padding-right: 8px;
-        font-size: 13px;
-        font-weight: 600;
-        white-space: nowrap;
-    }
+    .status-banner { display: flex; width: max-content; animation: marquee 12s linear infinite; }
+    @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+    .status-banner span { padding-right: 8px; font-size: 13px; font-weight: 600; white-space: nowrap; }
 
     .info-section { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; justify-content: flex-end; }
-    .name-section {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-end;
-        min-width: 0;
-    }
+    .name-section { display: flex; justify-content: space-between; align-items: flex-end; min-width: 0; }
     .full-name { display: flex; flex-direction: column; min-width: 0; }
-    .name-part {
-        font-size: 24px;
-        font-weight: 600;
-        line-height: 1.2;
-        word-break: break-word;
-    }
+    .name-part { font-size: 24px; font-weight: 600; line-height: 1.2; word-break: break-word; }
     .more-options {
-        width: 24px;
-        height: 24px;
-        background-color: #2c2c2e;
-        border-radius: 50%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-shrink: 0;
-        margin-left: 10px;
-        margin-bottom: 2px;
+        width: 24px; height: 24px; background-color: #2c2c2e; border-radius: 50%; display: flex;
+        justify-content: center; align-items: center; flex-shrink: 0; margin-left: 10px; margin-bottom: 2px;
     }
-    .more-options svg { 
-        width: 14px;
-        height: 14px;
-        fill: #fff; 
+    .more-options svg { width: 14px; height: 14px; fill: #fff; }
+    
+    /* --- ОНОВЛЕНО: Стилі для Картки платника податків --- */
+    #tax-card-slide .document-title { margin-bottom: 10px; }
+    .tax-card-subtitle { font-size: 14px; color: var(--label-color); font-weight: 500; margin-bottom: 25px; }
+    .tax-card-details .value { font-size: 16px; font-weight: 600; }
+    .tax-card-details .detail-item { gap: 4px; }
+    .tax-number-section { text-align: center; }
+    .tax-number {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        font-size: 28px; font-weight: 500; letter-spacing: 2px; color: #000;
+        display: flex; align-items: center; justify-content: center; gap: 10px;
     }
+    .tax-number svg { width: 22px; height: 22px; cursor: pointer; opacity: 0.7; }
 
     .page-indicator-container {
-        position: absolute;
-        bottom: 95px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 100%;
-        max-width: 400px;
-        padding: 20px 0;
+        position: absolute; bottom: 95px; left: 50%; transform: translateX(-50%);
+        width: 100%; max-width: 400px; padding: 20px 0;
     }
     .page-indicator { display: flex; justify-content: center; gap: 8px; }
-    .dot {
-        width: 9px;
-        height: 9px;
-        background-color: rgba(255, 255, 255, 0.6);
-        border-radius: 50%;
-        transition: background-color 0.3s ease;
-    }
+    .dot { width: 9px; height: 9px; background-color: rgba(255, 255, 255, 0.6); border-radius: 50%; transition: background-color 0.3s ease; }
     .dot.active { background-color: rgba(255, 255, 255, 1); }
 
     /* --- СТИЛІ НАВІГАЦІЇ --- */
@@ -423,6 +240,11 @@
     #update-notification { position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%); background-color: #28a745; color: white; padding: 10px 20px; border-radius: 20px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); z-index: 200; cursor: pointer; font-size: 14px; font-weight: 500; display: none; }
     
     /* --- СТИЛІ ЗВОРОТУ КАРТКИ --- */
+    .back-content {
+        display: flex; flex-direction: column; width: 100%; height: 100%;
+        align-items: center; justify-content: space-around;
+        visibility: hidden; /* Ховаємо контент під час анімації завантажувача */
+    }
     .code-timer { font-size: 15px; color: #555; font-weight: 500; }
     .code-display-area { width: 100%; display: flex; justify-content: center; align-items: center; flex-grow: 1; }
     .code-display-area img { width: 220px; height: 220px; }
@@ -588,6 +410,11 @@
   </style>
 </head>
 <body>
+  <!-- НОВИЙ ЕЛЕМЕНТ: Фонова анімація -->
+  <div id="background-animation">
+      <lottie-player src="background_gradient.json" autoplay loop mode="normal"></lottie-player>
+  </div>
+
   <!-- СТАРТОВИЙ ЕКРАН -->
   <div id="splash-screen">
       <div class="splash-content">
@@ -640,179 +467,43 @@
         <div>
             <div class="slider-container">
               <div class="slider-wrapper">
-                <!-- СЛАЙД 1: ЄДОКУМЕНТ -->
-                <div class="slide">
-                  <div class="flip-card">
-                    <div class="flip-card-inner">
-                      <div class="flip-card-front">
-                        <div class="document-container">
-                            <div class="document-content">
-                              <h1 class="document-title">єДокумент</h1>
-                              <div class="personal-info">
-                                <div class="photo">
-                                  <img src="./pasport.png" alt="Фото" loading="lazy">
-                                </div>
-                                <div class="details">
-                                  <div class="detail-item">
-                                    <span class="label">Дата<br>народження:</span>
-                                    <span class="value">29.07.2005</span>
-                                  </div>
-                                  <div class="detail-item">
-                                    <span class="label">РНОКПП:</span>
-                                    <span class="value">3856163250</span>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="status-banner-wrapper">
-                              <div class="status-banner">
-                                <span>А ми нашу славну Україну, гей, гей, розвеселимо!</span>
-                                <span>А ми нашу славну Україну, гей, гей, розвеселимо!</span>
-                              </div>
-                            </div>
-                            <div class="info-section">
-                              <div class="name-section">
-                                <div class="full-name">
-                                  <span class="name-part">Іванов</span>
-                                  <span class="name-part">Іван</span>
-                                  <span class="name-part">Іванович</span>
-                                </div>
-                                <div class="more-options">
-                                  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M6 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm12 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>
-                                </div>
-                              </div>
-                            </div>
-                        </div>
-                      </div>
-                      <div class="flip-card-back simple-qr-back">
-                          <h3>QR-код дійсний</h3>
-                          <img id="edoc-qr-img" src="" alt="QR">
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <!-- СЛАЙД 2: ПАСПORT ГРОМАДЯНИНА УКРАЇНИ (З ПІДПИСОМ) -->
-                <div class="slide" id="passport-ukraine-slide">
-                  <div class="flip-card">
-                    <div class="flip-card-inner">
-                      <div class="flip-card-front">
-                        <div class="document-container">
-                            <div class="document-content">
-                              <h1 class="document-title">Паспорт громадянина<br>України</h1>
-                              <div class="personal-info">
-                                <div class="photo">
-                                  <img src="./pasport.png" alt="Фото" loading="lazy">
-                                </div>
-                                <div class="details">
-                                  <div class="detail-item">
-                                    <span class="label">Дата<br>народження:</span>
-                                    <span class="value">29.07.2005</span>
-                                  </div>
-                                  <div class="detail-item">
-                                    <span class="label">Номер:</span>
-                                    <span class="value">013407632</span>
-                                  </div>
-                                   <img id="passport-signature-image" class="signature-placeholder" src="" alt="Підпис" style="display: none;">
-                                </div>
-                              </div>
-                            </div>
-                            <div class="status-banner-wrapper">
-                              <div class="status-banner">
-                                <span>А ми нашу славну Україну, гей, гей, розвеселимо!</span>
-                                <span>А ми нашу славну Україну, гей, гей, розвеселимо!</span>
-                              </div>
-                            </div>
-                            <div class="info-section">
-                              <div class="name-section">
-                                <div class="full-name">
-                                  <span class="name-part">Іванов</span>
-                                  <span class="name-part">Іван</span>
-                                  <span class="name-part">Іванович</span>
-                                </div>
-                                <div class="more-options">
-                                  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M6 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm12 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>
-                                </div>
-                              </div>
-                            </div>
-                        </div>
-                      </div>
-                      <div class="flip-card-back">
-                          <div class="code-timer" id="passport-timer">Код діятиме ще 2:55 хв</div>
-                          <div class="code-display-area">
-                              <div class="code-display-item" id="passport-qr-code">
-                                  <img id="passport-qr-img" src="" alt="QR">
-                              </div>
-                              <div class="code-display-item hidden" id="passport-barcode">
-                                  <div class="barcode-container">
-                                      <svg class="barcode-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 250 80">
-                                          <g fill="#000">
-                                              <rect x="0" y="0" width="3" height="80"/> <rect x="5" y="0" width="2" height="80"/> <rect x="9" y="0" width="5" height="80"/> <rect x="16" y="0" width="2" height="80"/> <rect x="20" y="0" width="4" height="80"/> <rect x="26" y="0" width="2" height="80"/> <rect x="30" y="0" width="3" height="80"/> <rect x="35" y="0" width="5" height="80"/> <rect x="42" y="0" width="2" height="80"/> <rect x="46" y="0" width="3" height="80"/> <rect x="51" y="0" width="3" height="80"/> <rect x="56" y="0" width="4" height="80"/> <rect x="62" y="0" width="2" height="80"/> <rect x="66" y="0" width="5" height="80"/> <rect x="73" y="0" width="2" height="80"/> <rect x="77" y="0" width="4" height="80"/> <rect x="83" y="0" width="3" height="80"/> <rect x="88" y="0" width="2" height="80"/> <rect x="92" y="0" width="5" height="80"/> <rect x="99" y="0" width="3" height="80"/> <rect x="104" y="0" width="2" height="80"/> <rect x="108" y="0" width="4" height="80"/> <rect x="114" y="0" width="3" height="80"/> <rect x="119" y="0" width="5" height="80"/> <rect x="126" y="0" width="2" height="80"/> <rect x="130" y="0" width="3" height="80"/> <rect x="135" y="0" width="4" height="80"/> <rect x="141" y="0" width="2" height="80"/> <rect x="145" y="0" width="5" height="80"/> <rect x="152" y="0" width="3" height="80"/> <rect x="157" y="0" width="2" height="80"/> <rect x="161" y="0" width="4" height="80"/> <rect x="167" y="0" width="3" height="80"/> <rect x="172" y="0" width="5" height="80"/> <rect x="179" y="0" width="2" height="80"/> <rect x="183" y="0" width="4" height="80"/> <rect x="189" y="0" width="2" height="80"/> <rect x="193" y="0" width="3" height="80"/> <rect x="198" y="0" width="5" height="80"/> <rect x="205" y="0" width="2" height="80"/> <rect x="209" y="0" width="4" height="80"/> <rect x="215" y="0" width="3" height="80"/> <rect x="220" y="0" width="2" height="80"/> <rect x="224" y="0" width="5" height="80"/> <rect x="231" y="0" width="3" height="80"/> <rect x="236" y="0" width="2" height="80"/> <rect x="240" y="0" width="4" height="80"/> <rect x="246" y="0" width="3" height="80"/>
-                                          </g>
-                                      </svg>
-                                      <div class="barcode-numbers">
-                                          <span>5373</span> <span>2728</span> <span>73494</span>
-                                      </div>
-                                  </div>
-                              </div>
-                          </div>
-                          <div class="passport-switcher">
-                              <button class="passport-switcher-btn active" id="passport-qr-btn">
-                                  <div class="passport-switcher-icon">
-                                      <svg viewBox="0 0 24 24"><path d="M3 11h8V3H3v8zm2-6h4v4H5V5zM3 21h8v-8H3v8zm2-6h4v4H5v-4zM13 3v8h8V3h-8zm6 6h-4V5h4v4zM13 13h2v2h-2zM15 15h2v2h-2zM13 17h2v2h-2zM15 19h2v2h-2zM17 17h2v2h-2zM19 15h2v2h-2zM17 13h2v2h-2zM19 19h2v2h-2z"/></svg>
-                                  </div>
-                                  <span class="passport-switcher-label">QR-код</span>
-                              </button>
-                              <button class="passport-switcher-btn" id="passport-barcode-btn">
-                                  <div class="passport-switcher-icon">
-                                      <svg id="barcode-icon-inactive" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 5V19M9 5V19M12 5V19M15 5V19M19 5V19" stroke-width="2.5" stroke-linecap="round"/></svg>
-                                  </div>
-                                  <span class="passport-switcher-label">Штрих-код</span>
-                              </button>
-                          </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <!-- СЛАЙД 3: ЗАКОРДОННИЙ ПАСПОРТ -->
+                
+                <!-- СЛАЙД 1: ЗАКОРДОННИЙ ПАСПОРТ (ОНОВЛЕНО ЗА МАКЕТОМ) -->
                 <div class="slide" id="foreign-passport-slide">
                   <div class="flip-card">
                     <div class="flip-card-inner">
                       <div class="flip-card-front">
                         <div class="document-container">
                             <div class="document-content">
-                              <h1 class="document-title">Паспорт для виїзду<br>за кордон</h1>
-                              <div class="personal-info">
+                              <h1 class="document-title">Закордонний<br>паспорт</h1>
+                              <div class="personal-info" style="margin-bottom: 20px;">
                                 <div class="photo">
                                   <img src="./pasport.png" alt="Фото" loading="lazy">
                                 </div>
                                 <div class="details">
                                   <div class="detail-item">
                                     <span class="label">Дата<br>народження:</span>
-                                    <span class="value">29.07.2005</span>
+                                    <span class="value">20.08.2008</span>
                                   </div>
                                   <div class="detail-item">
-                                    <span class="label">Номер документа:</span>
-                                    <span class="value">FE012345</span>
+                                    <span class="label">Номер:</span>
+                                    <span class="value">FV064782</span>
                                   </div>
-                                   <div class="detail-item">
-                                    <span class="label">Термін дії:</span>
-                                    <span class="value">29.07.2035</span>
-                                  </div>
-                                   <img id="foreign-passport-signature-image" class="signature-placeholder" src="" alt="Підпис" style="display: none;">
                                 </div>
                               </div>
                             </div>
                             <div class="status-banner-wrapper">
                               <div class="status-banner">
-                                <span>А ми нашу славну Україну, гей, гей, розвеселимо!</span>
-                                <span>А ми нашу славну Україну, гей, гей, розвеселимо!</span>
+                                <span>Документ оновлено о 22:21 | 11.09.2025 • Документ</span>
+                                <span>Документ оновлено о 22:21 | 11.09.2025 • Документ</span>
                               </div>
                             </div>
                             <div class="info-section">
                               <div class="name-section">
                                 <div class="full-name">
-                                  <span class="name-part">IVANOV</span>
-                                  <span class="name-part">IVAN</span>
+                                  <span class="name-part">Литовченко</span>
+                                  <span class="name-part">Софія</span>
+                                  <span class="name-part">Михайлівна</span>
                                 </div>
                                 <div class="more-options">
                                   <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M6 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm12 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>
@@ -822,43 +513,50 @@
                         </div>
                       </div>
                       <div class="flip-card-back">
-                          <div class="code-timer" id="foreign-passport-timer">Код діятиме ще 2:55 хв</div>
-                          <div class="code-display-area">
-                              <div class="code-display-item" id="foreign-passport-qr-code">
-                                  <img id="foreign-passport-qr-img" src="" alt="QR">
-                              </div>
-                              <div class="code-display-item hidden" id="foreign-passport-barcode">
-                                  <div class="barcode-container">
-                                      <svg class="barcode-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 250 80">
-                                          <g fill="#000">
-                                               <rect x="0" y="0" width="4" height="80"/><rect x="6" y="0" width="2" height="80"/><rect x="10" y="0" width="3" height="80"/><rect x="15" y="0" width="5" height="80"/><rect x="22" y="0" width="2" height="80"/><rect x="26" y="0" width="4" height="80"/><rect x="32" y="0" width="3" height="80"/><rect x="37" y="0" width="2" height="80"/><rect x="41" y="0" width="5" height="80"/><rect x="48" y="0" width="3" height="80"/><rect x="53" y="0" width="2" height="80"/><rect x="57" y="0" width="4" height="80"/><rect x="63" y="0" width="3" height="80"/><rect x="68" y="0" width="5" height="80"/><rect x="75" y="0" width="2" height="80"/><rect x="79" y="0" width="4" height="80"/><rect x="85" y="0" width="2" height="80"/><rect x="89" y="0" width="3" height="80"/><rect x="94" y="0" width="5" height="80"/><rect x="101" y="0" width="2" height="80"/><rect x="105" y="0" width="4" height="80"/><rect x="111" y="0" width="3" height="80"/><rect x="116" y="0" width="2" height="80"/><rect x="120" y="0" width="5" height="80"/><rect x="127" y="0" width="3" height="80"/><rect x="132" y="0" width="2" height="80"/><rect x="136" y="0" width="4" height="80"/><rect x="142" y="0" width="3" height="80"/><rect x="147" y="0" width="5" height="80"/><rect x="154" y="0" width="2" height="80"/><rect x="158" y="0" width="4" height="80"/><rect x="164" y="0" width="3" height="80"/><rect x="169" y="0" width="2" height="80"/><rect x="173" y="0" width="5" height="80"/><rect x="180" y="0" width="3" height="80"/><rect x="185" y="0" width="2" height="80"/><rect x="189" y="0" width="4" height="80"/><rect x="195" y="0" width="3" height="80"/><rect x="200" y="0" width="5" height="80"/><rect x="207" y="0" width="2" height="80"/><rect x="211" y="0" width="4" height="80"/><rect x="217" y="0" width="2" height="80"/><rect x="221" y="0" width="3" height="80"/><rect x="226" y="0" width="5" height="80"/><rect x="233" y="0" width="2" height="80"/><rect x="237" y="0" width="4" height="80"/><rect x="243" y="0" width="3" height="80"/>
-                                          </g>
-                                      </svg>
-                                      <div class="barcode-numbers">
-                                          <span>8439</span> <span>1023</span> <span>29103</span>
+                          <div class="loader-container" style="display: none;">
+                              <lottie-player src="loader.json" style="width: 150px; height: 150px;"></lottie-player>
+                          </div>
+                          <div class="back-content">
+                              <div class="code-timer"></div>
+                              <div class="code-display-area">
+                                  <div class="code-display-item" id="foreign-passport-qr-code">
+                                      <img class="qr-code-img" src="" alt="QR">
+                                  </div>
+                                  <div class="code-display-item hidden" id="foreign-passport-barcode">
+                                      <div class="barcode-container">
+                                        <svg class="barcode-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 250 80">
+                                            <g fill="#000">
+                                                 <rect x="0" y="0" width="4" height="80"/><rect x="6" y="0" width="2" height="80"/><rect x="10" y="0" width="3" height="80"/><rect x="15" y="0" width="5" height="80"/><rect x="22" y="0" width="2" height="80"/><rect x="26" y="0" width="4" height="80"/><rect x="32" y="0" width="3" height="80"/><rect x="37" y="0" width="2" height="80"/><rect x="41" y="0" width="5" height="80"/><rect x="48" y="0" width="3" height="80"/><rect x="53" y="0" width="2" height="80"/><rect x="57" y="0" width="4" height="80"/><rect x="63" y="0" width="3" height="80"/><rect x="68" y="0" width="5" height="80"/><rect x="75" y="0" width="2" height="80"/><rect x="79" y="0" width="4" height="80"/><rect x="85" y="0" width="2" height="80"/><rect x="89" y="0" width="3" height="80"/><rect x="94" y="0" width="5" height="80"/><rect x="101" y="0" width="2" height="80"/><rect x="105" y="0" width="4" height="80"/><rect x="111" y="0" width="3" height="80"/><rect x="116" y="0" width="2" height="80"/><rect x="120" y="0" width="5" height="80"/><rect x="127" y="0" width="3" height="80"/><rect x="132" y="0" width="2" height="80"/><rect x="136" y="0" width="4" height="80"/><rect x="142" y="0" width="3" height="80"/><rect x="147" y="0" width="5" height="80"/><rect x="154" y="0" width="2" height="80"/><rect x="158" y="0" width="4" height="80"/><rect x="164" y="0" width="3" height="80"/><rect x="169" y="0" width="2" height="80"/><rect x="173" y="0" width="5" height="80"/><rect x="180" y="0" width="3" height="80"/><rect x="185" y="0" width="2" height="80"/><rect x="189" y="0" width="4" height="80"/><rect x="195" y="0" width="3" height="80"/><rect x="200" y="0" width="5" height="80"/><rect x="207" y="0" width="2" height="80"/><rect x="211" y="0" width="4" height="80"/><rect x="217" y="0" width="2" height="80"/><rect x="221" y="0" width="3" height="80"/><rect x="226" y="0" width="5" height="80"/><rect x="233" y="0" width="2" height="80"/><rect x="237" y="0" width="4" height="80"/><rect x="243" y="0" width="3" height="80"/>
+                                            </g>
+                                        </svg>
+                                        <div class="barcode-numbers">
+                                            <span>8439</span> <span>1023</span> <span>29103</span>
+                                        </div>
                                       </div>
                                   </div>
                               </div>
-                          </div>
-                          <div class="passport-switcher">
-                              <button class="passport-switcher-btn active" id="foreign-passport-qr-btn">
-                                  <div class="passport-switcher-icon">
-                                      <svg viewBox="0 0 24 24"><path d="M3 11h8V3H3v8zm2-6h4v4H5V5zM3 21h8v-8H3v8zm2-6h4v4H5v-4zM13 3v8h8V3h-8zm6 6h-4V5h4v4zM13 13h2v2h-2zM15 15h2v2h-2zM13 17h2v2h-2zM15 19h2v2h-2zM17 17h2v2h-2zM19 15h2v2h-2zM17 13h2v2h-2zM19 19h2v2h-2z"/></svg>
-                                  </div>
-                                  <span class="passport-switcher-label">QR-код</span>
-                              </button>
-                              <button class="passport-switcher-btn" id="foreign-passport-barcode-btn">
-                                  <div class="passport-switcher-icon">
-                                      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 5V19M9 5V19M12 5V19M15 5V19M19 5V19" stroke="#000" stroke-width="2.5" stroke-linecap="round"/></svg>
-                                  </div>
-                                  <span class="passport-switcher-label">Штрих-код</span>
-                              </button>
+                              <div class="passport-switcher">
+                                  <button class="passport-switcher-btn active" id="foreign-passport-qr-btn">
+                                      <div class="passport-switcher-icon">
+                                          <svg viewBox="0 0 24 24"><path d="M3 11h8V3H3v8zm2-6h4v4H5V5zM3 21h8v-8H3v8zm2-6h4v4H5v-4zM13 3v8h8V3h-8zm6 6h-4V5h4v4zM13 13h2v2h-2zM15 15h2v2h-2zM13 17h2v2h-2zM15 19h2v2h-2zM17 17h2v2h-2zM19 15h2v2h-2zM17 13h2v2h-2zM19 19h2v2h-2z"/></svg>
+                                      </div>
+                                      <span class="passport-switcher-label">QR-код</span>
+                                  </button>
+                                  <button class="passport-switcher-btn" id="foreign-passport-barcode-btn">
+                                      <div class="passport-switcher-icon">
+                                          <!-- ВИПРАВЛЕНО: stroke-width зменшено до 2 -->
+                                          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 5V19M9 5V19M12 5V19M15 5V19M19 5V19" stroke="#000" stroke-width="2" stroke-linecap="round"/></svg>
+                                      </div>
+                                      <span class="passport-switcher-label">Штрих-код</span>
+                                  </button>
+                              </div>
                           </div>
                       </div>
                     </div>
                   </div>
                 </div>
-                <!-- СЛАЙД 4: КАРТКА ПЛАТНИКА ПОДАТКІВ -->
+
+                <!-- СЛАЙД 2: КАРТКА ПЛАТНИКА ПОДАТКІВ (ОНОВЛЕНО ЗА МАКЕТОМ) -->
                 <div class="slide" id="tax-card-slide">
                     <div class="flip-card">
                       <div class="flip-card-inner">
@@ -866,38 +564,34 @@
                           <div class="document-container">
                               <div class="document-content">
                                 <h1 class="document-title">Картка платника<br>податків</h1>
-                                <div class="personal-info" style="margin-bottom: 75px;">
-                                  <div class="details">
-                                    <div class="detail-item">
-                                      <span class="label">Прізвище, ім'я, по батькові:</span>
-                                      <span class="value">Іванов Іван Іванович</span>
-                                    </div>
-                                    <br>
-                                    <div class="detail-item">
-                                      <span class="label">Дата народження:</span>
-                                      <span class="value">29.07.2005</span>
-                                    </div>
-                                    <br>
-                                    <div class="detail-item">
-                                      <span class="label">РНОКПП:</span>
-                                      <span class="value">3856163250</span>
-                                    </div>
+                                <p class="tax-card-subtitle">РНОКПП</p>
+                                <div class="details tax-card-details">
+                                  <div class="detail-item">
+                                    <span class="value">Литовченко</span>
+                                    <span class="value">Софія</span>
+                                    <span class="value">Михайлівна</span>
+                                  </div>
+                                  <br>
+                                  <div class="detail-item">
+                                    <span class="label">Дата народження:</span>
+                                    <span class="value">20.08.2008</span>
                                   </div>
                                 </div>
                               </div>
                               <div class="status-banner-wrapper">
                                 <div class="status-banner">
-                                  <span>А ми нашу славну Україну, гей, гей, розвеселимо!</span>
-                                  <span>А ми нашу славну Україну, гей, гей, розвеселимо!</span>
+                                  <span>Документ оновлено о 15:30 | 06.09.2025 • Перевір</span>
+                                  <span>Документ оновлено о 15:30 | 06.09.2025 • Перевір</span>
                                 </div>
                               </div>
                               <div class="info-section">
-                                <div class="name-section">
-                                  <div class="full-name">
-                                    <span class="name-part">Іванов</span>
-                                    <span class="name-part">Іван</span>
-                                    <span class="name-part">Іванович</span>
+                                <div class="tax-number-section">
+                                  <div class="tax-number">
+                                    3967915523
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
                                   </div>
+                                </div>
+                                <div class="name-section" style="justify-content: flex-end; margin-top: 10px;">
                                   <div class="more-options">
                                     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M6 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm12 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>
                                   </div>
@@ -906,13 +600,19 @@
                           </div>
                         </div>
                         <div class="flip-card-back simple-qr-back">
-                            <h3>Поділитися копією номера</h3>
-                            <img id="tax-card-qr-img" src="" alt="QR">
+                            <div class="loader-container" style="display: none;">
+                                <lottie-player src="loader.json" style="width: 150px; height: 150px;"></lottie-player>
+                            </div>
+                            <div class="back-content">
+                                <h3>Поділитися копією номера</h3>
+                                <img class="qr-code-img" src="" alt="QR">
+                            </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                <!-- СЛАЙД 5 -->
+
+                <!-- СЛАЙД 3 (ПЛЕЙСХОЛДЕР) -->
                 <div class="slide"><div class="document-container empty-card">Додати документ</div></div>
               </div>
             </div>
@@ -920,8 +620,6 @@
         <div class="page-indicator-container">
             <div class="page-indicator">
               <span class="dot active"></span>
-              <span class="dot"></span>
-              <span class="dot"></span>
               <span class="dot"></span>
               <span class="dot"></span>
             </div>
@@ -1010,7 +708,7 @@
           </div>
           <span class="nav-label">Стрічка</span>
         </div>
-        <div class="nav-item" data-page="page-docs">
+        <div class="nav-item active" data-page="page-docs">
           <div class="nav-icon">
             <svg class="icon-inactive" width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2.75" y="2.36536" width="18.5" height="20.5" rx="3.25" stroke="white" stroke-width="1.5"/><path d="M6 18.6154C6 18.3392 6.22386 18.1154 6.5 18.1154H14.5C14.7761 18.1154 15 18.3392 15 18.6154V19.1154C15 19.3915 14.7761 19.6154 14.5 19.6154H6.5C6.22386 19.6154 6 19.3915 6 19.1154V18.6154Z" fill="white"/><path d="M6 15.1154C6 14.8392 6.22386 14.6154 6.5 14.6154H17.5C17.7761 14.6154 18 14.8392 18 15.1154V15.6154C18 15.8915 17.7761 16.1154 17.5 16.1154H6.5C6.22386 16.1154 6 15.8915 6 15.6154V15.1154Z" fill="white"/><mask id="path-4-inside-1_13657_22140" fill="white"><rect x="6" y="5.61536" width="7" height="7" rx="1"/></mask><rect x="6" y="5.61536" width="7" height="7" rx="1" stroke="white" stroke-width="3" mask="url(#path-4-inside-1_13657_22140)"/></svg>
             <svg class="icon-active" width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2.75" y="2.36536" width="18.5" height="20.5" rx="3.25" fill="white" stroke="white" stroke-width="1.5"/><path d="M6 18.6154C6 18.3392 6.22386 18.1154 6.5 18.1154H14.5C14.7761 18.1154 15 18.3392 15 18.6154V19.1154C15 19.3915 14.7761 19.6154 14.5 19.6154H6.5C6.22386 19.6154 6 19.3915 6 19.1154V18.6154Z" fill="black"/><path d="M6 15.1154C6 14.8392 6.22386 14.6154 6.5 14.6154H17.5C17.7761 14.6154 18 14.8392 18 15.1154V15.6154C18 15.8915 17.7761 16.1154 17.5 16.1154H6.5C6.22386 16.1154 6 15.8915 6 15.6154V15.1154Z" fill="black"/><mask id="path-4-inside-1_13657_22158" fill="white"><rect x="6" y="5.61536" width="7" height="7" rx="1"/></mask><rect x="6" y="5.61536" width="7" height="7" rx="1" stroke="black" stroke-width="3" mask="url(#path-4-inside-1_13657_22158)"/></svg>
@@ -1067,27 +765,6 @@
           }, 500);
 
       }, 2500);
-      
-      // --- ГЕНЕРАЦІЯ QR-КОДІВ ---
-      const generateLongData = (length = 300) => {
-        let result = '';
-        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-        for (let i = 0; i < length; i++) {
-            result += characters.charAt(Math.floor(Math.random() * characters.length));
-        }
-        return result;
-      };
-
-      const edocQR = document.getElementById('edoc-qr-img');
-      const passportQR = document.getElementById('passport-qr-img');
-      const foreignPassportQR = document.getElementById('foreign-passport-qr-img');
-      const taxCardQR = document.getElementById('tax-card-qr-img');
-
-      edocQR.src = `https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=${encodeURIComponent(generateLongData(400))}&qzone=1`;
-      passportQR.src = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(generateLongData(500))}&qzone=1`;
-      foreignPassportQR.src = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(generateLongData(550))}&qzone=1`;
-      taxCardQR.src = `https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=${encodeURIComponent(generateLongData(350))}&qzone=1`;
-
 
       // --- ЛОГІКА ВВОДУ ПАРОЛЮ ---
       const passcodeDotsContainer = document.querySelector('.passcode-dots');
@@ -1149,6 +826,12 @@
         }
       });
 
+      // --- ГЕНЕРАЦІЯ QR-КОДІВ ---
+      document.querySelectorAll('.qr-code-img').forEach(img => {
+          const randomData = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+          img.src = `https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=${encodeURIComponent(randomData)}&qzone=1`;
+      });
+
       // --- ЛОГІКА СЛАЙДЕРА (ІНТЕРАКТИВНА АНІМАЦІЯ) ---
       const sliderContainer = document.querySelector('.slider-container');
       const sliderWrapper = document.querySelector('.slider-wrapper');
@@ -1163,70 +846,48 @@
       let prevTranslate = 0;
       let animationID;
 
-      // ВИПРАВЛЕНО: Додано [0] для правильної роботи на мобільних
       const getPositionX = (e) => e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
       
       const updateSliderDots = () => {
           dots.forEach((dot, index) => dot.classList.toggle('active', index === currentIndex));
       };
 
-      // Функція для динамічної анімації під час перетягування
-      const animation = () => {
+      const setSliderPosition = () => {
         sliderWrapper.style.transform = `translateX(${currentTranslate}px)`;
         
         const containerCenter = sliderContainer.offsetWidth / 2;
         slides.forEach(slide => {
             const slideCenter = slide.offsetLeft + slide.offsetWidth / 2 + currentTranslate;
             const distance = Math.abs(containerCenter - slideCenter);
-            const slideWidth = slide.offsetWidth;
-            const distanceFactor = Math.min(distance / slideWidth, 1);
-            
-            const scale = 1 - (0.1 * distanceFactor);
-            const opacity = 1 - (0.3 * distanceFactor);
+            const scale = 1 - (0.1 * Math.min(distance / slide.offsetWidth, 1));
+            const opacity = 1 - (0.3 * Math.min(distance / slide.offsetWidth, 1));
 
             slide.style.transform = `scale(${scale})`;
             slide.style.opacity = `${opacity}`;
             slide.style.pointerEvents = scale > 0.99 ? 'auto' : 'none';
         });
+      };
 
+      const animation = () => {
+        setSliderPosition();
         if (isDragging) requestAnimationFrame(animation);
       }
       
-      // ВИПРАВЛЕНО: Основна функція для встановлення фінальної позиції
-      const setFinalSliderPosition = (withTransition = true) => {
+      const positionSliderByIndex = (withTransition = true) => {
         const transitionStyle = withTransition ? 'transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)' : 'none';
         const slideTransitionStyle = withTransition ? 'transform 0.4s ease, opacity 0.4s ease' : 'none';
 
         sliderWrapper.style.transition = transitionStyle;
-        slides.forEach(slide => {
-            slide.style.transition = slideTransitionStyle;
-        });
+        slides.forEach(slide => slide.style.transition = slideTransitionStyle);
 
         const targetSlide = slides[currentIndex];
         if (!targetSlide) return;
-        const containerCenter = sliderContainer.offsetWidth / 2;
-        const slideCenter = targetSlide.offsetLeft + targetSlide.offsetWidth / 2;
         
-        currentTranslate = containerCenter - slideCenter;
+        currentTranslate = sliderContainer.offsetWidth / 2 - (targetSlide.offsetLeft + targetSlide.offsetWidth / 2);
         prevTranslate = currentTranslate;
         
-        sliderWrapper.style.transform = `translateX(${currentTranslate}px)`;
-
-        // Явно встановлюємо масштаби, щоб уникнути помилок обчислення
-        slides.forEach((slide, index) => {
-            const scale = index === currentIndex ? 1 : 0.9;
-            const opacity = index === currentIndex ? 1 : 0.7;
-            slide.style.transform = `scale(${scale})`;
-            slide.style.opacity = `${opacity}`;
-            slide.style.pointerEvents = index === currentIndex ? 'auto' : 'none';
-        });
-        
+        setSliderPosition();
         updateSliderDots();
-      }
-
-      // Обгортка для зручності виклику
-      const positionSliderByIndex = (withTransition = true) => {
-        setFinalSliderPosition(withTransition);
       }
 
       const dragStart = (e) => {
@@ -1252,24 +913,18 @@
 
         const movedBy = currentTranslate - prevTranslate;
         
-        if (movedBy < -80 && currentIndex < slideCount - 1) {
-          currentIndex++;
-        }
-        if (movedBy > 80 && currentIndex > 0) {
-          currentIndex--;
-        }
+        if (movedBy < -80 && currentIndex < slideCount - 1) currentIndex++;
+        if (movedBy > 80 && currentIndex > 0) currentIndex--;
 
-        positionSliderByIndex(true); // Викликаємо з анімацією
+        positionSliderByIndex(true);
       };
       
-      // ВИПРАВЛЕНО: Ініціалізація тепер використовує ту ж логіку, що й завершення перетягування
       const initializeCarousel = () => {
           if (!slides[currentIndex] || sliderContainer.offsetWidth === 0) return;
-          positionSliderByIndex(false); // Викликаємо без анімації
+          positionSliderByIndex(false);
       }
       
       window.addEventListener('resize', initializeCarousel);
-
       ['mousedown', 'touchstart'].forEach(e => sliderContainer.addEventListener(e, dragStart, { passive: true }));
       ['mouseup', 'touchend', 'mouseleave'].forEach(e => document.addEventListener(e, dragEnd));
       ['mousemove', 'touchmove'].forEach(e => document.addEventListener(e, dragMove, { passive: true }));
@@ -1294,60 +949,82 @@
       }
 
       navItems.forEach(item => {
-        item.addEventListener('click', () => {
-          navigateToPage(item.dataset.page);
-        });
+        item.addEventListener('click', () => navigateToPage(item.dataset.page));
       });
       
       navigateToPage('page-docs');
 
-      // --- ЛОГІКА ПЕРЕВЕРТАННЯ КАРТКИ І ТАЙМЕРА ---
+      // --- ОНОВЛЕНА ЛОГІКА ПЕРЕВЕРТАННЯ КАРТКИ І ТАЙМЕРА ---
       const flipCards = document.querySelectorAll('.flip-card');
-      const timerPassportEl = document.getElementById('passport-timer');
-      const timerForeignPassportEl = document.getElementById('foreign-passport-timer');
-      let timerIntervals = {};
+      let activeTimers = {};
 
-      function startTimer(element, timerId, initialTime = 175) { // 2:55
-          if (timerIntervals[timerId]) {
-            clearInterval(timerIntervals[timerId]);
-          }
+      function startTimer(cardInnerEl, timerId, initialTime = 175) { // 2:55
+          if (activeTimers[timerId]) clearInterval(activeTimers[timerId]);
+          
           let timeLeft = initialTime;
-          const updateTimerText = () => {
-            const minutes = Math.floor(timeLeft / 60);
-            let seconds = timeLeft % 60;
-            seconds = seconds < 10 ? '0' + seconds : seconds;
-            element.textContent = `Код діятиме ще ${minutes}:${seconds} хв`;
-          };
-          updateTimerText();
-          timerIntervals[timerId] = setInterval(() => {
-              timeLeft--;
-              updateTimerText();
-              if (timeLeft <= 0) {
-                  clearInterval(timerIntervals[timerId]);
-                  element.textContent = "Час вийшов";
+          const timerElement = cardInnerEl.querySelector('.code-timer');
+          if (!timerElement) return;
+
+          const updateTimer = () => {
+              if (!cardInnerEl.classList.contains('is-flipped')) {
+                  clearInterval(activeTimers[timerId]);
+                  return;
               }
-          }, 1000);
+              const minutes = Math.floor(timeLeft / 60);
+              let seconds = timeLeft % 60;
+              seconds = seconds < 10 ? '0' + seconds : seconds;
+              timerElement.textContent = `Код діятиме ще ${minutes}:${seconds} хв`;
+
+              if (timeLeft <= 0) {
+                  clearInterval(activeTimers[timerId]);
+                  timerElement.textContent = "Час вийшов";
+                  cardInnerEl.classList.remove('is-flipped'); // Автоматично перевертаємо картку
+              }
+              timeLeft--;
+          };
+          updateTimer();
+          activeTimers[timerId] = setInterval(updateTimer, 1000);
       }
 
       flipCards.forEach(card => {
-        card.addEventListener('click', (e) => {
-            const movedBy = Math.abs(currentTranslate - prevTranslate);
-            if (isDragging && movedBy > 15) return;
-            
-            const slide = card.closest('.slide');
-            if (slide.style.transform !== 'scale(1)') return;
+        const inner = card.querySelector('.flip-card-inner');
+        const loaderContainer = card.querySelector('.loader-container');
+        const loaderPlayer = loaderContainer ? loaderContainer.querySelector('lottie-player') : null;
+        const backContent = card.querySelector('.back-content');
 
-            const inner = card.querySelector('.flip-card-inner');
+        card.addEventListener('click', (e) => {
+            if (isDragging && Math.abs(currentTranslate - prevTranslate) > 15) return;
+            if (card.closest('.slide').style.transform !== 'scale(1)') return;
+
+            const isFlippingToBack = !inner.classList.contains('is-flipped');
+
+            // 1. Повертаємо усі інші картки назад
+            document.querySelectorAll('.flip-card-inner.is-flipped').forEach(flippedInner => {
+                if (flippedInner !== inner) {
+                    flippedInner.classList.remove('is-flipped');
+                }
+            });
+            Object.values(activeTimers).forEach(clearInterval); // Зупиняємо всі таймери
+
+            // 2. Перевертаємо поточну картку
             inner.classList.toggle('is-flipped');
             
-            const isPassportCard = card.closest('#passport-ukraine-slide');
-            const isForeignPassportCard = card.closest('#foreign-passport-slide');
-            
-            if (inner.classList.contains('is-flipped')) {
-                if (isPassportCard) startTimer(timerPassportEl, 'ukr');
-                if (isForeignPassportCard) startTimer(timerForeignPassportEl, 'foreign');
-            } else {
-                Object.values(timerIntervals).forEach(clearInterval);
+            // 3. Логіка анімації завантажувача
+            if (isFlippingToBack && loaderPlayer && backContent) {
+                backContent.style.visibility = 'hidden';
+                loaderContainer.style.display = 'flex';
+                loaderPlayer.seek(0);
+                loaderPlayer.play();
+
+                setTimeout(() => {
+                    loaderContainer.style.display = 'none';
+                    backContent.style.visibility = 'visible';
+                    
+                    const timerId = card.closest('.slide').id;
+                    if (timerId) {
+                        startTimer(inner, timerId);
+                    }
+                }, 2000); // Час анімації
             }
         });
       });
@@ -1358,9 +1035,7 @@
         const barcodeBtn = document.getElementById(barcodeBtnId);
         const qrCodeEl = document.getElementById(qrElId);
         const barcodeEl = document.getElementById(barcodeElId);
-
         if(!qrBtn || !barcodeBtn || !qrCodeEl || !barcodeEl) return;
-
         qrBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             if (!qrBtn.classList.contains('active')) {
@@ -1380,8 +1055,6 @@
             }
         });
       };
-      
-      setupSwitcher('passport-qr-btn', 'passport-barcode-btn', 'passport-qr-code', 'passport-barcode');
       setupSwitcher('foreign-passport-qr-btn', 'foreign-passport-barcode-btn', 'foreign-passport-qr-code', 'foreign-passport-barcode');
 
 
@@ -1392,8 +1065,7 @@
       const signatureSaveBtn = document.getElementById('signature-save-btn');
       const signatureCloseBtn = document.getElementById('signature-close-btn');
       const menuDiiaSignature = document.getElementById('menu-diia-signature');
-      const passportSignatureImage = document.getElementById('passport-signature-image');
-      const foreignPassportSignatureImage = document.getElementById('foreign-passport-signature-image');
+      const signatureImages = document.querySelectorAll('.signature-placeholder');
 
       let ctx = signatureCanvas.getContext('2d');
       let isDrawing = false;
@@ -1404,19 +1076,10 @@
           const wrapper = signatureCanvas.closest('.signature-canvas-wrapper');
           signatureCanvas.width = wrapper.clientWidth - 40;
           signatureCanvas.height = wrapper.clientHeight - 40;
-
           ctx.strokeStyle = '#000';
-          ctx.lineWidth = 25; // !!! МАКСИМАЛЬНА ТОВЩИНА ПІДПИСУ !!!
+          ctx.lineWidth = 4;
           ctx.lineCap = 'round';
           ctx.lineJoin = 'round';
-
-          if (localStorage.getItem('savedSignature')) {
-              const img = new Image();
-              img.onload = () => {
-                  ctx.drawImage(img, 0, 0, signatureCanvas.width, signatureCanvas.height);
-              };
-              img.src = localStorage.getItem('savedSignature');
-          }
       }
 
       function startDrawing(e) {
@@ -1435,17 +1098,12 @@
           [lastX, lastY] = [currentX, currentY];
       }
 
-      function stopDrawing() {
-          isDrawing = false;
-      }
+      function stopDrawing() { isDrawing = false; }
 
       function getCanvasCoordinates(e) {
           const rect = signatureCanvas.getBoundingClientRect();
-          if (e.touches && e.touches.length > 0) {
-              return [e.touches[0].clientX - rect.left, e.touches[0].clientY - rect.top];
-          } else {
-              return [e.clientX - rect.left, e.clientY - rect.top];
-          }
+          const touch = e.touches ? e.touches[0] : e;
+          return [touch.clientX - rect.left, touch.clientY - rect.top];
       }
 
       function clearSignature() {
@@ -1461,7 +1119,6 @@
 
       function loadSignatures() {
           const savedSignature = localStorage.getItem('savedSignature');
-          const signatureImages = [passportSignatureImage, foreignPassportSignatureImage];
           if (savedSignature) {
               signatureImages.forEach(img => {
                 if (img) {
@@ -1469,43 +1126,28 @@
                     img.style.display = 'block';
                 }
               });
-          } else {
-              signatureImages.forEach(img => {
-                if(img) {
-                    img.src = '';
-                    img.style.display = 'none';
-                }
-              });
           }
       }
 
       menuDiiaSignature.addEventListener('click', () => {
-          signaturePadContainer.classList.add('visible');
-          setTimeout(resizeCanvas, 100); 
-          clearSignature(); 
+          signaturePadContainer.style.display = 'flex';
+          setTimeout(() => {
+              signaturePadContainer.classList.add('visible');
+              resizeCanvas(); 
+              clearSignature(); 
+          }, 10);
       });
 
-      signatureCloseBtn.addEventListener('click', () => {
-          signaturePadContainer.classList.remove('visible');
-      });
-
+      signatureCloseBtn.addEventListener('click', () => signaturePadContainer.classList.remove('visible'));
       signatureClearBtn.addEventListener('click', clearSignature);
       signatureSaveBtn.addEventListener('click', saveSignature);
-
       signatureCanvas.addEventListener('mousedown', startDrawing);
       signatureCanvas.addEventListener('mousemove', draw);
       signatureCanvas.addEventListener('mouseup', stopDrawing);
       signatureCanvas.addEventListener('mouseout', stopDrawing);
-
       signatureCanvas.addEventListener('touchstart', startDrawing, { passive: false });
       signatureCanvas.addEventListener('touchmove', draw, { passive: false });
       signatureCanvas.addEventListener('touchend', stopDrawing);
-
-      window.addEventListener('resize', () => {
-          if (signaturePadContainer.classList.contains('visible')) {
-              resizeCanvas();
-          }
-      });
 
       // --- ЛОГІКА SERVICE WORKER ---
       const VERSION = new Date().getTime();
@@ -1519,36 +1161,10 @@
       const swCode = `
         const CACHE_NAME = '${CACHE_NAME}';
         const urlsToCache = ['${location.href.replace(/\?.*$/, '')}'];
-        
-        self.addEventListener('install', e => e.waitUntil(
-            caches.open(CACHE_NAME).then(c => c.addAll(urlsToCache))
-        ));
-
-        self.addEventListener('activate', e => e.waitUntil(
-            caches.keys().then(names => Promise.all(
-                names.map(name => {
-                    if (name !== CACHE_NAME) {
-                        return caches.delete(name);
-                    }
-                })
-            ))
-        ));
-
-        self.addEventListener('fetch', e => {
-            e.respondWith(
-                fetch(e.request).then(res => {
-                    const resClone = res.clone();
-                    caches.open(CACHE_NAME).then(cache => {
-                        cache.put(e.request, resClone);
-                    });
-                    return res;
-                }).catch(() => caches.match(e.request))
-            );
-        });
-
-        self.addEventListener('message', e => { 
-            if (e.data.action === 'skipWaiting') self.skipWaiting(); 
-        });
+        self.addEventListener('install', e => e.waitUntil(caches.open(CACHE_NAME).then(c => c.addAll(urlsToCache))));
+        self.addEventListener('activate', e => e.waitUntil(caches.keys().then(names => Promise.all(names.map(name => name !== CACHE_NAME ? caches.delete(name) : null)))));
+        self.addEventListener('fetch', e => e.respondWith(fetch(e.request).then(res => { const resClone = res.clone(); caches.open(CACHE_NAME).then(c => c.put(e.request, resClone)); return res; }).catch(() => caches.match(e.request))));
+        self.addEventListener('message', e => { if (e.data.action === 'skipWaiting') self.skipWaiting(); });
       `;
       const swBlob = new Blob([swCode], { type: 'application/javascript' });
 
