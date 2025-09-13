@@ -4,20 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <title>Дія</title>
-
   <!-- Динамічно вбудований маніфест PWA -->
   <link id="manifest" rel="manifest">
-
   <!-- Налаштування для iOS (чорний статус-бар) -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAYAAABS3GwHAAAAAXNSR0IArs4c6QAAAyJJREFUeF7t0AEBAAAAEADC/2H5NEbDAwKChAAAAAAAAAAAAAD45wEAAAAAAAAAAAAA8McDAAAAAAAAAAAAAODjBwAAAAAAAAAAAABA/3kAAAAAAAAAAAAAwB8PAAAAAAAAAAAAAHg4AQAAAAAAAAAAAMD/eQAAAAAAAAAAAADAHw8AAAAAAAAAAAAA8HACAAAAAAAAAAAAgP7zAAAAAAAAAAAAAIC/HAAAAAAAAAAAAACAhxMAAAAAAAAAAAAA+s8DAAAAAAAAAAAAAOBfDwAAAAAAAAAAAACAxxMAAAAAAAAAAAAA4f88AAAAAAAAAAAAAOAfDwAAAAAAAAAAAADw4AQAAAAAAAAAAAD8nwcAAAAAAAAAAAAA8K8HAAAAAAAAAAAAAPBhAgAAAAAAAAAAAPh/ngAAAAAAAAAAAADA/x4AAAAAAAAAAAAA8OECAAAAAAAAAAAA+M8DAAAAAAAAAAAAAOBfDwAAAAAAAAAAAACAxxMAAAAAAAAAAAAA4f88AAAAAAAAAAAAAOAfDwAAAAAAAAAAAADw4AQAAAAAAAAAAAD8nwcAAAAAAAAAAAAA8K8HAAAAAAAAAAAAAPBhAgAAAAAAAAAAAPh/ngAAAAAAAAAAAADA/x4AAAAAAAAAAAAA8OECAAAAAAAAAAAA+M8DAAAAAAAAAAAAAOBfDwAAAAAAAAAAAACAxxMAAAAAAAAAAAAA4f88AAAAAAAAAAAAAOAfDwAAAAAAAAAAAADw4AQAAAAAAAAAAAD8nwcAAAAAAAAAAAAA8K8HAAAAAAAAAAAAAPBhAgAAAAAAAAAAAPh/ngAAAAAAAAAAAADA/x4AAAAAAAAAAAAA8OECAAAAAAAAAAAA+M8DAAAAAAAAAAAAAOBfDwAAAAAAAAAAAACAxxMAAAAAAAAAAAAA4f88AAAAAAAAAAAAAOAfDwAAAAAAAAAAAADw4AQAAAAAAAAAAAD8nwcAAAAAAAAAAAAA8K8HAAAAAAAAAAAAAPBhAgAAAAAAAAAAAPh/ngAAAAAAAAAAAADA/x4AAAAAAAAAAAAA8OECAAAAAAAAAAAA+M8DAAAAAAAAAAAAAOBfDwAAAAAAAAAAAACAxxMAAAAAAAAAAAAA4f88AAAAAAAAAAAAAOAfDwAAAAAAAAAAAADw4AQAAAAAAAAAAAD8nwcAAAAAAAAAAAAA8K8HAAAAAAAAAAAAAPBhAgAAAAAAAAAAAPh/ngAAAAAAAAAAAADA/xsA3g4Y9QAAAABJRU5ErkJggg==">
   <meta name="theme-color" content="#111111">
-
   <!-- Скрипт для Lottie Animation -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.12.2/lottie.min.js"></script>
-
-
+  <script src="https://cdn.lottielab.com/s/lottie-player@1.x/player-web.min.js"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap');
 
@@ -286,20 +281,6 @@
         -webkit-backdrop-filter: blur(25px);
         border: 1px solid rgba(255, 255, 255, 0.3);
     }
-     .lottie-loader-container {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background: rgba(255, 255, 255, 0.9);
-        border-radius: 24px;
-        z-index: 10;
-    }
-
 
     .document-container {
         background: var(--card-background);
@@ -442,15 +423,6 @@
     #update-notification { position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%); background-color: #28a745; color: white; padding: 10px 20px; border-radius: 20px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); z-index: 200; cursor: pointer; font-size: 14px; font-weight: 500; display: none; }
     
     /* --- СТИЛІ ЗВОРОТУ КАРТКИ --- */
-     .back-content {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: space-around;
-        width: 100%;
-        height: 100%;
-        visibility: hidden; /* Hide by default */
-    }
     .code-timer { font-size: 15px; color: #555; font-weight: 500; }
     .code-display-area { width: 100%; display: flex; justify-content: center; align-items: center; flex-grow: 1; }
     .code-display-area img { width: 220px; height: 220px; }
@@ -614,21 +586,17 @@
         color: #fff;
     }
   </style>
-
 </head>
 <body>
-
   <!-- СТАРТОВИЙ ЕКРАН -->
   <div id="splash-screen">
       <div class="splash-content">
           <h1>Привіт 👋</h1>
       </div>
       <div class="lottie-container">
-          <div id="lottie-player-splash" style="width:240px;"></div>
+          <lottie-player id="lottie-player" src="splash_cropped.json" autoplay style="width:240px;"></lottie-player>
       </div>
   </div>
-
-
   <!-- ЕКРАН ВВОДУ ПАРОЛЮ -->
   <div id="login-screen">
     <h2 class="login-title">Код для входу</h2>
@@ -662,19 +630,73 @@
     </div>
     <div class="forgot-password">Не пам’ятаю код для входу</div>
   </div>
-
   <!-- ОСНОВНИЙ ДОДАТОК -->
   <div class="app-container">
     <main class="content">
       <div class="page" id="page-feed">
         <div class="placeholder-page"><h1>Стрічка</h1></div>
       </div>
-
+code
+Code
+download
+content_copy
+expand_less
 <div class="page" id="page-docs">
       <div>
           <div class="slider-container">
             <div class="slider-wrapper">
-              <!-- СЛАЙД 1: ПАСПОРТ ГРОМАДЯНИНА УКРАЇНИ -->
+              <!-- СЛАЙД 1: ЄДОКУМЕНТ -->
+              <div class="slide">
+                <div class="flip-card">
+                  <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                      <div class="document-container">
+                          <div class="document-content">
+                            <h1 class="document-title">єДокумент</h1>
+                            <div class="personal-info">
+                              <div class="photo">
+                                <img src="./pasport.png" alt="Фото" loading="lazy">
+                              </div>
+                              <div class="details">
+                                <div class="detail-item">
+                                  <span class="label">Дата<br>народження:</span>
+                                  <span class="value">29.07.2005</span>
+                                </div>
+                                <div class="detail-item">
+                                  <span class="label">РНОКПП:</span>
+                                  <span class="value">3856163250</span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="status-banner-wrapper">
+                            <div class="status-banner">
+                              <span>А ми нашу славну Україну, гей, гей, розвеселимо!</span>
+                              <span>А ми нашу славну Україну, гей, гей, розвеселимо!</span>
+                            </div>
+                          </div>
+                          <div class="info-section">
+                            <div class="name-section">
+                              <div class="full-name">
+                                <span class="name-part">Іванов</span>
+                                <span class="name-part">Іван</span>
+                                <span class="name-part">Іванович</span>
+                              </div>
+                              <div class="more-options">
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M6 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm12 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>
+                              </div>
+                            </div>
+                          </div>
+                      </div>
+                    </div>
+                    <div class="flip-card-back simple-qr-back">
+                        <h3>QR-код дійсний</h3>
+                        <img id="edoc-qr-img" src="" alt="QR">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- СЛАЙД 2: ПАСПОРТ ГРОМАДЯНИНА УКРАЇНИ (З ПІДПИСОМ) -->
               <div class="slide" id="passport-ukraine-slide">
                 <div class="flip-card">
                   <div class="flip-card-inner">
@@ -684,7 +706,7 @@
                             <h1 class="document-title">Паспорт громадянина<br>України</h1>
                             <div class="personal-info">
                               <div class="photo">
-                                <img src="https://this-person-does-not-exist.com/img/avatar-1126a215217b960a7681cf431ad32342.jpg" alt="Фото" loading="lazy">
+                                <img src="./pasport.png" alt="Фото" loading="lazy">
                               </div>
                               <div class="details">
                                 <div class="detail-item">
@@ -712,193 +734,52 @@
                                 <span class="name-part">Іван</span>
                                 <span class="name-part">Іванович</span>
                               </div>
-                            </div>
-                          </div>
-                      </div>
-                    </div>
-                    <div class="flip-card-back">
-                        <div class="lottie-loader-container"></div>
-                        <div class="back-content">
-                            <div class="code-timer">Код діятиме ще 3:00 хв</div>
-                            <div class="code-display-area">
-                                <div class="code-display-item" data-type="qr">
-                                    <img src="" alt="QR">
-                                </div>
-                                <div class="code-display-item hidden" data-type="barcode">
-                                    <div class="barcode-container">
-                                        <svg class="barcode-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 250 80">
-                                            <g fill="#000"> <rect x="0" y="0" width="3" height="80"/> <rect x="5" y="0" width="2" height="80"/> <rect x="9" y="0" width="5" height="80"/> <rect x="16" y="0" width="2" height="80"/> <rect x="20" y="0" width="4" height="80"/> <rect x="26" y="0" width="2" height="80"/> <rect x="30" y="0" width="3" height="80"/> <rect x="35" y="0" width="5" height="80"/> <rect x="42" y="0" width="2" height="80"/> <rect x="46" y="0" width="3" height="80"/> <rect x="51" y="0" width="3" height="80"/> <rect x="56" y="0" width="4" height="80"/> <rect x="62" y="0" width="2" height="80"/> <rect x="66" y="0" width="5" height="80"/> <rect x="73" y="0" width="2" height="80"/> <rect x="77" y="0" width="4" height="80"/> <rect x="83" y="0" width="3" height="80"/> <rect x="88" y="0" width="2" height="80"/> <rect x="92" y="0" width="5" height="80"/> <rect x="99" y="0" width="3" height="80"/> <rect x="104" y="0" width="2" height="80"/> <rect x="108" y="0" width="4" height="80"/> <rect x="114" y="0" width="3" height="80"/> <rect x="119" y="0" width="5" height="80"/> <rect x="126" y="0" width="2" height="80"/> <rect x="130" y="0" width="3" height="80"/> <rect x="135" y="0" width="4" height="80"/> <rect x="141" y="0" width="2" height="80"/> <rect x="145" y="0" width="5" height="80"/> <rect x="152" y="0" width="3" height="80"/> <rect x="157" y="0" width="2" height="80"/> <rect x="161" y="0" width="4" height="80"/> <rect x="167" y="0" width="3" height="80"/> <rect x="172" y="0" width="5" height="80"/> <rect x="179" y="0" width="2" height="80"/> <rect x="183" y="0" width="4" height="80"/> <rect x="189" y="0" width="2" height="80"/> <rect x="193" y="0" width="3" height="80"/> <rect x="198" y="0" width="5" height="80"/> <rect x="205" y="0" width="2" height="80"/> <rect x="209" y="0" width="4" height="80"/> <rect x="215" y="0" width="3" height="80"/> <rect x="220" y="0" width="2" height="80"/> <rect x="224" y="0" width="5" height="80"/> <rect x="231" y="0" width="3" height="80"/> <rect x="236" y="0" width="2" height="80"/> <rect x="240" y="0" width="4" height="80"/> <rect x="246" y="0" width="3" height="80"/> </g>
-                                        </svg>
-                                        <div class="barcode-numbers">
-                                            <span>5373</span> <span>2728</span> <span>73494</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="passport-switcher">
-                                <button class="passport-switcher-btn active" data-type="qr">
-                                    <div class="passport-switcher-icon"> <svg viewBox="0 0 24 24"><path d="M3 11h8V3H3v8zm2-6h4v4H5V5zM3 21h8v-8H3v8zm2-6h4v4H5v-4zM13 3v8h8V3h-8zm6 6h-4V5h4v4zM13 13h2v2h-2zM15 15h2v2h-2zM13 17h2v2h-2zM15 19h2v2h-2zM17 17h2v2h-2zM19 15h2v2h-2zM17 13h2v2h-2zM19 19h2v2h-2z"/></svg> </div>
-                                    <span class="passport-switcher-label">QR-код</span>
-                                </button>
-                                <button class="passport-switcher-btn" data-type="barcode">
-                                    <div class="passport-switcher-icon"> <svg id="barcode-icon-inactive" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 5V19M9 5V19M12 5V19M15 5V19M19 5V19" stroke-width="2.5" stroke-linecap="round"/></svg> </div>
-                                    <span class="passport-switcher-label">Штрих-код</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!-- СЛАЙД 2: ЗАКОРДОННИЙ ПАСПОРТ -->
-              <div class="slide" id="passport-international-slide">
-                <div class="flip-card">
-                  <div class="flip-card-inner">
-                    <div class="flip-card-front">
-                      <div class="document-container">
-                          <div class="document-content">
-                            <h1 class="document-title">Паспорт для виїзду<br>за кордон</h1>
-                            <div class="personal-info">
-                              <div class="photo">
-                                <img src="https://this-person-does-not-exist.com/img/avatar-1126a215217b960a7681cf431ad32342.jpg" alt="Фото" loading="lazy">
-                              </div>
-                              <div class="details">
-                                <div class="detail-item">
-                                  <span class="label">Громадянство:</span>
-                                  <span class="value">УКРАЇНА</span>
-                                </div>
-                                <div class="detail-item">
-                                  <span class="label">Номер документа:</span>
-                                  <span class="value">FE056231</span>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="status-banner-wrapper">
-                            <div class="status-banner">
-                              <span>А ми нашу славну Україну, гей, гей, розвеселимо!</span>
-                              <span>А ми нашу славну Україну, гей, гей, розвеселимо!</span>
-                            </div>
-                          </div>
-                          <div class="info-section">
-                            <div class="name-section">
-                              <div class="full-name">
-                                <span class="name-part">IVANOV</span>
-                                <span class="name-part">IVAN</span>
+                              <div class="more-options">
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M6 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm12 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>
                               </div>
                             </div>
                           </div>
                       </div>
                     </div>
                     <div class="flip-card-back">
-                        <div class="lottie-loader-container"></div>
-                        <div class="back-content">
-                            <div class="code-timer">Код діятиме ще 3:00 хв</div>
-                            <div class="code-display-area">
-                                <div class="code-display-item" data-type="qr">
-                                    <img src="" alt="QR">
-                                </div>
-                                <div class="code-display-item hidden" data-type="barcode">
-                                    <div class="barcode-container">
-                                        <svg class="barcode-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 250 80">
-                                             <g fill="#000"> <rect x="0" y="0" width="3" height="80"/> <rect x="5" y="0" width="2" height="80"/> <rect x="9" y="0" width="5" height="80"/> <rect x="16" y="0" width="2" height="80"/> <rect x="20" y="0" width="4" height="80"/> <rect x="26" y="0" width="2" height="80"/> <rect x="30" y="0" width="3" height="80"/> <rect x="35" y="0" width="5" height="80"/> <rect x="42" y="0" width="2" height="80"/> <rect x="46" y="0" width="3" height="80"/> <rect x="51" y="0" width="3" height="80"/> <rect x="56" y="0" width="4" height="80"/> <rect x="62" y="0" width="2" height="80"/> <rect x="66" y="0" width="5" height="80"/> <rect x="73" y="0" width="2" height="80"/> <rect x="77" y="0" width="4" height="80"/> <rect x="83" y="0" width="3" height="80"/> <rect x="88" y="0" width="2" height="80"/> <rect x="92" y="0" width="5" height="80"/> <rect x="99" y="0" width="3" height="80"/> <rect x="104" y="0" width="2" height="80"/> <rect x="108" y="0" width="4" height="80"/> <rect x="114" y="0" width="3" height="80"/> <rect x="119" y="0" width="5" height="80"/> <rect x="126" y="0" width="2" height="80"/> <rect x="130" y="0" width="3" height="80"/> <rect x="135" y="0" width="4" height="80"/> <rect x="141" y="0" width="2" height="80"/> <rect x="145" y="0" width="5" height="80"/> <rect x="152" y="0" width="3" height="80"/> <rect x="157" y="0" width="2" height="80"/> <rect x="161" y="0" width="4" height="80"/> <rect x="167" y="0" width="3" height="80"/> <rect x="172" y="0" width="5" height="80"/> <rect x="179" y="0" width="2" height="80"/> <rect x="183" y="0" width="4" height="80"/> <rect x="189" y="0" width="2" height="80"/> <rect x="193" y="0" width="3" height="80"/> <rect x="198" y="0" width="5" height="80"/> <rect x="205" y="0" width="2" height="80"/> <rect x="209" y="0" width="4" height="80"/> <rect x="215" y="0" width="3" height="80"/> <rect x="220" y="0" width="2" height="80"/> <rect x="224" y="0" width="5" height="80"/> <rect x="231" y="0" width="3" height="80"/> <rect x="236" y="0" width="2" height="80"/> <rect x="240" y="0" width="4" height="80"/> <rect x="246" y="0" width="3" height="80"/> </g>
-                                        </svg>
-                                        <div class="barcode-numbers">
-                                            <span>6482</span> <span>9102</span> <span>84621</span>
-                                        </div>
+                        <div class="code-timer" id="passport-timer">Код діятиме ще 2:55 хв</div>
+                        <div class="code-display-area">
+                            <div class="code-display-item" id="passport-qr-code">
+                                <img id="passport-qr-img" src="" alt="QR">
+                            </div>
+                            <div class="code-display-item hidden" id="passport-barcode">
+                                <div class="barcode-container">
+                                    <svg class="barcode-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 250 80">
+                                        <g fill="#000">
+                                            <rect x="0" y="0" width="3" height="80"/> <rect x="5" y="0" width="2" height="80"/> <rect x="9" y="0" width="5" height="80"/> <rect x="16" y="0" width="2" height="80"/> <rect x="20" y="0" width="4" height="80"/> <rect x="26" y="0" width="2" height="80"/> <rect x="30" y="0" width="3" height="80"/> <rect x="35" y="0" width="5" height="80"/> <rect x="42" y="0" width="2" height="80"/> <rect x="46" y="0" width="3" height="80"/> <rect x="51" y="0" width="3" height="80"/> <rect x="56" y="0" width="4" height="80"/> <rect x="62" y="0" width="2" height="80"/> <rect x="66" y="0" width="5" height="80"/> <rect x="73" y="0" width="2" height="80"/> <rect x="77" y="0" width="4" height="80"/> <rect x="83" y="0" width="3" height="80"/> <rect x="88" y="0" width="2" height="80"/> <rect x="92" y="0" width="5" height="80"/> <rect x="99" y="0" width="3" height="80"/> <rect x="104" y="0" width="2" height="80"/> <rect x="108" y="0" width="4" height="80"/> <rect x="114" y="0" width="3" height="80"/> <rect x="119" y="0" width="5" height="80"/> <rect x="126" y="0" width="2" height="80"/> <rect x="130" y="0" width="3" height="80"/> <rect x="135" y="0" width="4" height="80"/> <rect x="141" y="0" width="2" height="80"/> <rect x="145" y="0" width="5" height="80"/> <rect x="152" y="0" width="3" height="80"/> <rect x="157" y="0" width="2" height="80"/> <rect x="161" y="0" width="4" height="80"/> <rect x="167" y="0" width="3" height="80"/> <rect x="172" y="0" width="5" height="80"/> <rect x="179" y="0" width="2" height="80"/> <rect x="183" y="0" width="4" height="80"/> <rect x="189" y="0" width="2" height="80"/> <rect x="193" y="0" width="3" height="80"/> <rect x="198" y="0" width="5" height="80"/> <rect x="205" y="0" width="2" height="80"/> <rect x="209" y="0" width="4" height="80"/> <rect x="215" y="0" width="3" height="80"/> <rect x="220" y="0" width="2" height="80"/> <rect x="224" y="0" width="5" height="80"/> <rect x="231" y="0" width="3" height="80"/> <rect x="236" y="0" width="2" height="80"/> <rect x="240" y="0" width="4" height="80"/> <rect x="246" y="0" width="3" height="80"/>
+                                        </g>
+                                    </svg>
+                                    <div class="barcode-numbers">
+                                        <span>5373</span> <span>2728</span> <span>73494</span>
                                     </div>
                                 </div>
                             </div>
-                            <div class="passport-switcher">
-                                 <button class="passport-switcher-btn active" data-type="qr">
-                                    <div class="passport-switcher-icon"> <svg viewBox="0 0 24 24"><path d="M3 11h8V3H3v8zm2-6h4v4H5V5zM3 21h8v-8H3v8zm2-6h4v4H5v-4zM13 3v8h8V3h-8zm6 6h-4V5h4v4zM13 13h2v2h-2zM15 15h2v2h-2zM13 17h2v2h-2zM15 19h2v2h-2zM17 17h2v2h-2zM19 15h2v2h-2zM17 13h2v2h-2zM19 19h2v2h-2z"/></svg> </div>
-                                    <span class="passport-switcher-label">QR-код</span>
-                                </button>
-                                <button class="passport-switcher-btn" data-type="barcode">
-                                    <div class="passport-switcher-icon"> <svg id="barcode-icon-inactive" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 5V19M9 5V19M12 5V19M15 5V19M19 5V19" stroke-width="2.5" stroke-linecap="round"/></svg> </div>
-                                    <span class="passport-switcher-label">Штрих-код</span>
-                                </button>
-                            </div>
+                        </div>
+                        <div class="passport-switcher">
+                            <button class="passport-switcher-btn active" id="passport-qr-btn">
+                                <div class="passport-switcher-icon">
+                                    <svg viewBox="0 0 24 24"><path d="M3 11h8V3H3v8zm2-6h4v4H5V5zM3 21h8v-8H3v8zm2-6h4v4H5v-4zM13 3v8h8V3h-8zm6 6h-4V5h4v4zM13 13h2v2h-2zM15 15h2v2h-2zM13 17h2v2h-2zM15 19h2v2h-2zM17 17h2v2h-2zM19 15h2v2h-2zM17 13h2v2h-2zM19 19h2v2h-2z"/></svg>
+                                </div>
+                                <span class="passport-switcher-label">QR-код</span>
+                            </button>
+                            <button class="passport-switcher-btn" id="passport-barcode-btn">
+                                <div class="passport-switcher-icon">
+                                    <svg id="barcode-icon-inactive" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 5V19M9 5V19M12 5V19M15 5V19M19 5V19" stroke-width="2.5" stroke-linecap="round"/></svg>
+                                </div>
+                                <span class="passport-switcher-label">Штрих-код</span>
+                            </button>
                         </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <!-- СЛАЙД 3: КАРТКА ПЛАТНИКА ПОДАТКІВ -->
-              <div class="slide" id="taxpayer-card-slide">
-                 <div class="flip-card">
-                  <div class="flip-card-inner">
-                    <div class="flip-card-front">
-                      <div class="document-container">
-                          <div class="document-content">
-                            <h1 class="document-title">Картка платника<br>податків</h1>
-                            <div class="personal-info">
-                              <div class="photo">
-                                <img src="https://this-person-does-not-exist.com/img/avatar-1126a215217b960a7681cf431ad32342.jpg" alt="Фото" loading="lazy">
-                              </div>
-                              <div class="details">
-                                <div class="detail-item">
-                                  <span class="label">РНОКПП:</span>
-                                  <span class="value">3856163250</span>
-                                </div>
-                                <div class="detail-item">
-                                  <span class="label">Дата<br>народження:</span>
-                                  <span class="value">29.07.2005</span>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="status-banner-wrapper">
-                            <div class="status-banner">
-                              <span>А ми нашу славну Україну, гей, гей, розвеселимо!</span>
-                              <span>А ми нашу славну Україну, гей, гей, розвеселимо!</span>
-                            </div>
-                          </div>
-                          <div class="info-section">
-                            <div class="name-section">
-                              <div class="full-name">
-                                <span class="name-part">Іванов</span>
-                                <span class="name-part">Іван</span>
-                                <span class="name-part">Іванович</span>
-                              </div>
-                            </div>
-                          </div>
-                      </div>
-                    </div>
-                    <div class="flip-card-back">
-                        <div class="lottie-loader-container"></div>
-                        <div class="back-content">
-                            <div class="code-timer">Код діятиме ще 3:00 хв</div>
-                            <div class="code-display-area">
-                                <div class="code-display-item" data-type="qr">
-                                    <img src="" alt="QR">
-                                </div>
-                                <div class="code-display-item hidden" data-type="barcode">
-                                    <div class="barcode-container">
-                                        <svg class="barcode-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 250 80">
-                                            <g fill="#000"> <rect x="0" y="0" width="3" height="80"/> <rect x="5" y="0" width="2" height="80"/> <rect x="9" y="0" width="5" height="80"/> <rect x="16" y="0" width="2" height="80"/> <rect x="20" y="0" width="4" height="80"/> <rect x="26" y="0" width="2" height="80"/> <rect x="30" y="0" width="3" height="80"/> <rect x="35" y="0" width="5" height="80"/> <rect x="42" y="0" width="2" height="80"/> <rect x="46" y="0" width="3" height="80"/> <rect x="51" y="0" width="3" height="80"/> <rect x="56" y="0" width="4" height="80"/> <rect x="62" y="0" width="2" height="80"/> <rect x="66" y="0" width="5" height="80"/> <rect x="73" y="0" width="2" height="80"/> <rect x="77" y="0" width="4" height="80"/> <rect x="83" y="0" width="3" height="80"/> <rect x="88" y="0" width="2" height="80"/> <rect x="92" y="0" width="5" height="80"/> <rect x="99" y="0" width="3" height="80"/> <rect x="104" y="0" width="2" height="80"/> <rect x="108" y="0" width="4" height="80"/> <rect x="114" y="0" width="3" height="80"/> <rect x="119" y="0" width="5" height="80"/> <rect x="126" y="0" width="2" height="80"/> <rect x="130" y="0" width="3" height="80"/> <rect x="135" y="0" width="4" height="80"/> <rect x="141" y="0" width="2" height="80"/> <rect x="145" y="0" width="5" height="80"/> <rect x="152" y="0" width="3" height="80"/> <rect x="157" y="0" width="2" height="80"/> <rect x="161" y="0" width="4" height="80"/> <rect x="167" y="0" width="3" height="80"/> <rect x="172" y="0" width="5" height="80"/> <rect x="179" y="0" width="2" height="80"/> <rect x="183" y="0" width="4" height="80"/> <rect x="189" y="0" width="2" height="80"/> <rect x="193" y="0" width="3" height="80"/> <rect x="198" y="0" width="5" height="80"/> <rect x="205" y="0" width="2" height="80"/> <rect x="209" y="0" width="4" height="80"/> <rect x="215" y="0" width="3" height="80"/> <rect x="220" y="0" width="2" height="80"/> <rect x="224" y="0" width="5" height="80"/> <rect x="231" y="0" width="3" height="80"/> <rect x="236" y="0" width="2" height="80"/> <rect x="240" y="0" width="4" height="80"/> <rect x="246" y="0" width="3" height="80"/> </g>
-                                        </svg>
-                                        <div class="barcode-numbers">
-                                            <span>3856</span> <span>1632</span> <span>50</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="passport-switcher">
-                                 <button class="passport-switcher-btn active" data-type="qr">
-                                    <div class="passport-switcher-icon"> <svg viewBox="0 0 24 24"><path d="M3 11h8V3H3v8zm2-6h4v4H5V5zM3 21h8v-8H3v8zm2-6h4v4H5v-4zM13 3v8h8V3h-8zm6 6h-4V5h4v4zM13 13h2v2h-2zM15 15h2v2h-2zM13 17h2v2h-2zM15 19h2v2h-2zM17 17h2v2h-2zM19 15h2v2h-2zM17 13h2v2h-2zM19 19h2v2h-2z"/></svg> </div>
-                                    <span class="passport-switcher-label">QR-код</span>
-                                </button>
-                                <button class="passport-switcher-btn" data-type="barcode">
-                                    <div class="passport-switcher-icon"> <svg id="barcode-icon-inactive" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 5V19M9 5V19M12 5V19M15 5V19M19 5V19" stroke-width="2.5" stroke-linecap="round"/></svg> </div>
-                                    <span class="passport-switcher-label">Штрих-код</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <!-- СЛАЙД 3 -->
+              <div class="slide"><div class="document-container empty-card">Картка платника податків</div></div>
               <!-- СЛАЙД 4 -->
               <div class="slide"><div class="document-container empty-card">Додати документ</div></div>
             </div>
@@ -913,11 +794,9 @@
           </div>
       </div>
   </div>
-
   <div class="page" id="page-services">
     <div class="placeholder-page"><h1>Сервіси</h1></div>
   </div>
-
   <div class="page" id="page-menu">
     <div class="menu-header">
         <h1>Меню</h1>
@@ -932,7 +811,11 @@
                 <span>Повідомлення</span>
             </div>
         </div>
-
+code
+Code
+download
+content_copy
+expand_less
 <div class="menu-section">
         <div class="menu-item" id="menu-diia-signature">
             <div class="menu-item-icon">
@@ -947,7 +830,11 @@
             <span>Історія підписань</span>
         </div>
     </div>
-
+code
+Code
+download
+content_copy
+expand_less
 <div class="menu-section">
     <div class="menu-item" id="menu-settings">
         <div class="menu-item-icon">
@@ -968,7 +855,6 @@
         <span>Підключені пристрої</span>
     </div>
 </div>
-
 <div class="menu-section">
     <div class="menu-item" id="menu-support">
         <div class="menu-item-icon">
@@ -992,9 +878,7 @@
 </div>
   </div>
 </main>
-
 <div id="update-notification">Доступне оновлення. Оновити?</div>
-
 <nav class="bottom-nav">
     <div class="nav-item" data-page="page-feed">
       <div class="nav-icon">
@@ -1003,7 +887,7 @@
       </div>
       <span class="nav-label">Стрічка</span>
     </div>
-    <div class="nav-item active" data-page="page-docs">
+    <div class="nav-item" data-page="page-docs">
       <div class="nav-icon">
         <svg class="icon-inactive" width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2.75" y="2.36536" width="18.5" height="20.5" rx="3.25" stroke="white" stroke-width="1.5"/><path d="M6 18.6154C6 18.3392 6.22386 18.1154 6.5 18.1154H14.5C14.7761 18.1154 15 18.3392 15 18.6154V19.1154C15 19.3915 14.7761 19.6154 14.5 19.6154H6.5C6.22386 19.6154 6 19.3915 6 19.1154V18.6154Z" fill="white"/><path d="M6 15.1154C6 14.8392 6.22386 14.6154 6.5 14.6154H17.5C17.7761 14.6154 18 14.8392 18 15.1154V15.6154C18 15.8915 17.7761 16.1154 17.5 16.1154H6.5C6.22386 16.1154 6 15.8915 6 15.6154V15.1154Z" fill="white"/><mask id="path-4-inside-1_13657_22140" fill="white"><rect x="6" y="5.61536" width="7" height="7" rx="1"/></mask><rect x="6" y="5.61536" width="7" height="7" rx="1" stroke="white" stroke-width="3" mask="url(#path-4-inside-1_13657_22140)"/></svg>
         <svg class="icon-active" width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2.75" y="2.36536" width="18.5" height="20.5" rx="3.25" fill="white" stroke="white" stroke-width="1.5"/><path d="M6 18.6154C6 18.3392 6.22386 18.1154 6.5 18.1154H14.5C14.7761 18.1154 15 18.3392 15 18.6154V19.1154C15 19.3915 14.7761 19.6154 14.5 19.6154H6.5C6.22386 19.6154 6 19.3915 6 19.1154V18.6154Z" fill="black"/><path d="M6 15.1154C6 14.8392 6.22386 14.6154 6.5 14.6154H17.5C17.7761 14.6154 18 14.8392 18 15.1154V15.6154C18 15.8915 17.7761 16.1154 17.5 16.1154H6.5C6.22386 16.1154 6 15.8915 6 15.6154V15.1154Z" fill="black"/><mask id="path-4-inside-1_13657_22158" fill="white"><rect x="6" y="5.61536" width="7" height="7" rx="1"/></mask><rect x="6" y="5.61536" width="7" height="7" rx="1" stroke="black" stroke-width="3" mask="url(#path-4-inside-1_13657_22158)"/></svg>
@@ -1026,7 +910,6 @@
     </div>
 </nav>
   </div>
-
   <!-- SIGNATURE PAD -->
   <div id="signature-pad-container">
     <div class="signature-pad-header">
@@ -1042,23 +925,8 @@
         <button class="signature-pad-btn save" id="signature-save-btn">Продовжити</button>
     </div>
   </div>
-
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-
-        const lottiePlayerSplash = document.getElementById('lottie-player-splash');
-        fetch('https://assets1.lottiefiles.com/packages/lf20_1wgvdy3u.json')
-            .then(response => response.json())
-            .then(data => {
-                lottie.loadAnimation({
-                    container: lottiePlayerSplash,
-                    renderer: 'svg',
-                    loop: true,
-                    autoplay: true,
-                    animationData: data
-                });
-            });
-
 
       // --- ЛОГІКА СТАРТОВОГО ЕКРАНУ ТА ЕКРАНУ ВХОДУ ---
       const splashScreen = document.getElementById('splash-screen');
@@ -1078,19 +946,23 @@
       }, 2500);
       
       // --- ГЕНЕРАЦІЯ QR-КОДІВ ---
-        const generateLongData = (length = 300) => {
-            let result = '';
-            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-            for (let i = 0; i < length; i++) {
-                result += characters.charAt(Math.floor(Math.random() * characters.length));
-            }
-            return result;
-        };
+      const generateLongData = (length = 300) => {
+        let result = '';
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        for (let i = 0; i < length; i++) {
+            result += characters.charAt(Math.floor(Math.random() * characters.length));
+        }
+        return result;
+      };
 
-        document.querySelectorAll('.code-display-item[data-type="qr"] img').forEach(img => {
-            const longData = generateLongData(450);
-            img.src = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(longData)}&qzone=1`;
-        });
+      const edocQR = document.getElementById('edoc-qr-img');
+      const passportQR = document.getElementById('passport-qr-img');
+      
+      const longDataEdoc = generateLongData(400); // Більше даних для щільнішого коду
+      const longDataPassport = generateLongData(500); // Ще більше даних для паспорта
+
+      edocQR.src = `https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=${encodeURIComponent(longDataEdoc)}&qzone=1`;
+      passportQR.src = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(longDataPassport)}&qzone=1`;
 
 
       // --- ЛОГІКА ВВОДУ ПАРОЛЮ ---
@@ -1308,108 +1180,76 @@
       
       navigateToPage('page-docs');
 
-        // --- ЛОГІКА ПЕРЕВЕРТАННЯ КАРТКИ, АНІМАЦІЇ ТА ТАЙМЕРА ---
-        const flipCards = document.querySelectorAll('.flip-card');
-        let activeTimer = null;
-        let loaderAnimation = null;
-        
-        // Завантажуємо анімацію один раз
-        fetch('https://assets10.lottiefiles.com/packages/lf20_p8bfn5to.json')
-            .then(response => response.json())
-            .then(data => {
-                loaderAnimation = data;
-            });
+      // --- ЛОГІКА ПЕРЕВЕРТАННЯ КАРТКИ І ТАЙМЕРА ---
+      const flipCards = document.querySelectorAll('.flip-card');
+      const timerPassportEl = document.getElementById('passport-timer');
+      let timerInterval = null;
 
+      function startTimer(element, initialTime = 175) { // 2:55
+          clearInterval(timerInterval);
+          let timeLeft = initialTime;
+          const updateTimerText = () => {
+            const minutes = Math.floor(timeLeft / 60);
+            let seconds = timeLeft % 60;
+            seconds = seconds < 10 ? '0' + seconds : seconds;
+            element.textContent = `Код діятиме ще ${minutes}:${seconds} хв`;
+          };
+          updateTimerText();
+          timerInterval = setInterval(() => {
+              timeLeft--;
+              updateTimerText();
+              if (timeLeft <= 0) {
+                  clearInterval(timerInterval);
+                  element.textContent = "Час вийшов";
+              }
+          }, 1000);
+      }
 
-        function startTimer(card) {
-            const timerEl = card.querySelector('.code-timer');
-            const inner = card.querySelector('.flip-card-inner');
-            let timeLeft = 180; // 3:00
+      flipCards.forEach(card => {
+        card.addEventListener('click', () => {
+            const movedBy = Math.abs(currentTranslate - prevTranslate);
+            if (isDragging && movedBy > 10) return;
             
-            clearInterval(activeTimer); // Зупиняємо попередній таймер
+            const slide = card.closest('.slide');
+            if (slide.style.transform !== 'scale(1)') return;
 
-            const updateTimer = () => {
-                const minutes = Math.floor(timeLeft / 60);
-                let seconds = timeLeft % 60;
-                seconds = seconds < 10 ? '0' + seconds : seconds;
-                timerEl.textContent = `Код діятиме ще ${minutes}:${seconds} хв`;
-
-                if (timeLeft <= 0) {
-                    clearInterval(activeTimer);
-                    timerEl.textContent = "Час вийшов";
-                    inner.classList.remove('is-flipped'); // Перевертаємо картку назад
-                }
-                timeLeft--;
-            };
-
-            updateTimer();
-            activeTimer = setInterval(updateTimer, 1000);
-        }
-
-        flipCards.forEach(card => {
-            card.addEventListener('click', (e) => {
-                const movedBy = Math.abs(currentTranslate - prevTranslate);
-                if (isDragging && movedBy > 10) return;
-
-                const slide = card.closest('.slide');
-                if (slide.style.transform !== 'scale(1)') return;
-
-                const inner = card.querySelector('.flip-card-inner');
-                const isFlippingToBack = !inner.classList.contains('is-flipped');
-
-                // Перевертаємо всі інші картки назад
-                document.querySelectorAll('.flip-card-inner.is-flipped').forEach(flippedInner => {
-                    if (flippedInner !== inner) {
-                        flippedInner.classList.remove('is-flipped');
-                    }
-                });
-                clearInterval(activeTimer);
-
-                // Перевертаємо поточну картку
-                inner.classList.toggle('is-flipped');
-
-                const loaderContainer = card.querySelector('.lottie-loader-container');
-                const backContent = card.querySelector('.back-content');
-
-                if (isFlippingToBack) {
-                    loaderContainer.innerHTML = ''; // Очищуємо контейнер
-                    backContent.style.visibility = 'hidden';
-                    
-                    if (loaderAnimation) {
-                        lottie.loadAnimation({
-                            container: loaderContainer,
-                            renderer: 'svg',
-                            loop: false,
-                            autoplay: true,
-                            animationData: loaderAnimation
-                        });
-                    }
-
-                    setTimeout(() => {
-                        loaderContainer.innerHTML = '';
-                        backContent.style.visibility = 'visible';
-                        startTimer(card);
-                    }, 2000); // 2 секунди для анімації
-                }
-            });
+            const inner = card.querySelector('.flip-card-inner');
+            inner.classList.toggle('is-flipped');
+            
+            const isPassportCard = card.closest('#passport-ukraine-slide');
+            
+            if (inner.classList.contains('is-flipped')) {
+                if (isPassportCard) startTimer(timerPassportEl);
+            } else {
+                clearInterval(timerInterval);
+            }
         });
-
+      });
 
       // --- ЛОГІКА ПЕРЕМИКАЧА QR/ШТРИХКОД ---
-       document.querySelectorAll('.passport-switcher-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const cardBack = btn.closest('.flip-card-back');
-                const type = btn.dataset.type;
+      const qrBtn = document.getElementById('passport-qr-btn');
+      const barcodeBtn = document.getElementById('passport-barcode-btn');
+      const qrCodeEl = document.getElementById('passport-qr-code');
+      const barcodeEl = document.getElementById('passport-barcode');
 
-                cardBack.querySelectorAll('.passport-switcher-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-
-                cardBack.querySelectorAll('.code-display-item').forEach(item => {
-                    item.classList.toggle('hidden', item.dataset.type !== type);
-                });
-            });
-        });
+      qrBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          if (!qrBtn.classList.contains('active')) {
+              qrBtn.classList.add('active');
+              barcodeBtn.classList.remove('active');
+              qrCodeEl.classList.remove('hidden');
+              barcodeEl.classList.add('hidden');
+          }
+      });
+      barcodeBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          if (!barcodeBtn.classList.contains('active')) {
+              barcodeBtn.classList.add('active');
+              qrBtn.classList.remove('active');
+              barcodeEl.classList.remove('hidden');
+              qrCodeEl.classList.add('hidden');
+          }
+      });
 
       // --- ЛОГІКА ДІЯ.ПІДПИС ---
       const signaturePadContainer = document.getElementById('signature-pad-container');
@@ -1591,6 +1431,5 @@
       }
     });
   </script>
-
 </body>
-</html>
+</html> 
