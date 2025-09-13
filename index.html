@@ -13,18 +13,25 @@
   <meta name="theme-color" content="#111111">
   <!-- Скрипт для Lottie Animation -->
   <script src="https://cdn.lottielab.com/s/lottie-player@1.x/player-web.min.js"></script>
-  <style>
+  
+        
+<style>
     @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap');
 
     :root {
       --text-color: #000;
       --label-color: #333;
-      --background-gradient: #e1f6b8; /* Запасний колір, якщо анімація не завантажиться */
+      --background-gradient:
+        radial-gradient(ellipse at 5% 5%, hsla(70, 88%, 88%, 0.8) 0, transparent 40%),
+        radial-gradient(ellipse at 95% 90%, hsla(240, 88%, 85%, 0.7) 0, transparent 50%),
+        linear-gradient(155deg, #e1f6b8, #bdecf3, #f5d5e5);
       --card-background: rgba(255, 255, 255, 0.45);
       --nav-background: #111;
       --nav-text-color: #8e8e93;
       --nav-active-color: #fff;
       --banner-background-soft: linear-gradient(90deg, rgba(173, 223, 173, 0.8), rgba(225, 246, 184, 0.85), rgba(173, 223, 173, 0.8));
+
+      /* Menu specific colors */
       --menu-bg-color: #dbe9f5;
       --menu-item-bg: #fff;
       --menu-item-border: #e8e8e8;
@@ -32,6 +39,12 @@
       --menu-section-spacing: 16px;
     }
 
+    @keyframes animatedBackground {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    
     @keyframes shake {
       0%, 100% { transform: translateX(0); }
       25% { transform: translateX(-5px); }
@@ -43,6 +56,8 @@
     body {
       font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       background: var(--background-gradient);
+      background-size: 200% 200%;
+      animation: animatedBackground 30s ease infinite;
       height: 100vh;
       color: var(--text-color);
       overflow: hidden;
@@ -53,133 +68,310 @@
       user-select: none;
     }
     
-    /* --- НОВИЙ СТИЛЬ: Контейнер для фонової анімації --- */
-    #background-animation {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        z-index: -1;
-        overflow: hidden;
+    button, .nav-item, .menu-item {
+        outline: none;
     }
-    #background-animation > lottie-player {
-        width: 100%;
-        height: 100%;
-        transform: scale(1.5); /* Можна налаштувати масштаб для кращого вигляду */
+    button:focus, .nav-item:focus, .menu-item:focus {
+        outline: none;
     }
 
-    button, .nav-item, .menu-item { outline: none; }
-    button:focus, .nav-item:focus, .menu-item:focus { outline: none; }
 
     /* --- СТИЛІ ДЛЯ СТАРТОВОГО ЕКРАНУ --- */
     #splash-screen {
-        position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 10000;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 10000;
         background: linear-gradient(to bottom, #d4e7f5, #e9f3f9);
-        display: flex; flex-direction: column; justify-content: flex-end;
-        padding-bottom: 8vh; align-items: center; transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        padding-bottom: 8vh;
+        align-items: center;
+        transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
     }
-    #splash-screen.hidden { opacity: 0; visibility: hidden; }
-    .splash-content { position: absolute; top: 25vh; }
-    .splash-content h1 { font-size: 48px; color: #000; font-weight: 600; }
-    .lottie-container { margin: 0 auto; }
+    #splash-screen.hidden {
+        opacity: 0;
+        visibility: hidden;
+    }
+    .splash-content {
+        position: absolute;
+        top: 25vh;
+    }
+    .splash-content h1 {
+        font-size: 48px;
+        color: #000;
+        font-weight: 600;
+    }
+    .lottie-container {
+        margin: 0 auto;
+    }
     
     /* --- СТИЛІ ДЛЯ ЕКРАНУ ВВОДУ ПАРОЛЮ --- */
     #login-screen {
-        position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999;
-        background: transparent; /* Робимо прозорим, щоб бачити анімований фон */
-        display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
-        transition: opacity 0.5s ease-out, visibility 0.5s ease-out; opacity: 0; visibility: hidden;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 9999;
+        background: var(--background-gradient);
+        background-size: 200% 200%;
+        animation: animatedBackground 30s ease infinite;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+        opacity: 0;
+        visibility: hidden;
     }
-    #login-screen.visible { opacity: 1; visibility: visible; }
-    .login-title { font-size: 28px; font-weight: 600; margin-bottom: 20px; }
-    .passcode-dots { display: flex; gap: 15px; margin-bottom: 30px; }
-    .passcode-dots.shake { animation: shake 0.3s linear; }
-    .passcode-dot { width: 8px; height: 8px; background-color: rgba(255, 255, 255, 0.8); border-radius: 50%; transition: background-color 0.2s ease; }
-    .passcode-dot.filled { background-color: #000; }
-    .keypad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; width: 280px; }
+    #login-screen.visible {
+        opacity: 1;
+        visibility: visible;
+    }
+    .login-title {
+        font-size: 28px;
+        font-weight: 600;
+        margin-bottom: 20px;
+    }
+    .passcode-dots {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 30px;
+    }
+    .passcode-dots.shake {
+        animation: shake 0.3s linear;
+    }
+    .passcode-dot {
+        width: 8px;
+        height: 8px;
+        background-color: rgba(255, 255, 255, 0.8);
+        border-radius: 50%;
+        transition: background-color 0.2s ease;
+    }
+    .passcode-dot.filled {
+        background-color: #000;
+    }
+    .keypad {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+        width: 280px;
+    }
     .keypad-btn {
-        width: 75px; height: 75px; border-radius: 50%; border: none; background-color: rgba(255, 255, 255, 0.8);
-        font-size: 28px; font-weight: 500; color: #000; cursor: pointer; display: flex; justify-content: center;
-        align-items: center; transition: background-color 0.2s ease; backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
+        width: 75px;
+        height: 75px;
+        border-radius: 50%;
+        border: none;
+        background-color: rgba(255, 255, 255, 0.8);
+        font-size: 28px;
+        font-weight: 500;
+        color: #000;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: background-color 0.2s ease;
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
         outline: none;
     }
-    .keypad-btn:active { background-color: rgba(255, 255, 255, 1); }
-    .keypad-btn.icon { background: transparent; backdrop-filter: none; }
-    .keypad-btn img { width: 70px; height: 70px; opacity: 0.7; }
-    .keypad-btn svg { width: 35px; height: 35px; }
-    .forgot-password { position: absolute; bottom: 5vh; padding: 10px; color: #000; font-size: 16px; cursor: pointer; }
+    .keypad-btn:active {
+        background-color: rgba(255, 255, 255, 1);
+    }
+    .keypad-btn.icon {
+        background: transparent;
+        backdrop-filter: none;
+    }
+    .keypad-btn img {
+        width: 70px;
+        height: 70px;
+        opacity: 0.7;
+    }
+    .keypad-btn svg {
+        width: 35px;
+        height: 35px;
+    }
+    .forgot-password {
+        position: absolute;
+        bottom: 5vh;
+        padding: 10px;
+        color: #000;
+        font-size: 16px;
+        cursor: pointer;
+    }
 
-    /* --- Основний контент --- */
-    .app-container { height: 100%; display: none; flex-direction: column; }
+    /* --- Ховаємо основний контент на старті --- */
+    .app-container {
+      height: 100%;
+      display: none;
+      flex-direction: column;
+    }
     .content { flex-grow: 1; position: relative; }
+
     .page {
       width: 100%; height: 100%; position: absolute; top: 0; left: 0;
-      padding: 0; overflow: hidden; transition: opacity 0.4s ease-in-out;
+      padding: 0;
+      overflow: hidden;
+      transition: opacity 0.4s ease-in-out;
       visibility: hidden; opacity: 0;
     }
     .page.active { visibility: visible; opacity: 1; }
+
+    #page-docs {
+        background: transparent; /* Робимо прозорим, щоб бачити анімацію */
+    }
     #page-docs.active { display: flex; flex-direction: column; justify-content: center; }
+
+    #background-animation {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        overflow: hidden;
+        display: none; /* За замовчуванням приховано */
+    }
+    #background-animation lottie-player {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        min-width: 100%;
+        min-height: 100%;
+        width: auto;
+        height: auto;
+        transform: translate(-50%, -50%);
+        object-fit: cover; /* Розтягуємо, зберігаючи пропорції */
+    }
+
     .placeholder-page { display: flex; justify-content: center; align-items: center; height: 100%; font-size: 24px; color: #555; }
 
-    /* --- СЛАЙДЕР --- */
     .slider-container {
-      width: 100%; height: 435px; margin-top: -50px; display: flex;
-      align-items: center; position: relative; overflow: hidden; cursor: grab;
+      width: 100%;
+      height: 435px; 
+      margin-top: -50px;
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      cursor: grab;
     }
-    .slider-wrapper { display: flex; align-items: center; gap: 3px; }
-    
+    .slider-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 3px; 
+    }
     /* --- ВИПРАВЛЕНО: Стиль слайда для коректної ширини --- */
     .slide {
-      width: 80%; /* Залежить від .slider-container */
-      flex-shrink: 0; /* Забороняємо стискання */
+      width: 80%;
+      min-width: 80%; /* ЗАПОБІГАЄ СПЛЮЩУВАННЮ */
+      flex-shrink: 0; 
       height: 435px;
       -webkit-tap-highlight-color: transparent;
-      padding: 0 5px;
+      padding: 0 5px; /* ВІДСТУП ДЛЯ АНІМАЦІЇ */
     }
 
     .flip-card {
-        background-color: transparent; width: 100%; height: 100%;
-        perspective: 2000px; cursor: pointer;
+        background-color: transparent;
+        width: 100%;
+        height: 100%;
+        perspective: 2000px; /* ПОКРАЩЕНА ПЕРСПЕКТИВА */
+        cursor: pointer;
     }
     .flip-card-inner {
-        position: relative; width: 100%; height: 100%;
-        transition: transform 0.6s; transform-style: preserve-3d;
+        position: relative;
+        width: 100%;
+        height: 100%;
+        transition: transform 0.6s;
+        transform-style: preserve-3d;
     }
     .flip-card-inner.is-flipped { transform: rotateY(180deg); }
     .flip-card-front, .flip-card-back {
-        position: absolute; width: 100%; height: 100%;
-        -webkit-backface-visibility: hidden; backface-visibility: hidden;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
     }
     .flip-card-back {
-        transform: rotateY(180deg); display: flex; flex-direction: column;
-        align-items: center; justify-content: space-around;
-        background: rgba(255, 255, 255, 0.9); border-radius: 24px; padding: 20px;
-        backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
+        transform: rotateY(180deg);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-around;
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 24px;
+        padding: 20px;
+        backdrop-filter: blur(25px);
+        -webkit-backdrop-filter: blur(25px);
         border: 1px solid rgba(255, 255, 255, 0.3);
     }
-    /* --- НОВИЙ СТИЛЬ: Контейнер для Lottie-анімації завантажувача --- */
+
     .flip-card-back .loader-container {
-        position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-        display: flex; justify-content: center; align-items: center;
-        background: rgba(255, 255, 255, 0.9); border-radius: 24px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 24px;
         z-index: 2;
     }
+
     .document-container {
-        background: var(--card-background); border-radius: 24px; backdrop-filter: blur(25px);
-        -webkit-backdrop-filter: blur(25px); border: 1px solid rgba(255, 255, 255, 0.25);
-        overflow: hidden; height: 100%; display: flex; flex-direction: column;
+        background: var(--card-background);
+        border-radius: 24px;
+        backdrop-filter: blur(25px);
+        -webkit-backdrop-filter: blur(25px);
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        overflow: hidden;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
     }
     .empty-card { height: 100%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: #888; }
-    .document-content { padding: 20px; padding-bottom: 0; flex-shrink: 0; }
-    .document-title { font-size: 22px; font-weight: 600; margin-bottom: 20px; opacity: 0.8;}
-    .personal-info { display: flex; align-items: flex-start; gap: 15px; }
-    .photo { margin-top: 5px; }
-    .photo img { width: 110px; height: 154px; border-radius: 12px; object-fit: cover; border: 1px solid rgba(255, 255, 255, 0.4); }
+    .document-content { padding: 20px; padding-bottom: 0; }
+    .document-title { 
+        font-size: 22px; 
+        font-weight: 600;
+        margin-bottom: 20px; 
+        opacity: 0.8;
+    }
+    .personal-info {
+        display: flex;
+        align-items: flex-start;
+        gap: 15px;
+        margin-bottom: 30px;
+    }
+    .photo {
+        margin-top: 5px;
+    }
+    .photo img {
+        width: 110px;
+        height: 154px;
+        border-radius: 12px;
+        object-fit: cover;
+        border: 1px solid rgba(255, 255, 255, 0.4);
+    }
     .details { display: flex; flex-direction: column; gap: 8px; }
     .detail-item { display: flex; flex-direction: column; }
-    .detail-item .label, .detail-item .value { font-size: 13px; font-weight: 500; color: var(--text-color); }
-    .detail-item .label { color: var(--label-color); white-space: pre-wrap; }
+    .detail-item .label, .detail-item .value {
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--text-color);
+    }
+    .detail-item .label {
+        color: var(--label-color);
+        white-space: pre-wrap;
+    }
     .signature-placeholder {
         width: 100px;
         height: 45px;
@@ -188,42 +380,77 @@
     }
 
     .status-banner-wrapper {
-      background: var(--banner-background-soft); overflow: hidden;
-      white-space: nowrap; padding: 5px 0; flex-shrink: 0;
+      background: var(--banner-background-soft);
+      overflow: hidden;
+      white-space: nowrap;
+      padding: 5px 0;
+      flex-shrink: 0;
     }
-    .status-banner { display: flex; width: max-content; animation: marquee 12s linear infinite; }
-    @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-    .status-banner span { padding-right: 8px; font-size: 13px; font-weight: 600; white-space: nowrap; }
+    .status-banner {
+      display: flex;
+      width: max-content;
+      animation: marquee 12s linear infinite;
+    }
+    @keyframes marquee {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(-50%); }
+    }
+    .status-banner span {
+        padding-right: 8px;
+        font-size: 13px;
+        font-weight: 600;
+        white-space: nowrap;
+    }
 
     .info-section { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; justify-content: flex-end; }
-    .name-section { display: flex; justify-content: space-between; align-items: flex-end; min-width: 0; }
+    .name-section {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        min-width: 0;
+    }
     .full-name { display: flex; flex-direction: column; min-width: 0; }
-    .name-part { font-size: 24px; font-weight: 600; line-height: 1.2; word-break: break-word; }
+    .name-part {
+        font-size: 24px;
+        font-weight: 600;
+        line-height: 1.2;
+        word-break: break-word;
+    }
     .more-options {
-        width: 24px; height: 24px; background-color: #2c2c2e; border-radius: 50%; display: flex;
-        justify-content: center; align-items: center; flex-shrink: 0; margin-left: 10px; margin-bottom: 2px;
+        width: 24px;
+        height: 24px;
+        background-color: #2c2c2e;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-shrink: 0;
+        margin-left: 10px;
+        margin-bottom: 2px;
     }
-    .more-options svg { width: 14px; height: 14px; fill: #fff; }
-    
-    /* --- ОНОВЛЕНО: Стилі для Картки платника податків --- */
-    #tax-card-slide .document-title { margin-bottom: 10px; }
-    .tax-card-subtitle { font-size: 14px; color: var(--label-color); font-weight: 500; margin-bottom: 25px; }
-    .tax-card-details .value { font-size: 16px; font-weight: 600; }
-    .tax-card-details .detail-item { gap: 4px; }
-    .tax-number-section { text-align: center; }
-    .tax-number {
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        font-size: 28px; font-weight: 500; letter-spacing: 2px; color: #000;
-        display: flex; align-items: center; justify-content: center; gap: 10px;
+    .more-options svg { 
+        width: 14px;
+        height: 14px;
+        fill: #fff; 
     }
-    .tax-number svg { width: 22px; height: 22px; cursor: pointer; opacity: 0.7; }
 
     .page-indicator-container {
-        position: absolute; bottom: 95px; left: 50%; transform: translateX(-50%);
-        width: 100%; max-width: 400px; padding: 20px 0;
+        position: absolute;
+        bottom: 95px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100%;
+        max-width: 400px;
+        padding: 20px 0;
     }
     .page-indicator { display: flex; justify-content: center; gap: 8px; }
-    .dot { width: 9px; height: 9px; background-color: rgba(255, 255, 255, 0.6); border-radius: 50%; transition: background-color 0.3s ease; }
+    .dot {
+        width: 9px;
+        height: 9px;
+        background-color: rgba(255, 255, 255, 0.6);
+        border-radius: 50%;
+        transition: background-color 0.3s ease;
+    }
     .dot.active { background-color: rgba(255, 255, 255, 1); }
 
     /* --- СТИЛІ НАВІГАЦІЇ --- */
@@ -241,8 +468,12 @@
     
     /* --- СТИЛІ ЗВОРОТУ КАРТКИ --- */
     .back-content {
-        display: flex; flex-direction: column; width: 100%; height: 100%;
-        align-items: center; justify-content: space-around;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+        align-items: center;
+        justify-content: space-around;
         visibility: hidden; /* Ховаємо контент під час анімації завантажувача */
     }
     .code-timer { font-size: 15px; color: #555; font-weight: 500; }
@@ -407,14 +638,26 @@
         background-color: #007aff;
         color: #fff;
     }
-  </style>
-</head>
-<body>
-  <!-- НОВИЙ ЕЛЕМЕНТ: Фонова анімація -->
-  <div id="background-animation">
-      <lottie-player src="background_gradient.json" autoplay loop mode="normal"></lottie-player>
-  </div>
 
+    /* Стилі для Картки платника податків */
+    #tax-card-slide .document-title { margin-bottom: 10px; }
+    .tax-card-subtitle { font-size: 14px; color: var(--label-color); font-weight: 500; margin-bottom: 25px; }
+    .tax-card-details .value { font-size: 16px; font-weight: 600; }
+    .tax-card-details .detail-item { gap: 4px; }
+    .tax-number-section { text-align: center; }
+    .tax-number {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        font-size: 28px; font-weight: 500; letter-spacing: 2px; color: #000;
+        display: flex; align-items: center; justify-content: center; gap: 10px;
+    }
+    .tax-number svg { width: 22px; height: 22px; cursor: pointer; opacity: 0.7; }
+                            </style>
+
+</head>
+
+  
+  
+  <body>
   <!-- СТАРТОВИЙ ЕКРАН -->
   <div id="splash-screen">
       <div class="splash-content">
@@ -464,11 +707,97 @@
         <div class="placeholder-page"><h1>Стрічка</h1></div>
       </div>
       <div class="page" id="page-docs">
+        <!-- АНІМАЦІЯ ФОНУ ТІЛЬКИ ДЛЯ ЦІЄЇ СТОРІНКИ -->
+        <div id="background-animation">
+            <lottie-player src="background_gradient.json" autoplay loop mode="normal"></lottie-player>
+        </div>
         <div>
             <div class="slider-container">
               <div class="slider-wrapper">
                 
-                <!-- СЛАЙД 1: ЗАКОРДОННИЙ ПАСПОРТ (ОНОВЛЕНО ЗА МАКЕТОМ) -->
+                <!-- СЛАЙД 1: ЄДОКУМЕНТ (ПОВЕРНУТО) -->
+                <div class="slide" id="edoc-slide">
+                  <div class="flip-card">
+                    <div class="flip-card-inner">
+                      <div class="flip-card-front">
+                        <div class="document-container">
+                            <div class="document-content">
+                              <h1 class="document-title">єДокумент</h1>
+                              <div class="personal-info">
+                                <div class="photo"><img src="./pasport.png" alt="Фото" loading="lazy"></div>
+                                <div class="details">
+                                  <div class="detail-item"><span class="label">Дата<br>народження:</span><span class="value">29.07.2005</span></div>
+                                  <div class="detail-item"><span class="label">РНОКПП:</span><span class="value">3856163250</span></div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="status-banner-wrapper"><div class="status-banner"><span>А ми нашу славну Україну, гей, гей, розвеселимо!</span><span>А ми нашу славну Україну, гей, гей, розвеселимо!</span></div></div>
+                            <div class="info-section">
+                              <div class="name-section">
+                                <div class="full-name"><span class="name-part">Іванов</span><span class="name-part">Іван</span><span class="name-part">Іванович</span></div>
+                                <div class="more-options"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M6 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm12 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg></div>
+                              </div>
+                            </div>
+                        </div>
+                      </div>
+                      <div class="flip-card-back simple-qr-back">
+                          <div class="loader-container" style="display: none;"><lottie-player src="loader.json" style="width: 150px; height: 150px;"></lottie-player></div>
+                          <div class="back-content"><h3>QR-код дійсний</h3><img class="qr-code-img" id="edoc-qr-img" src="" alt="QR"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- СЛАЙД 2: ПАСПОРТ ГРОМАДЯНИНА УКРАЇНИ (ПОВЕРНУТО) -->
+                <div class="slide" id="passport-ukraine-slide">
+                  <div class="flip-card">
+                    <div class="flip-card-inner">
+                      <div class="flip-card-front">
+                        <div class="document-container">
+                            <div class="document-content">
+                              <h1 class="document-title">Паспорт громадянина<br>України</h1>
+                              <div class="personal-info">
+                                <div class="photo"><img src="./pasport.png" alt="Фото" loading="lazy"></div>
+                                <div class="details">
+                                  <div class="detail-item"><span class="label">Дата<br>народження:</span><span class="value">29.07.2005</span></div>
+                                  <div class="detail-item"><span class="label">Номер:</span><span class="value">013407632</span></div>
+                                   <img id="passport-signature-image" class="signature-placeholder" src="" alt="Підпис" style="display: none;">
+                                </div>
+                              </div>
+                            </div>
+                            <div class="status-banner-wrapper"><div class="status-banner"><span>А ми нашу славну Україну, гей, гей, розвеселимо!</span><span>А ми нашу славну Україну, гей, гей, розвеселимо!</span></div></div>
+                            <div class="info-section">
+                              <div class="name-section">
+                                <div class="full-name"><span class="name-part">Іванов</span><span class="name-part">Іван</span><span class="name-part">Іванович</span></div>
+                                <div class="more-options"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M6 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm12 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg></div>
+                              </div>
+                            </div>
+                        </div>
+                      </div>
+                      <div class="flip-card-back">
+                          <div class="loader-container" style="display: none;"><lottie-player src="loader.json" style="width: 150px; height: 150px;"></lottie-player></div>
+                          <div class="back-content">
+                              <div class="code-timer"></div>
+                              <div class="code-display-area">
+                                  <div class="code-display-item" id="passport-qr-code"><img class="qr-code-img" id="passport-qr-img" src="" alt="QR"></div>
+                                  <div class="code-display-item hidden" id="passport-barcode">
+                                      <div class="barcode-container">
+                                          <svg class="barcode-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 250 80"><g fill="#000"><rect x="0" y="0" width="3" height="80"/> <rect x="5" y="0" width="2" height="80"/> <rect x="9" y="0" width="5" height="80"/> <rect x="16" y="0" width="2" height="80"/> <rect x="20" y="0" width="4" height="80"/> <rect x="26" y="0" width="2" height="80"/> <rect x="30" y="0" width="3" height="80"/> <rect x="35" y="0" width="5" height="80"/> <rect x="42" y="0" width="2" height="80"/> <rect x="46" y="0" width="3" height="80"/> <rect x="51" y="0" width="3" height="80"/> <rect x="56" y="0" width="4" height="80"/> <rect x="62" y="0" width="2" height="80"/> <rect x="66" y="0" width="5" height="80"/> <rect x="73" y="0" width="2" height="80"/> <rect x="77" y="0" width="4" height="80"/> <rect x="83" y="0" width="3" height="80"/> <rect x="88" y="0" width="2" height="80"/> <rect x="92" y="0" width="5" height="80"/> <rect x="99" y="0" width="3" height="80"/> <rect x="104" y="0" width="2" height="80"/> <rect x="108" y="0" width="4" height="80"/> <rect x="114" y="0" width="3" height="80"/> <rect x="119" y="0" width="5" height="80"/> <rect x="126" y="0" width="2" height="80"/> <rect x="130" y="0" width="3" height="80"/> <rect x="135" y="0" width="4" height="80"/> <rect x="141" y="0" width="2" height="80"/> <rect x="145" y="0" width="5" height="80"/> <rect x="152" y="0" width="3" height="80"/> <rect x="157" y="0" width="2" height="80"/> <rect x="161" y="0" width="4" height="80"/> <rect x="167" y="0" width="3" height="80"/> <rect x="172" y="0" width="5" height="80"/> <rect x="179" y="0" width="2" height="80"/> <rect x="183" y="0" width="4" height="80"/> <rect x="189" y="0" width="2" height="80"/> <rect x="193" y="0" width="3" height="80"/> <rect x="198" y="0" width="5" height="80"/> <rect x="205" y="0" width="2" height="80"/> <rect x="209" y="0" width="4" height="80"/> <rect x="215" y="0" width="3" height="80"/> <rect x="220" y="0" width="2" height="80"/> <rect x="224" y="0" width="5" height="80"/> <rect x="231" y="0" width="3" height="80"/> <rect x="236" y="0" width="2" height="80"/> <rect x="240" y="0" width="4" height="80"/> <rect x="246" y="0" width="3" height="80"/></g></svg>
+                                          <div class="barcode-numbers"><span>5373</span> <span>2728</span> <span>73494</span></div>
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="passport-switcher">
+                                  <button class="passport-switcher-btn active" id="passport-qr-btn"><div class="passport-switcher-icon"><svg viewBox="0 0 24 24"><path d="M3 11h8V3H3v8zm2-6h4v4H5V5zM3 21h8v-8H3v8zm2-6h4v4H5v-4zM13 3v8h8V3h-8zm6 6h-4V5h4v4zM13 13h2v2h-2zM15 15h2v2h-2zM13 17h2v2h-2zM15 19h2v2h-2zM17 17h2v2h-2zM19 15h2v2h-2zM17 13h2v2h-2zM19 19h2v2h-2z"/></svg></div><span class="passport-switcher-label">QR-код</span></button>
+                                  <button class="passport-switcher-btn" id="passport-barcode-btn"><div class="passport-switcher-icon"><svg id="barcode-icon-inactive" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 5V19M9 5V19M12 5V19M15 5V19M19 5V19" stroke="#000" stroke-width="2.5" stroke-linecap="round"/></svg></div><span class="passport-switcher-label">Штрих-код</span></button>
+                              </div>
+                          </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- СЛАЙД 3: ЗАКОРДОННИЙ ПАСПОРТ (ОНОВЛЕНО ЗА МАКЕТОМ) -->
                 <div class="slide" id="foreign-passport-slide">
                   <div class="flip-card">
                     <div class="flip-card-inner">
@@ -477,78 +806,38 @@
                             <div class="document-content">
                               <h1 class="document-title">Закордонний<br>паспорт</h1>
                               <div class="personal-info" style="margin-bottom: 20px;">
-                                <div class="photo">
-                                  <img src="./pasport.png" alt="Фото" loading="lazy">
-                                </div>
+                                <div class="photo"><img src="./pasport.png" alt="Фото" loading="lazy"></div>
                                 <div class="details">
-                                  <div class="detail-item">
-                                    <span class="label">Дата<br>народження:</span>
-                                    <span class="value">20.08.2008</span>
-                                  </div>
-                                  <div class="detail-item">
-                                    <span class="label">Номер:</span>
-                                    <span class="value">FV064782</span>
-                                  </div>
+                                  <div class="detail-item"><span class="label">Дата<br>народження:</span><span class="value">20.08.2008</span></div>
+                                  <div class="detail-item"><span class="label">Номер:</span><span class="value">FV064782</span></div>
                                 </div>
                               </div>
                             </div>
-                            <div class="status-banner-wrapper">
-                              <div class="status-banner">
-                                <span>Документ оновлено о 22:21 | 11.09.2025 • Документ</span>
-                                <span>Документ оновлено о 22:21 | 11.09.2025 • Документ</span>
-                              </div>
-                            </div>
+                            <div class="status-banner-wrapper"><div class="status-banner"><span>Документ оновлено о 22:21 | 11.09.2025 • Документ</span><span>Документ оновлено о 22:21 | 11.09.2025 • Документ</span></div></div>
                             <div class="info-section">
                               <div class="name-section">
-                                <div class="full-name">
-                                  <span class="name-part">Литовченко</span>
-                                  <span class="name-part">Софія</span>
-                                  <span class="name-part">Михайлівна</span>
-                                </div>
-                                <div class="more-options">
-                                  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M6 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm12 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>
-                                </div>
+                                <div class="full-name"><span class="name-part">Литовченко</span><span class="name-part">Софія</span><span class="name-part">Михайлівна</span></div>
+                                <div class="more-options"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M6 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm12 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg></div>
                               </div>
                             </div>
                         </div>
                       </div>
                       <div class="flip-card-back">
-                          <div class="loader-container" style="display: none;">
-                              <lottie-player src="loader.json" style="width: 150px; height: 150px;"></lottie-player>
-                          </div>
+                          <div class="loader-container" style="display: none;"><lottie-player src="loader.json" style="width: 150px; height: 150px;"></lottie-player></div>
                           <div class="back-content">
                               <div class="code-timer"></div>
                               <div class="code-display-area">
-                                  <div class="code-display-item" id="foreign-passport-qr-code">
-                                      <img class="qr-code-img" src="" alt="QR">
-                                  </div>
+                                  <div class="code-display-item" id="foreign-passport-qr-code"><img class="qr-code-img" id="foreign-passport-qr-img" src="" alt="QR"></div>
                                   <div class="code-display-item hidden" id="foreign-passport-barcode">
                                       <div class="barcode-container">
-                                        <svg class="barcode-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 250 80">
-                                            <g fill="#000">
-                                                 <rect x="0" y="0" width="4" height="80"/><rect x="6" y="0" width="2" height="80"/><rect x="10" y="0" width="3" height="80"/><rect x="15" y="0" width="5" height="80"/><rect x="22" y="0" width="2" height="80"/><rect x="26" y="0" width="4" height="80"/><rect x="32" y="0" width="3" height="80"/><rect x="37" y="0" width="2" height="80"/><rect x="41" y="0" width="5" height="80"/><rect x="48" y="0" width="3" height="80"/><rect x="53" y="0" width="2" height="80"/><rect x="57" y="0" width="4" height="80"/><rect x="63" y="0" width="3" height="80"/><rect x="68" y="0" width="5" height="80"/><rect x="75" y="0" width="2" height="80"/><rect x="79" y="0" width="4" height="80"/><rect x="85" y="0" width="2" height="80"/><rect x="89" y="0" width="3" height="80"/><rect x="94" y="0" width="5" height="80"/><rect x="101" y="0" width="2" height="80"/><rect x="105" y="0" width="4" height="80"/><rect x="111" y="0" width="3" height="80"/><rect x="116" y="0" width="2" height="80"/><rect x="120" y="0" width="5" height="80"/><rect x="127" y="0" width="3" height="80"/><rect x="132" y="0" width="2" height="80"/><rect x="136" y="0" width="4" height="80"/><rect x="142" y="0" width="3" height="80"/><rect x="147" y="0" width="5" height="80"/><rect x="154" y="0" width="2" height="80"/><rect x="158" y="0" width="4" height="80"/><rect x="164" y="0" width="3" height="80"/><rect x="169" y="0" width="2" height="80"/><rect x="173" y="0" width="5" height="80"/><rect x="180" y="0" width="3" height="80"/><rect x="185" y="0" width="2" height="80"/><rect x="189" y="0" width="4" height="80"/><rect x="195" y="0" width="3" height="80"/><rect x="200" y="0" width="5" height="80"/><rect x="207" y="0" width="2" height="80"/><rect x="211" y="0" width="4" height="80"/><rect x="217" y="0" width="2" height="80"/><rect x="221" y="0" width="3" height="80"/><rect x="226" y="0" width="5" height="80"/><rect x="233" y="0" width="2" height="80"/><rect x="237" y="0" width="4" height="80"/><rect x="243" y="0" width="3" height="80"/>
-                                            </g>
-                                        </svg>
-                                        <div class="barcode-numbers">
-                                            <span>8439</span> <span>1023</span> <span>29103</span>
-                                        </div>
+                                          <svg class="barcode-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 250 80"><g fill="#000"><rect x="0" y="0" width="4" height="80"/><rect x="6" y="0" width="2" height="80"/><rect x="10" y="0" width="3" height="80"/><rect x="15" y="0" width="5" height="80"/><rect x="22" y="0" width="2" height="80"/><rect x="26" y="0" width="4" height="80"/><rect x="32" y="0" width="3" height="80"/><rect x="37" y="0" width="2" height="80"/><rect x="41" y="0" width="5" height="80"/><rect x="48" y="0" width="3" height="80"/><rect x="53" y="0" width="2" height="80"/><rect x="57" y="0" width="4" height="80"/><rect x="63" y="0" width="3" height="80"/><rect x="68" y="0" width="5" height="80"/><rect x="75" y="0" width="2" height="80"/><rect x="79" y="0" width="4" height="80"/><rect x="85" y="0" width="2" height="80"/><rect x="89" y="0" width="3" height="80"/><rect x="94" y="0" width="5" height="80"/><rect x="101" y="0" width="2" height="80"/><rect x="105" y="0" width="4" height="80"/><rect x="111" y="0" width="3" height="80"/><rect x="116" y="0" width="2" height="80"/><rect x="120" y="0" width="5" height="80"/><rect x="127" y="0" width="3" height="80"/><rect x="132" y="0" width="2" height="80"/><rect x="136" y="0" width="4" height="80"/><rect x="142" y="0" width="3" height="80"/><rect x="147" y="0" width="5" height="80"/><rect x="154" y="0" width="2" height="80"/><rect x="158" y="0" width="4" height="80"/><rect x="164" y="0" width="3" height="80"/><rect x="169" y="0" width="2" height="80"/><rect x="173" y="0" width="5" height="80"/><rect x="180" y="0" width="3" height="80"/><rect x="185" y="0" width="2" height="80"/><rect x="189" y="0" width="4" height="80"/><rect x="195" y="0" width="3" height="80"/><rect x="200" y="0" width="5" height="80"/><rect x="207" y="0" width="2" height="80"/><rect x="211" y="0" width="4" height="80"/><rect x="217" y="0" width="2" height="80"/><rect x="221" y="0" width="3" height="80"/><rect x="226" y="0" width="5" height="80"/><rect x="233" y="0" width="2" height="80"/><rect x="237" y="0" width="4" height="80"/><rect x="243" y="0" width="3" height="80"/></g></svg>
+                                          <div class="barcode-numbers"><span>8439</span> <span>1023</span> <span>29103</span></div>
                                       </div>
                                   </div>
                               </div>
                               <div class="passport-switcher">
-                                  <button class="passport-switcher-btn active" id="foreign-passport-qr-btn">
-                                      <div class="passport-switcher-icon">
-                                          <svg viewBox="0 0 24 24"><path d="M3 11h8V3H3v8zm2-6h4v4H5V5zM3 21h8v-8H3v8zm2-6h4v4H5v-4zM13 3v8h8V3h-8zm6 6h-4V5h4v4zM13 13h2v2h-2zM15 15h2v2h-2zM13 17h2v2h-2zM15 19h2v2h-2zM17 17h2v2h-2zM19 15h2v2h-2zM17 13h2v2h-2zM19 19h2v2h-2z"/></svg>
-                                      </div>
-                                      <span class="passport-switcher-label">QR-код</span>
-                                  </button>
-                                  <button class="passport-switcher-btn" id="foreign-passport-barcode-btn">
-                                      <div class="passport-switcher-icon">
-                                          <!-- ВИПРАВЛЕНО: stroke-width зменшено до 2 -->
-                                          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 5V19M9 5V19M12 5V19M15 5V19M19 5V19" stroke="#000" stroke-width="2" stroke-linecap="round"/></svg>
-                                      </div>
-                                      <span class="passport-switcher-label">Штрих-код</span>
-                                  </button>
+                                  <button class="passport-switcher-btn active" id="foreign-passport-qr-btn"><div class="passport-switcher-icon"><svg viewBox="0 0 24 24"><path d="M3 11h8V3H3v8zm2-6h4v4H5V5zM3 21h8v-8H3v8zm2-6h4v4H5v-4zM13 3v8h8V3h-8zm6 6h-4V5h4v4zM13 13h2v2h-2zM15 15h2v2h-2zM13 17h2v2h-2zM15 19h2v2h-2zM17 17h2v2h-2zM19 15h2v2h-2zM17 13h2v2h-2zM19 19h2v2h-2z"/></svg></div><span class="passport-switcher-label">QR-код</span></button>
+                                  <button class="passport-switcher-btn" id="foreign-passport-barcode-btn"><div class="passport-switcher-icon"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 5V19M9 5V19M12 5V19M15 5V19M19 5V19" stroke="#000" stroke-width="2" stroke-linecap="round"/></svg></div><span class="passport-switcher-label">Штрих-код</span></button>
                               </div>
                           </div>
                       </div>
@@ -556,7 +845,7 @@
                   </div>
                 </div>
 
-                <!-- СЛАЙД 2: КАРТКА ПЛАТНИКА ПОДАТКІВ (ОНОВЛЕНО ЗА МАКЕТОМ) -->
+                <!-- СЛАЙД 4: КАРТКА ПЛАТНИКА ПОДАТКІВ (ОНОВЛЕНО ЗА МАКЕТОМ) -->
                 <div class="slide" id="tax-card-slide">
                     <div class="flip-card">
                       <div class="flip-card-inner">
@@ -566,62 +855,35 @@
                                 <h1 class="document-title">Картка платника<br>податків</h1>
                                 <p class="tax-card-subtitle">РНОКПП</p>
                                 <div class="details tax-card-details">
-                                  <div class="detail-item">
-                                    <span class="value">Литовченко</span>
-                                    <span class="value">Софія</span>
-                                    <span class="value">Михайлівна</span>
-                                  </div>
-                                  <br>
-                                  <div class="detail-item">
-                                    <span class="label">Дата народження:</span>
-                                    <span class="value">20.08.2008</span>
-                                  </div>
+                                  <div class="detail-item"><span class="value">Литовченко</span><span class="value">Софія</span><span class="value">Михайлівна</span></div><br>
+                                  <div class="detail-item"><span class="label">Дата народження:</span><span class="value">20.08.2008</span></div>
                                 </div>
                               </div>
-                              <div class="status-banner-wrapper">
-                                <div class="status-banner">
-                                  <span>Документ оновлено о 15:30 | 06.09.2025 • Перевір</span>
-                                  <span>Документ оновлено о 15:30 | 06.09.2025 • Перевір</span>
-                                </div>
-                              </div>
+                              <div class="status-banner-wrapper"><div class="status-banner"><span>Документ оновлено о 15:30 | 06.09.2025 • Перевір</span><span>Документ оновлено о 15:30 | 06.09.2025 • Перевір</span></div></div>
                               <div class="info-section">
-                                <div class="tax-number-section">
-                                  <div class="tax-number">
-                                    3967915523
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-                                  </div>
-                                </div>
+                                <div class="tax-number-section"><div class="tax-number">3967915523<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></div></div>
                                 <div class="name-section" style="justify-content: flex-end; margin-top: 10px;">
-                                  <div class="more-options">
-                                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M6 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm12 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>
-                                  </div>
+                                  <div class="more-options"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M6 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm12 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg></div>
                                 </div>
                               </div>
                           </div>
                         </div>
                         <div class="flip-card-back simple-qr-back">
-                            <div class="loader-container" style="display: none;">
-                                <lottie-player src="loader.json" style="width: 150px; height: 150px;"></lottie-player>
-                            </div>
-                            <div class="back-content">
-                                <h3>Поділитися копією номера</h3>
-                                <img class="qr-code-img" src="" alt="QR">
-                            </div>
+                            <div class="loader-container" style="display: none;"><lottie-player src="loader.json" style="width: 150px; height: 150px;"></lottie-player></div>
+                            <div class="back-content"><h3>Поділитися копією номера</h3><img class="qr-code-img" id="tax-card-qr-img" src="" alt="QR"></div>
                         </div>
                       </div>
                     </div>
-                  </div>
+                </div>
 
-                <!-- СЛАЙД 3 (ПЛЕЙСХОЛДЕР) -->
+                <!-- СЛАЙД 5 -->
                 <div class="slide"><div class="document-container empty-card">Додати документ</div></div>
               </div>
             </div>
         </div>
         <div class="page-indicator-container">
             <div class="page-indicator">
-              <span class="dot active"></span>
-              <span class="dot"></span>
-              <span class="dot"></span>
+              <span class="dot active"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span>
             </div>
         </div>
     </div>
@@ -636,63 +898,45 @@
         <div class="menu-sections">
             <div class="menu-section">
                 <div class="menu-item" id="menu-notifications">
-                    <div class="menu-item-icon">
-                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2.5 7.25L12 13.25L21.5 7.25M4.5 5.5H19.5C20.6046 5.5 21.5 6.39543 21.5 7.5V16.5C21.5 17.6046 20.6046 18.5 19.5 18.5H4.5C3.39543 18.5 2.5 17.6046 2.5 16.5V7.5C2.5 6.39543 3.39543 5.5 4.5 5.5Z" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                    </div>
+                    <div class="menu-item-icon"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2.5 7.25L12 13.25L21.5 7.25M4.5 5.5H19.5C20.6046 5.5 21.5 6.39543 21.5 7.5V16.5C21.5 17.6046 20.6046 18.5 19.5 18.5H4.5C3.39543 18.5 2.5 17.6046 2.5 16.5V7.5C2.5 6.39543 3.39543 5.5 4.5 5.5Z" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
                     <span>Повідомлення</span>
                 </div>
             </div>
             <div class="menu-section">
                 <div class="menu-item" id="menu-diia-signature">
-                    <div class="menu-item-icon">
-                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14.5 10.5C14.5 11.8807 13.3807 13 12 13C10.6193 13 9.5 11.8807 9.5 10.5C9.5 9.11929 10.6193 8 12 8C13.3807 8 14.5 9.11929 14.5 10.5ZM14.5 10.5H19.5L21.5 12.5V15.5H19.5M8.5 19.5L5.5 16.5M5.5 16.5L2.5 19.5M5.5 16.5V8.5C5.5 5.46243 7.96243 3 11 3H13C14.0587 3 15.022 3.41443 15.7231 4.09318" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                    </div>
+                    <div class="menu-item-icon"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14.5 10.5C14.5 11.8807 13.3807 13 12 13C10.6193 13 9.5 11.8807 9.5 10.5C9.5 9.11929 10.6193 8 12 8C13.3807 8 14.5 9.11929 14.5 10.5ZM14.5 10.5H19.5L21.5 12.5V15.5H19.5M8.5 19.5L5.5 16.5M5.5 16.5L2.5 19.5M5.5 16.5V8.5C5.5 5.46243 7.96243 3 11 3H13C14.0587 3 15.022 3.41443 15.7231 4.09318" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
                     <span>Дія.Підпис</span>
                 </div>
                 <div class="menu-item" id="menu-signature-history">
-                    <div class="menu-item-icon">
-                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.5C12 2.5 5.5 2.5 4.5 2.5C3.39543 2.5 2.5 3.39543 2.5 4.5V19.5C2.5 20.6046 3.39543 21.5 4.5 21.5H19.5C20.6046 21.5 21.5 20.6046 21.5 19.5V8.5C21.5 5.5 21.5 5.5 18.5 5.5H12V2.5Z" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 12.5H17.5M12 16.5H17.5M12 8.5H14.5M8.5 12.5H9.5M8.5 16.5H9.5M16.5 2.5L18.5 4.5L16.5 6.5" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                    </div>
+                    <div class="menu-item-icon"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.5C12 2.5 5.5 2.5 4.5 2.5C3.39543 2.5 2.5 3.39543 2.5 4.5V19.5C2.5 20.6046 3.39543 21.5 4.5 21.5H19.5C20.6046 21.5 21.5 20.6046 21.5 19.5V8.5C21.5 5.5 21.5 5.5 18.5 5.5H12V2.5Z" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 12.5H17.5M12 16.5H17.5M12 8.5H14.5M8.5 12.5H9.5M8.5 16.5H9.5M16.5 2.5L18.5 4.5L16.5 6.5" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
                     <span>Історія підписань</span>
                 </div>
             </div>
             <div class="menu-section">
                 <div class="menu-item" id="menu-settings">
-                    <div class="menu-item-icon">
-                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 15.5C13.933 15.5 15.5 13.933 15.5 12C15.5 10.067 13.933 8.5 12 8.5C10.067 8.5 8.5 10.067 8.5 12C8.5 13.933 10.067 15.5 12 15.5Z" stroke="#000000" stroke-width="1.5"/><path d="M19.5 12C19.5 12.6822 19.4312 13.3512 19.3 14M16 19.3C15.3512 19.4312 14.6822 19.5 14 19.5C13.3178 19.5 12.6488 19.4312 12 19.3M4.5 12C4.5 11.3178 4.56875 10.6488 4.7 10M8 4.7C8.64875 4.56875 9.31775 4.5 10 4.5C10.6822 4.5 11.3512 4.56875 12 4.7M19.3 10C19.4312 10.6488 19.5 11.3178 19.5 12M19.3 14L21.5 15L20 17.5L17.5 17L16 19.3M12 4.7L11 2.5L8.5 4L8 4.7M4.7 10L2.5 11L4 13.5L6.5 13L4.7 10Z" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                    </div>
+                    <div class="menu-item-icon"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 15.5C13.933 15.5 15.5 13.933 15.5 12C15.5 10.067 13.933 8.5 12 8.5C10.067 8.5 8.5 10.067 8.5 12C8.5 13.933 10.067 15.5 12 15.5Z" stroke="#000000" stroke-width="1.5"/><path d="M19.5 12C19.5 12.6822 19.4312 13.3512 19.3 14M16 19.3C15.3512 19.4312 14.6822 19.5 14 19.5C13.3178 19.5 12.6488 19.4312 12 19.3M4.5 12C4.5 11.3178 4.56875 10.6488 4.7 10M8 4.7C8.64875 4.56875 9.31775 4.5 10 4.5C10.6822 4.5 11.3512 4.56875 12 4.7M19.3 10C19.4312 10.6488 19.5 11.3178 19.5 12M19.3 14L21.5 15L20 17.5L17.5 17L16 19.3M12 4.7L11 2.5L8.5 4L8 4.7M4.7 10L2.5 11L4 13.5L6.5 13L4.7 10Z" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
                     <span>Налаштування</span>
                 </div>
                 <div class="menu-item" id="menu-update-app">
-                    <div class="menu-item-icon">
-                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 5.5V11.5M12 11.5L15.5 8M12 11.5L8.5 8" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M21.5 12C21.5 17.2467 17.2467 21.5 12 21.5C6.75329 21.5 2.5 17.2467 2.5 12C2.5 6.75329 6.75329 2.5 12 2.5C14.0753 2.5 16.0124 3.16591 17.5979 4.31971" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                    </div>
+                    <div class="menu-item-icon"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 5.5V11.5M12 11.5L15.5 8M12 11.5L8.5 8" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M21.5 12C21.5 17.2467 17.2467 21.5 12 21.5C6.75329 21.5 2.5 17.2467 2.5 12C2.5 6.75329 6.75329 2.5 12 2.5C14.0753 2.5 16.0124 3.16591 17.5979 4.31971" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
                     <span>Оновити застосунок</span>
                 </div>
                 <div class="menu-item" id="menu-connected-devices">
-                    <div class="menu-item-icon">
-                       <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="6.5" y="2.5" width="11" height="19" rx="2" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="9.5" y1="18.5" x2="14.5" y2="18.5" stroke="#000000" stroke-width="1.5" stroke-linecap="round"/></svg>
-                    </div>
+                    <div class="menu-item-icon"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="6.5" y="2.5" width="11" height="19" rx="2" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="9.5" y1="18.5" x2="14.5" y2="18.5" stroke="#000000" stroke-width="1.5" stroke-linecap="round"/></svg></div>
                     <span>Підключені пристрої</span>
                 </div>
             </div>
             <div class="menu-section">
                 <div class="menu-item" id="menu-support">
-                    <div class="menu-item-icon">
-                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8.5 12.5H15.5M8.5 8.5H15.5M12 21.5C17.2467 21.5 21.5 17.2467 21.5 12C21.5 6.75329 17.2467 2.5 12 2.5C6.75329 2.5 2.5 6.75329 2.5 12C2.5 14.0363 3.23023 15.892 4.49255 17.3387C4.77611 17.6895 4.54273 18.2313 4.10396 18.136C2.49392 17.7915 2.5 17.5 2.5 17.5" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                    </div>
+                    <div class="menu-item-icon"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8.5 12.5H15.5M8.5 8.5H15.5M12 21.5C17.2467 21.5 21.5 17.2467 21.5 12C21.5 6.75329 17.2467 2.5 12 2.5C6.75329 2.5 2.5 6.75329 2.5 12C2.5 14.0363 3.23023 15.892 4.49255 17.3387C4.77611 17.6895 4.54273 18.2313 4.10396 18.136C2.49392 17.7915 2.5 17.5 2.5 17.5" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
                     <span>Служба підтримки</span>
                 </div>
                 <div class="menu-item" id="menu-copy-device-number">
-                    <div class="menu-item-icon">
-                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5.5 16.5C5.5 17.6046 6.39543 18.5 7.5 18.5H13.5M5.5 16.5V7.5C5.5 6.39543 6.39543 5.5 7.5 5.5H16.5C17.6046 5.5 18.5 6.39543 18.5 7.5V13.5M5.5 16.5H4.5C3.39543 16.5 2.5 15.6046 2.5 14.5V4.5C2.5 3.39543 3.39543 2.5 4.5 2.5H14.5C15.6046 2.5 16.5 3.39543 16.5 4.5V5.5" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                    </div>
+                    <div class="menu-item-icon"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5.5 16.5C5.5 17.6046 6.39543 18.5 7.5 18.5H13.5M5.5 16.5V7.5C5.5 6.39543 6.39543 5.5 7.5 5.5H16.5C17.6046 5.5 18.5 6.39543 18.5 7.5V13.5M5.5 16.5H4.5C3.39543 16.5 2.5 15.6046 2.5 14.5V4.5C2.5 3.39543 3.39543 2.5 4.5 2.5H14.5C15.6046 2.5 16.5 3.39543 16.5 4.5V5.5" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
                     <span>Копіювати номер пристрою</span>
                 </div>
                 <div class="menu-item" id="menu-faq">
-                    <div class="menu-item-icon">
-                       <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 16.5V16.51M12 13.5C12 12.2146 12.7842 11.2365 14 10.5C15.2158 9.76354 16 8.78544 16 7.5C16 5.01472 14.2091 3 12 3C9.79086 3 8 5.01472 8 7.5" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 21.5C17.2467 21.5 21.5 17.2467 21.5 12C21.5 6.75329 17.2467 2.5 12 2.5C6.75329 2.5 2.5 6.75329 2.5 12C2.5 17.2467 6.75329 21.5 12 21.5Z" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                    </div>
+                    <div class="menu-item-icon"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 16.5V16.51M12 13.5C12 12.2146 12.7842 11.2365 14 10.5C15.2158 9.76354 16 8.78544 16 7.5C16 5.01472 14.2091 3 12 3C9.79086 3 8 5.01472 8 7.5" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 21.5C17.2467 21.5 21.5 17.2467 21.5 12C21.5 6.75329 17.2467 2.5 12 2.5C6.75329 2.5 2.5 6.75329 2.5 12C2.5 17.2467 6.75329 21.5 12 21.5Z" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
                     <span>Питання та відповіді</span>
                 </div>
             </div>
@@ -715,7 +959,7 @@
           </div>
           <span class="nav-label">Документи</span>
         </div>
-        <div class="nav-item" data-page="page-services">
+      <div class="nav-item" data-page="page-services">
           <div class="nav-icon">
             <svg class="icon-inactive" width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg"><mask id="path-1-inside-1_13657_22172" fill="white"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 23.6154C5.84037 23.6154 4.18232 23.3034 2.74717 21.8682C1.30306 20.4241 1 18.775 1 12.6154C1 6.45573 1.31199 4.80661 2.74717 3.36253C4.18232 1.92735 5.84037 1.61536 12 1.61536C18.1596 1.61536 19.8177 1.92735 21.2528 3.36253C22.6969 4.80661 23 6.45573 23 12.6154C23 18.775 22.6969 20.4241 21.2528 21.8682C19.8177 23.3034 18.1596 23.6154 12 23.6154Z"/></mask><path d="M2.74717 21.8682L3.80785 20.8075L3.80782 20.8075L2.74717 21.8682ZM2.74717 3.36253L1.68649 2.30188L1.68324 2.30515L2.74717 3.36253ZM21.2528 3.36253L20.1922 4.42318L20.1922 4.42319L21.2528 3.36253ZM21.2528 21.8682L20.1922 20.8075L20.1922 20.8075L21.2528 21.8682ZM12 22.1154C8.90493 22.1154 7.08603 22.0336 5.88008 21.806C4.78166 21.5987 4.2908 21.2905 3.80785 20.8075L1.6865 22.9288C2.63869 23.881 3.69443 24.4465 5.32373 24.7539C6.84551 25.0411 8.93544 25.1154 12 25.1154V22.1154ZM3.80782 20.8075C3.31966 20.3194 3.01222 19.8284 2.8062 18.7329C2.57961 17.528 2.5 15.7117 2.5 12.6154H-0.5C-0.5 15.6786 -0.428084 17.7667 -0.142115 19.2873C0.164424 20.9173 0.730574 21.9729 1.68652 22.9289L3.80782 20.8075ZM2.5 12.6154C2.5 9.52026 2.58179 7.70371 2.80933 6.49901C3.01645 5.40245 3.32467 4.90936 3.81111 4.4199L1.68324 2.30515C0.734497 3.25978 0.169128 4.31329 -0.138544 5.94221C-0.425792 7.46301 -0.5 9.55083 -0.5 12.6154H2.5ZM3.80785 4.42318C4.2908 3.94021 4.78166 3.63203 5.88008 3.42473C7.08603 3.19714 8.90493 3.11536 12 3.11536V0.115356C8.93544 0.115356 6.84551 0.189572 5.32373 0.476771C3.69443 0.784262 2.63869 1.34967 1.6865 2.30188L3.80785 4.42318ZM12 3.11536C15.0951 3.11536 16.914 3.19714 18.1199 3.42473C19.2183 3.63203 19.7092 3.94021 20.1922 4.42318L22.3135 2.30188C21.3613 1.34967 20.3056 0.784261 18.6763 0.476771C17.1545 0.189572 15.0646 0.115356 12 0.115356V3.11536ZM20.1922 4.42319C20.6803 4.91135 20.9878 5.40236 21.1938 6.49785C21.4204 7.70272 21.5 9.51898 21.5 12.6154H24.5C24.5 9.55211 24.4281 7.464 24.1421 5.94338C23.8356 4.31338 23.2694 3.25779 22.3135 2.30187L20.1922 4.42319ZM21.5 12.6154C21.5 15.7117 21.4204 17.528 21.1938 18.7329C20.9878 19.8284 20.6803 20.3194 20.1922 20.8075L22.3135 22.9288C23.2694 21.9729 23.8356 20.9173 24.1421 19.2873C24.4281 17.7667 24.5 15.6786 24.5 12.6154H21.5ZM20.1922 20.8075C19.7092 21.2905 19.2183 21.5987 18.1199 21.806C16.914 22.0336 15.0951 22.1154 12 22.1154V25.1154C15.0646 25.1154 17.1545 25.0411 18.6763 24.7539C20.3056 24.4465 21.3613 23.881 22.3135 22.9288L20.1922 20.8075Z" fill="white" mask="url(#path-1-inside-1_13657_22172)"/><path d="M14.1433 5.61549C14.1302 5.61651 14.1171 5.61817 14.1041 5.62046C14.0557 5.62707 14.0093 5.64237 13.9678 5.66544C13.9263 5.68851 13.8906 5.71885 13.8628 5.7546L7.39955 13.6136C7.36155 13.6611 7.33901 13.7169 7.33439 13.775C7.32976 13.8331 7.34323 13.8912 7.37333 13.9429C7.40342 13.9947 7.44899 14.0381 7.50506 14.0685C7.56113 14.099 7.62555 14.1151 7.6913 14.1154H11.1418L9.32393 19.1885C9.29398 19.2613 9.29508 19.3413 9.32702 19.4134C9.35895 19.4856 9.41953 19.5449 9.49737 19.5803C9.57521 19.6156 9.66495 19.6246 9.74976 19.6056C9.83456 19.5865 9.90858 19.5407 9.95792 19.4767L16.6007 11.6171C16.6387 11.5696 16.6613 11.5138 16.6659 11.4557C16.6705 11.3976 16.6571 11.3396 16.627 11.2878C16.5969 11.236 16.5513 11.1926 16.4952 11.1622C16.4392 11.1318 16.3748 11.1156 16.309 11.1154H12.8417L14.4968 6.02785C14.5138 5.9795 14.5175 5.92825 14.5076 5.87837C14.4977 5.8285 14.4745 5.78143 14.44 5.74109C14.4054 5.70076 14.3604 5.66831 14.3088 5.64647C14.2573 5.62462 14.2005 5.614 14.1433 5.61549Z" fill="white"/></svg>
             <svg class="icon-active" width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg"><mask id="path-1-inside-1_13657_22184" fill="white"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 23.6154C5.84037 23.6154 4.18232 23.3034 2.74717 21.8682C1.30306 20.4241 1 18.775 1 12.6154C1 6.45573 1.31199 4.80661 2.74717 3.36253C4.18232 1.92735 5.84037 1.61536 12 1.61536C18.1596 1.61536 19.8177 1.92735 21.2528 3.36253C22.6969 4.80661 23 6.45573 23 12.6154C23 18.775 22.6969 20.4241 21.2528 21.8682C19.8177 23.3034 18.1596 23.6154 12 23.6154Z"/></mask><path fill-rule="evenodd" clip-rule="evenodd" d="M12 23.6154C5.84037 23.6154 4.18232 23.3034 2.74717 21.8682C1.30306 20.4241 1 18.775 1 12.6154C1 6.45573 1.31199 4.80661 2.74717 3.36253C4.18232 1.92735 5.84037 1.61536 12 1.61536C18.1596 1.61536 19.8177 1.92735 21.2528 3.36253C22.6969 4.80661 23 6.45573 23 12.6154C23 18.775 22.6969 20.4241 21.2528 21.8682C19.8177 23.3034 18.1596 23.6154 12 23.6154Z" fill="white"/><path d="M2.74717 21.8682L3.80785 20.8075L3.80782 20.8075L2.74717 21.8682ZM2.74717 3.36253L1.68649 2.30188L1.68324 2.30515L2.74717 3.36253ZM21.2528 3.36253L20.1922 4.42318L20.1922 4.42319L21.2528 3.36253ZM21.2528 21.8682L20.1922 20.8075L20.1922 20.8075L21.2528 21.8682ZM12 22.1154C8.90493 22.1154 7.08603 22.0336 5.88008 21.806C4.78166 21.5987 4.2908 21.2905 3.80785 20.8075L1.6865 22.9288C2.63869 23.881 3.69443 24.4465 5.32373 24.7539C6.84551 25.0411 8.93544 25.1154 12 25.1154V22.1154ZM3.80782 20.8075C3.31966 20.3194 3.01222 19.8284 2.8062 18.7329C2.57961 17.528 2.5 15.7117 2.5 12.6154H-0.5C-0.5 15.6786 -0.428084 17.7667 -0.142115 19.2873C0.164424 20.9173 0.730574 21.9729 1.68652 22.9289L3.80782 20.8075ZM2.5 12.6154C2.5 9.52026 2.58179 7.70371 2.80933 6.49901C3.01645 5.40245 3.32467 4.90936 3.81111 4.4199L1.68324 2.30515C0.734497 3.25978 0.169128 4.31329 -0.138544 5.94221C-0.425792 7.46301 -0.5 9.55083 -0.5 12.6154H2.5ZM3.80785 4.42318C4.2908 3.94021 4.78166 3.63203 5.88008 3.42473C7.08603 3.19714 8.90493 3.11536 12 3.11536V0.115356C8.93544 0.115356 6.84551 0.189572 5.32373 0.476771C3.69443 0.784262 2.63869 1.34967 1.6865 2.30188L3.80785 4.42318ZM12 3.11536C15.0951 3.11536 16.914 3.19714 18.1199 3.42473C19.2183 3.63203 19.7092 3.94021 20.1922 4.42318L22.3135 2.30188C21.3613 1.34967 20.3056 0.784261 18.6763 0.476771C17.1545 0.189572 15.0646 0.115356 12 0.115356V3.11536ZM20.1922 4.42319C20.6803 4.91135 20.9878 5.40236 21.1938 6.49785C21.4204 7.70272 21.5 9.51898 21.5 12.6154H24.5C24.5 9.55211 24.4281 7.464 24.1421 5.94338C23.8356 4.31338 23.2694 3.25779 22.3135 2.30187L20.1922 4.42319ZM21.5 12.6154C21.5 15.7117 21.4204 17.528 21.1938 18.7329C20.9878 19.8284 20.6803 20.3194 20.1922 20.8075L22.3135 22.9288C23.2694 21.9729 23.8356 20.9173 24.1421 19.2873C24.4281 17.7667 24.5 15.6786 24.5 12.6154H21.5ZM20.1922 20.8075C19.7092 21.2905 19.2183 21.5987 18.1199 21.806C16.914 22.0336 15.0951 22.1154 12 22.1154V25.1154C15.0646 25.1154 17.1545 25.0411 18.6763 24.7539C20.3056 24.4465 21.3613 23.881 22.3135 22.9288L20.1922 20.8075Z" fill="white" mask="url(#path-1-inside-1_13657_22184)"/><path d="M14.1433 5.61549C14.1302 5.61651 14.1171 5.61817 14.1041 5.62046C14.0557 5.62707 14.0093 5.64237 13.9678 5.66544C13.9263 5.68851 13.8906 5.71885 13.8628 5.7546L7.39955 13.6136C7.36155 13.6611 7.33901 13.7169 7.33439 13.775C7.32976 13.8331 7.34323 13.8912 7.37333 13.9429C7.40342 13.9947 7.44899 14.0381 7.50506 14.0685C7.56113 14.099 7.62555 14.1151 7.6913 14.1154H11.1418L9.32393 19.1885C9.29398 19.2613 9.29508 19.3413 9.32702 19.4134C9.35895 19.4856 9.41953 19.5449 9.49737 19.5803C9.57521 19.6156 9.66495 19.6246 9.74976 19.6056C9.83456 19.5865 9.90858 19.5407 9.95792 19.4767L16.6007 11.6171C16.6387 11.5696 16.6613 11.5138 16.6659 11.4557C16.6705 11.3976 16.6571 11.3396 16.627 11.2878C16.5969 11.236 16.5513 11.1926 16.4952 11.1622C16.4392 11.1318 16.3748 11.1156 16.309 11.1154H12.8417L14.4968 6.02785C14.5138 5.9795 14.5175 5.92825 14.5076 5.87837C14.4977 5.8285 14.4745 5.78143 14.44 5.74109C14.4054 5.70076 14.3604 5.66831 14.3088 5.64647C14.2573 5.62462 14.2005 5.614 14.1433 5.61549Z" fill="black"/></svg>
@@ -765,7 +1009,7 @@
           }, 500);
 
       }, 2500);
-
+      
       // --- ЛОГІКА ВВОДУ ПАРОЛЮ ---
       const passcodeDotsContainer = document.querySelector('.passcode-dots');
       const passcodeDots = document.querySelectorAll('.passcode-dot');
@@ -931,27 +1175,34 @@
 
       // --- НАВІГАЦІЯ ---
       const navItems = document.querySelectorAll('.nav-item');
+      const backgroundAnimation = document.getElementById('background-animation');
       
       const navigateToPage = (targetPageId) => {
-        const oldPage = document.querySelector('.page.active');
+        document.querySelector('.page.active')?.classList.remove('active');
         const newPage = document.getElementById(targetPageId);
-        
-        if (oldPage) oldPage.classList.remove('active');
-        if (newPage) newPage.classList.add('active');
+        if(newPage) newPage.classList.add('active');
 
         navItems.forEach(nav => {
             nav.classList.toggle('active', nav.dataset.page === targetPageId);
         });
 
+        // Керування видимістю анімованого фону
+        if (backgroundAnimation) {
+          backgroundAnimation.style.display = (targetPageId === 'page-docs') ? 'block' : 'none';
+        }
+        
         if (targetPageId === 'page-docs') {
             setTimeout(initializeCarousel, 0); 
         }
       }
 
       navItems.forEach(item => {
-        item.addEventListener('click', () => navigateToPage(item.dataset.page));
+        item.addEventListener('click', () => {
+          navigateToPage(item.dataset.page);
+        });
       });
       
+      // Початкова ініціалізація сторінки
       navigateToPage('page-docs');
 
       // --- ОНОВЛЕНА ЛОГІКА ПЕРЕВЕРТАННЯ КАРТКИ І ТАЙМЕРА ---
@@ -1055,6 +1306,7 @@
             }
         });
       };
+      setupSwitcher('passport-qr-btn', 'passport-barcode-btn', 'passport-qr-code', 'passport-barcode');
       setupSwitcher('foreign-passport-qr-btn', 'foreign-passport-barcode-btn', 'foreign-passport-qr-code', 'foreign-passport-barcode');
 
 
