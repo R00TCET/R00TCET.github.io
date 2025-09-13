@@ -26,10 +26,6 @@
     :root {
       --text-color: #000;
       --label-color: #333;
-      --background-gradient:
-        radial-gradient(ellipse at 5% 5%, hsla(70, 88%, 88%, 0.8) 0, transparent 40%),
-        radial-gradient(ellipse at 95% 90%, hsla(240, 88%, 85%, 0.7) 0, transparent 50%),
-        linear-gradient(155deg, #e1f6b8, #bdecf3, #f5d5e5);
       --card-background: rgba(255, 255, 255, 0.45);
       --nav-background: #111;
       --nav-text-color: #8e8e93;
@@ -45,12 +41,6 @@
       --menu-section-spacing: 16px;
     }
 
-    @keyframes animatedBackground {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-    
     @keyframes shake {
       0%, 100% { transform: translateX(0); }
       25% { transform: translateX(-5px); }
@@ -61,9 +51,7 @@
 
     body {
       font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: var(--background-gradient);
-      background-size: 200% 200%;
-      animation: animatedBackground 30s ease infinite;
+      background: transparent; /* Робимо фон прозорим, щоб було видно анімацію */
       height: 100vh;
       color: var(--text-color);
       overflow: hidden;
@@ -84,7 +72,7 @@
         overflow: hidden;
     }
 
-    #background-lottie lottie-player {
+    #background-lottie-player {
         position: absolute;
         top: 50%;
         left: 50%;
@@ -142,9 +130,9 @@
         width: 100%;
         height: 100%;
         z-index: 9999;
-        background: var(--background-gradient);
-        background-size: 200% 200%;
-        animation: animatedBackground 30s ease infinite;
+        background: rgba(255, 255, 255, 0.1); /* Напівпрозорий фон, щоб бачити анімацію */
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -162,6 +150,7 @@
         font-size: 28px;
         font-weight: 600;
         margin-bottom: 20px;
+        color: #000;
     }
     .passcode-dots {
         display: flex;
@@ -174,7 +163,7 @@
     .passcode-dot {
         width: 8px;
         height: 8px;
-        background-color: rgba(255, 255, 255, 0.8);
+        background-color: rgba(0, 0, 0, 0.2);
         border-radius: 50%;
         transition: background-color 0.2s ease;
     }
@@ -192,7 +181,7 @@
         height: 75px;
         border-radius: 50%;
         border: none;
-        background-color: rgba(255, 255, 255, 0.8);
+        background-color: rgba(255, 255, 255, 0.6);
         font-size: 28px;
         font-weight: 500;
         color: #000;
@@ -464,11 +453,11 @@
     .dot {
         width: 9px;
         height: 9px;
-        background-color: rgba(255, 255, 255, 0.6);
+        background-color: rgba(0, 0, 0, 0.2);
         border-radius: 50%;
         transition: background-color 0.3s ease;
     }
-    .dot.active { background-color: rgba(255, 255, 255, 1); }
+    .dot.active { background-color: rgba(0, 0, 0, 0.6); }
 
     /* --- СТИЛІ НАВІГАЦІЇ --- */
     .bottom-nav { display: flex; justify-content: space-around; background-color: var(--nav-background); padding: 8px 0 20px 0; position: fixed; bottom: 0; left: 0; width: 100%; border-top-left-radius: 20px; border-top-right-radius: 20px; z-index: 100; }
@@ -491,10 +480,6 @@
         width: 100%;
         height: 100%;
     }
-    .lottie-loader-container lottie-player {
-        width: 250px;
-        height: 250px;
-    }
 
     .code-timer { font-size: 15px; color: #555; font-weight: 500; }
     .code-display-area { width: 100%; display: flex; justify-content: center; align-items: center; flex-grow: 1; }
@@ -514,6 +499,8 @@
     .passport-switcher-btn .passport-switcher-icon svg { width: 28px; height: 28px; fill: #000; }
     .passport-switcher-btn.active .passport-switcher-icon svg { fill: #fff; }
     .passport-switcher-btn #barcode-icon-inactive path { stroke: #000; }
+    /* ВИПРАВЛЕННЯ: Робимо лінії білими при активній кнопці */
+    .passport-switcher-btn.active #barcode-icon-inactive path { stroke: #fff; }
 
     .simple-qr-back { gap: 15px; justify-content: center; }
     .simple-qr-back h3 { font-weight: 700; font-size: 16px; margin-top: 10px; }
@@ -665,14 +652,7 @@
 
   <!-- ФОНОВА LOTTIE АНІМАЦІЯ -->
   <div id="background-lottie">
-    <lottie-player
-        id="background-lottie-player"
-        src="https://assets1.lottiefiles.com/packages/lf20_oB82lo.json" 
-        background="transparent"
-        speed="0.5"
-        loop
-        autoplay>
-    </lottie-player>
+    <div id="background-lottie-player"></div>
   </div>
 
 
@@ -829,7 +809,7 @@
                     </div>
                     <div class="flip-card-back">
                       <div class="lottie-loader-container">
-                        <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_a2chheio.json" background="transparent" speed="1" style="width: 200px; height: 200px;"></lottie-player>
+                        <lottie-player src="loader.json" background="transparent" speed="1" style="width: 200px; height: 200px;"></lottie-player>
                       </div>
                       <div class="flip-back-content" style="display: none;">
                         <div class="code-timer" id="passport-timer">Код діятиме ще ...</div>
@@ -875,9 +855,9 @@
                   <div class="flip-card-inner">
                     <div class="flip-card-front">
                       <div class="document-container">
-                          <div class="document-content" style="padding-bottom: 15px;">
+                          <div class="document-content" style="padding-bottom: 5px;">
                             <h1 class="document-title">Закордонний паспорт</h1>
-                            <div class="personal-info" style="margin-bottom: 15px;">
+                            <div class="personal-info" style="margin-bottom: 5px;">
                               <div class="photo">
                                 <img src="./pasport.png" alt="Фото" loading="lazy">
                               </div>
@@ -912,15 +892,15 @@
                     </div>
                     <div class="flip-card-back">
                         <div class="lottie-loader-container">
-                          <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_a2chheio.json" background="transparent" speed="1" style="width: 200px; height: 200px;"></lottie-player>
+                          <lottie-player src="loader.json" background="transparent" speed="1" style="width: 200px; height: 200px;"></lottie-player>
                         </div>
                         <div class="flip-back-content" style="display: none;">
                           <div class="code-timer" id="foreign-passport-timer">Код діятиме ще ...</div>
                           <div class="code-display-area">
                               <img id="foreign-passport-qr-img" src="" alt="QR">
                           </div>
-                          <div class="passport-switcher">
-                              <span></span> <!-- Placeholder for layout consistency -->
+                          <div class="passport-switcher" style="height: 80px;">
+                              <!-- Пустий блок для збереження відступів -->
                           </div>
                         </div>
                     </div>
@@ -932,23 +912,23 @@
                 <div class="flip-card">
                   <div class="flip-card-inner">
                     <div class="flip-card-front">
-                      <div class="document-container">
+                       <div class="document-container">
                           <div class="document-content">
                             <h1 class="document-title">Картка платника податків</h1>
                             <h2 class="document-title subtitle">РНОКПП</h2>
                             <div class="details">
                                 <div class="detail-item">
-                                  <span class="value">Литовченко</span>
-                                  <span class="value">Софія</span>
-                                  <span class="value">Михайлівна</span>
+                                  <span class="value" style="font-size: 18px; font-weight: 500;">Литовченко</span>
+                                  <span class="value" style="font-size: 18px; font-weight: 500;">Софія</span>
+                                  <span class="value" style="font-size: 18px; font-weight: 500;">Михайлівна</span>
                                 </div>
-                                <div class="detail-item" style="margin-top: 15px;">
+                                <div class="detail-item" style="margin-top: 20px;">
                                   <span class="label">Дата народження:</span>
                                   <span class="value">20.08.2008</span>
                                 </div>
                             </div>
                           </div>
-                          <div class="info-section" style="justify-content: space-between;">
+                          <div class="info-section" style="justify-content: space-between; padding-bottom: 5px;">
                               <div class="name-section">
                                 <span class="tax-id-number">3967915523</span>
                                 <div class="more-options">
@@ -963,15 +943,15 @@
                     </div>
                     <div class="flip-card-back">
                       <div class="lottie-loader-container">
-                        <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_a2chheio.json" background="transparent" speed="1" style="width: 200px; height: 200px;"></lottie-player>
+                        <lottie-player src="loader.json" background="transparent" speed="1" style="width: 200px; height: 200px;"></lottie-player>
                       </div>
                       <div class="flip-back-content" style="display: none;">
                           <div class="code-timer" id="tax-card-timer">Код діятиме ще ...</div>
                           <div class="code-display-area">
                               <img id="tax-card-qr-img" src="" alt="QR">
                           </div>
-                          <div class="passport-switcher">
-                              <span></span>
+                          <div class="passport-switcher" style="height: 80px;">
+                              <!-- Пустий блок для збереження відступів -->
                           </div>
                       </div>
                     </div>
@@ -1134,7 +1114,7 @@
           renderer: 'svg',
           loop: true,
           autoplay: true,
-          path: 'background_gradient.json'
+          path: 'background_gradient.json' // ВАЖЛИВО: Переконайтесь, що цей файл є у вашій папці
       });
 
 
@@ -1436,12 +1416,8 @@
             const backSide = card.querySelector('.flip-card-back');
 
             // Не перевертати, якщо це проста картка без анімації (єДокумент)
-            if (backSide.classList.contains('simple-qr-back') && isFlippingToBack) {
-                currentInner.classList.add('is-flipped');
-                return;
-            }
-            if (backSide.classList.contains('simple-qr-back') && !isFlippingToBack) {
-                currentInner.classList.remove('is-flipped');
+            if (backSide.classList.contains('simple-qr-back')) {
+                currentInner.classList.toggle('is-flipped');
                 return;
             }
             
