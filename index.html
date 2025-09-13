@@ -216,6 +216,7 @@
       overflow: hidden;
       transition: opacity 0.4s ease-in-out;
       visibility: hidden; opacity: 0;
+      background: transparent;
     }
     .page.active { visibility: visible; opacity: 1; }
     
@@ -223,16 +224,16 @@
         position: relative;
     }
 
+    /* --- LOTTIE BACKGROUND FIX --- */
     #docs-background-lottie {
-        position: absolute;
+        position: fixed;
         top: 0;
         left: 0;
-        width: 100%;
-        height: 100%;
+        width: 100vw;
+        height: 100vh;
         z-index: -1;
-        overflow: hidden;
     }
-    #docs-background-lottie > * {
+    #docs-background-lottie lottie-player {
         width: 100%;
         height: 100%;
         object-fit: cover;
@@ -244,7 +245,7 @@
 
     .slider-container {
       width: 100%;
-      height: 450px; /* Increased height for better spacing */
+      height: 435px; /* Reverted height */
       margin-top: -50px;
       display: flex;
       align-items: center;
@@ -260,7 +261,7 @@
     }
     .slide {
       flex: 0 0 80%; 
-      height: 450px;
+      height: 435px; /* Reverted height */
       -webkit-tap-highlight-color: transparent;
       padding: 0 5px; 
     }
@@ -332,6 +333,7 @@
         height: 100%;
         display: flex;
         flex-direction: column;
+        width: 100%; /* Ensure it doesn't overflow slide padding */
     }
     .empty-card { height: 100%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: #888; }
     .document-content { padding: 20px; padding-bottom: 0; }
@@ -387,7 +389,7 @@
       white-space: nowrap;
       padding: 5px 0;
       flex-shrink: 0;
-      margin-top: auto; /* Push to bottom of its container */
+      margin-top: auto;
     }
     .status-banner {
       display: flex;
@@ -405,7 +407,7 @@
         white-space: nowrap;
     }
 
-    .info-section { padding: 20px; display: flex; flex-direction: column; justify-content: flex-end; }
+    .info-section { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; justify-content: flex-end; }
     .name-section {
         display: flex;
         justify-content: space-between;
@@ -424,12 +426,16 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+        gap: 10px; /* Added gap */
     }
     .document-number-section .number {
         font-family: 'SF Mono', 'Menlo', 'Courier New', monospace;
         font-size: 24px;
         font-weight: 600;
         letter-spacing: 2px;
+        min-width: 0; /* Fix for overflow */
+        flex-shrink: 1; /* Fix for overflow */
+        word-break: break-all; /* Fix for overflow */
     }
     
     .more-options {
@@ -530,14 +536,6 @@
         background-color: var(--menu-bg-color);
         padding: 20px 16px 100px 16px;
         overflow-y: auto;
-        visibility: hidden;
-        opacity: 0;
-        transition: opacity 0.4s ease-in-out;
-        display: block;
-    }
-    #page-menu.active {
-        visibility: visible;
-        opacity: 1;
     }
     .menu-header {
         padding: 0 4px 10px 4px;
@@ -765,9 +763,13 @@
                             <div class="card-back-content">
                                 <div class="code-timer"></div>
                                 <div class="code-display-area">
-                                    <img class="generic-qr-img" src="" alt="QR">
+                                     <div class="code-display-item current">
+                                        <img class="generic-qr-img" src="" alt="QR">
+                                    </div>
                                 </div>
-                                <div class="passport-switcher"></div>
+                                <div class="passport-switcher">
+                                    <!-- No switcher for this card -->
+                                </div>
                             </div>
                         </div>
                       </div>
@@ -1378,7 +1380,7 @@
               const minutes = Math.floor(timeLeft / 60);
               let seconds = timeLeft % 60;
               seconds = seconds < 10 ? '0' + seconds : seconds;
-              timerEl.textContent = `Код діятиме ще ${minutes}:${seconds} хв`;
+              if(timerEl) timerEl.textContent = `Код діятиме ще ${minutes}:${seconds} хв`;
             };
             
             updateTimerText();
@@ -1389,8 +1391,8 @@
                     updateTimerText();
                 } else {
                     clearInterval(timerInterval);
-                    timerEl.textContent = "Час вийшов";
-                    // Flip back
+                    if(timerEl) timerEl.textContent = "Час вийшов";
+                    
                     const inner = card.querySelector('.flip-card-inner');
                     if(inner.classList.contains('is-flipped')){
                        inner.classList.remove('is-flipped');
@@ -1440,6 +1442,8 @@
        document.querySelectorAll('.passport-switcher').forEach(switcher => {
             const qrBtn = switcher.querySelector('.passport-switcher-btn:first-child');
             const barcodeBtn = switcher.querySelector('.passport-switcher-btn:last-child');
+            if (!qrBtn || !barcodeBtn) return;
+
             const displayArea = switcher.previousElementSibling; // .code-display-area
             const qrCodeEl = displayArea.querySelector('.code-display-item:first-child');
             const barcodeEl = displayArea.querySelector('.code-display-item:last-child');
