@@ -691,7 +691,7 @@
                     </div>
                   </div>
                 </div>
-                <!-- СЛАЙД 2: ПАСПОРТ ГРОМАДЯНИНА УКРАЇНИ (З ПІДПИСОМ) -->
+                <!-- СЛАЙД 2: ПАСПORT ГРОМАДЯНИНА УКРАЇНИ (З ПІДПИСОМ) -->
                 <div class="slide" id="passport-ukraine-slide">
                   <div class="flip-card">
                     <div class="flip-card-inner">
@@ -1163,12 +1163,14 @@
       let prevTranslate = 0;
       let animationID;
 
-      const getPositionX = (e) => e.type.includes('mouse') ? e.pageX : e.touches.clientX;
+      // ВИПРАВЛЕНО: Додано [0] для правильної роботи на мобільних
+      const getPositionX = (e) => e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
       
       const updateSliderDots = () => {
           dots.forEach((dot, index) => dot.classList.toggle('active', index === currentIndex));
       };
 
+      // Функція для динамічної анімації під час перетягування
       const animation = () => {
         sliderWrapper.style.transform = `translateX(${currentTranslate}px)`;
         
@@ -1190,10 +1192,14 @@
         if (isDragging) requestAnimationFrame(animation);
       }
       
-      const setFinalSliderPosition = () => {
-        sliderWrapper.style.transition = 'transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+      // ВИПРАВЛЕНО: Основна функція для встановлення фінальної позиції
+      const setFinalSliderPosition = (withTransition = true) => {
+        const transitionStyle = withTransition ? 'transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)' : 'none';
+        const slideTransitionStyle = withTransition ? 'transform 0.4s ease, opacity 0.4s ease' : 'none';
+
+        sliderWrapper.style.transition = transitionStyle;
         slides.forEach(slide => {
-            slide.style.transition = 'transform 0.4s ease, opacity 0.4s ease';
+            slide.style.transition = slideTransitionStyle;
         });
 
         const targetSlide = slides[currentIndex];
@@ -1206,6 +1212,7 @@
         
         sliderWrapper.style.transform = `translateX(${currentTranslate}px)`;
 
+        // Явно встановлюємо масштаби, щоб уникнути помилок обчислення
         slides.forEach((slide, index) => {
             const scale = index === currentIndex ? 1 : 0.9;
             const opacity = index === currentIndex ? 1 : 0.7;
@@ -1217,8 +1224,9 @@
         updateSliderDots();
       }
 
-      const positionSliderByIndex = () => {
-        setFinalSliderPosition();
+      // Обгортка для зручності виклику
+      const positionSliderByIndex = (withTransition = true) => {
+        setFinalSliderPosition(withTransition);
       }
 
       const dragStart = (e) => {
@@ -1251,24 +1259,13 @@
           currentIndex--;
         }
 
-        positionSliderByIndex();
+        positionSliderByIndex(true); // Викликаємо з анімацією
       };
       
+      // ВИПРАВЛЕНО: Ініціалізація тепер використовує ту ж логіку, що й завершення перетягування
       const initializeCarousel = () => {
           if (!slides[currentIndex] || sliderContainer.offsetWidth === 0) return;
-          
-          sliderWrapper.style.transition = 'none';
-          slides.forEach(slide => slide.style.transition = 'none');
-
-          const targetSlide = slides[currentIndex];
-          const containerCenter = sliderContainer.offsetWidth / 2;
-          const slideCenter = targetSlide.offsetLeft + targetSlide.offsetWidth / 2;
-          
-          currentTranslate = containerCenter - slideCenter;
-          prevTranslate = currentTranslate;
-          
-          animation();
-          updateSliderDots();
+          positionSliderByIndex(false); // Викликаємо без анімації
       }
       
       window.addEventListener('resize', initializeCarousel);
@@ -1333,9 +1330,9 @@
       }
 
       flipCards.forEach(card => {
-        card.addEventListener('click', () => {
+        card.addEventListener('click', (e) => {
             const movedBy = Math.abs(currentTranslate - prevTranslate);
-            if (isDragging && movedBy > 10) return;
+            if (isDragging && movedBy > 15) return;
             
             const slide = card.closest('.slide');
             if (slide.style.transform !== 'scale(1)') return;
@@ -1361,6 +1358,8 @@
         const barcodeBtn = document.getElementById(barcodeBtnId);
         const qrCodeEl = document.getElementById(qrElId);
         const barcodeEl = document.getElementById(barcodeElId);
+
+        if(!qrBtn || !barcodeBtn || !qrCodeEl || !barcodeEl) return;
 
         qrBtn.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -1443,7 +1442,7 @@
       function getCanvasCoordinates(e) {
           const rect = signatureCanvas.getBoundingClientRect();
           if (e.touches && e.touches.length > 0) {
-              return [e.touches.clientX - rect.left, e.touches.clientY - rect.top];
+              return [e.touches[0].clientX - rect.left, e.touches[0].clientY - rect.top];
           } else {
               return [e.clientX - rect.left, e.clientY - rect.top];
           }
