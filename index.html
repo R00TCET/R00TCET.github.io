@@ -237,16 +237,17 @@
         overflow: hidden;
         display: none; /* За замовчуванням приховано */
     }
+    
+    /* --- ВИПРАВЛЕННЯ 2: Стилі для фонової анімації --- */
     #background-animation lottie-player {
         position: absolute;
         top: 50%;
         left: 50%;
-        min-width: 100%;
-        min-height: 100%;
-        width: auto;
-        height: auto;
+        /* Гарантоване заповнення екрану на всіх пристроях */
+        width: 100vw;
+        height: 100vh;
         transform: translate(-50%, -50%);
-        object-fit: cover; /* Розтягуємо, зберігаючи пропорції */
+        object-fit: cover; /* Ця властивість обріже зайве, зберігши пропорції */
     }
 
     .placeholder-page { display: flex; justify-content: center; align-items: center; height: 100%; font-size: 24px; color: #555; }
@@ -266,10 +267,11 @@
       align-items: center;
       gap: 3px; 
     }
-    /* --- ВИПРАВЛЕНО: Стиль слайда для коректної ширини --- */
+    
+    /* --- ВИПРАВЛЕННЯ 1: Стиль слайда для коректної ширини --- */
     .slide {
-      width: 80%;
-      min-width: 80%; /* ЗАПОБІГАЄ СПЛЮЩУВАННЮ */
+      width: 250px;
+      min-width: 250px; /* ЗАПОБІГАЄ СПЛЮЩУВАННЮ */
       flex-shrink: 0; 
       height: 435px;
       -webkit-tap-highlight-color: transparent;
@@ -990,7 +992,7 @@
         <button class="signature-pad-btn save" id="signature-save-btn">Продовжити</button>
     </div>
   </div>
-    <script>
+  <script>
     document.addEventListener('DOMContentLoaded', () => {
 
       // --- ЛОГІКА СТАРТОВОГО ЕКРАНУ ТА ЕКРАНУ ВХОДУ ---
@@ -1096,9 +1098,6 @@
           dots.forEach((dot, index) => dot.classList.toggle('active', index === currentIndex));
       };
 
-      // --- ЗМІНЕНА ФУНКЦІЯ ---
-      // В цій функції прибрано рядок `slide.style.transform = `scale(${scale})`
-      // Тепер картки не будуть змінювати свій розмір.
       const setSliderPosition = () => {
         sliderWrapper.style.transform = `translateX(${currentTranslate}px)`;
         
@@ -1106,20 +1105,14 @@
         slides.forEach(slide => {
             const slideCenter = slide.offsetLeft + slide.offsetWidth / 2 + currentTranslate;
             const distance = Math.abs(containerCenter - slideCenter);
-
-            // Розрахунок прозорості залишаємо для візуального ефекту
+            const scale = 1 - (0.1 * Math.min(distance / slide.offsetWidth, 1));
             const opacity = 1 - (0.3 * Math.min(distance / slide.offsetWidth, 1));
-            slide.style.opacity = `${opacity}`;
-            
-            // Рядок, що викликав масштабування, видалено.
-            // slide.style.transform = `scale(${scale})`; 
 
-            // Визначаємо, чи є слайд центральним, щоб зробити його клікабельним
-            const isCentered = distance < 10;
-            slide.style.pointerEvents = isCentered ? 'auto' : 'none';
+            slide.style.transform = `scale(${scale})`;
+            slide.style.opacity = `${opacity}`;
+            slide.style.pointerEvents = scale > 0.99 ? 'auto' : 'none';
         });
       };
-      // --- КІНЕЦЬ ЗМІНЕНОЇ ФУНКЦІЇ ---
 
       const animation = () => {
         setSliderPosition();
@@ -1127,12 +1120,11 @@
       }
       
       const positionSliderByIndex = (withTransition = true) => {
-        // --- ЗМІНА ТУТ: прибрано анімацію для самих слайдів, щоб уникнути ривків
         const transitionStyle = withTransition ? 'transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)' : 'none';
-        
+        const slideTransitionStyle = withTransition ? 'transform 0.4s ease, opacity 0.4s ease' : 'none';
+
         sliderWrapper.style.transition = transitionStyle;
-        // Оскільки ми не змінюємо transform слайдів, анімація для них більше не потрібна
-        slides.forEach(slide => slide.style.transition = withTransition ? 'opacity 0.4s ease' : 'none');
+        slides.forEach(slide => slide.style.transition = slideTransitionStyle);
 
         const targetSlide = slides[currentIndex];
         if (!targetSlide) return;
@@ -1254,16 +1246,8 @@
         const backContent = card.querySelector('.back-content');
 
         card.addEventListener('click', (e) => {
-            // Перевірка, чи це не було перетягування слайдера
             if (isDragging && Math.abs(currentTranslate - prevTranslate) > 15) return;
-            
-            // Перевіряємо, чи є цей слайд активним (центральним)
-            const slideElement = card.closest('.slide');
-            const containerCenter = sliderContainer.offsetWidth / 2;
-            const slideCenter = slideElement.offsetLeft + slideElement.offsetWidth / 2 + currentTranslate;
-            const distance = Math.abs(containerCenter - slideCenter);
-            
-            if (distance > 10) return; // Не перевертати, якщо слайд не в центрі
+            if (card.closest('.slide').style.transform !== 'scale(1)') return;
 
             const isFlippingToBack = !inner.classList.contains('is-flipped');
 
