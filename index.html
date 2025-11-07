@@ -1,124 +1,98 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Spotify Web PWA</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Spotify Web PWA</title>
+  <meta name="theme-color" content="#1DB954">
 
-    <!-- Кольори теми для браузера -->
-    <meta name="theme-color" content="#1DB954">
+  <!-- Іконка -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%231DB954'/%3E%3Cpath d='M30 65 A 30 30 0 0 1 70 55 M35 50 A 25 25 0 0 1 75 40 M40 35 A 20 20 0 0 1 80 25' stroke='white' stroke-width='6' fill='none'/%3E%3C/svg%3E">
 
-    <!-- Іконка додатку (вбудована як SVG) -->
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%231DB954'/%3E%3Cpath d='M30 65 A 30 30 0 0 1 70 55 M35 50 A 25 25 0 0 1 75 40 M40 35 A 20 20 0 0 1 80 25' stroke='white' stroke-width='6' fill='none'/%3E%3C/svg%3E">
-
-    <style>
-        /* Стилі для скидання відступів і розтягування iframe на весь екран */
-        html, body {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            width: 100%;
-            overflow: hidden;
-            background-color: #121212; /* Фон, як у Spotify */
-        }
-        iframe {
-            border: none;
-            width: 100%;
-            height: 100%;
-            display: block;
-        }
-    </style>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      width: 100%;
+      background-color: #121212;
+      color: white;
+      font-family: Arial, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+    button {
+      background-color: #1DB954;
+      border: none;
+      border-radius: 25px;
+      padding: 15px 30px;
+      font-size: 1.2rem;
+      color: #fff;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background-color: #1ed760;
+    }
+  </style>
 </head>
 <body>
 
-    <!-- Iframe завантажує Spotify і блокує перенаправлення через sandbox -->
-    <iframe
-        id="spotify-iframe"
-        src="https://open.spotify.com/"
-        sandbox="allow-scripts allow-forms allow-same-origin allow-popups allow-storage-access-by-user-activation">
-    </iframe>
+  <div>
+    <h1>Spotify Web Player (PWA)</h1>
+    <p>Натисни кнопку нижче, щоб відкрити Spotify Web.</p>
+    <button id="openSpotify">Відкрити Spotify</button>
+  </div>
 
-    <script>
-        // --- Динамічне створення PWA ---
-
-        // 1. Створення та реєстрація Маніфесту додатку
-        const manifest = {
-            "name": "Spotify Web Player (PWA)",
-            "short_name": "Spotify Web",
-            "description": "Веб-клієнт Spotify, що не перенаправляє в додаток.",
-            "start_url": ".",
-            "display": "standalone",
-            "background_color": "#121212",
-            "theme_color": "#1DB954",
-            "icons": [
-                {
-                    "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Ccircle cx='96' cy='96' r='90' fill='%231DB954'/%3E%3Cpath d='M55 125 A 50 50 0 0 1 135 105 M65 95 A 45 45 0 0 1 145 75 M75 65 A 40 40 0 0 1 155 45' stroke='white' stroke-width='12' fill='none'/%3E%3C/svg%3E",
-                    "sizes": "192x192",
-                    "type": "image/svg+xml"
-                },
-                {
-                    "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Ccircle cx='256' cy='256' r='240' fill='%231DB954'/%3E%3E%3Cpath d='M140 330 A 130 130 0 0 1 370 280 M160 250 A 120 120 0 0 1 390 200 M180 170 A 110 110 0 0 1 410 120' stroke='white' stroke-width='30' fill='none'/%3E%3C/svg%3E",
-                    "sizes": "512x512",
-                    "type": "image/svg+xml"
-                }
-            ]
-        };
-
-        // Створюємо data URL для маніфесту
-        const manifestURL = 'data:application/json;base64,' + btoa(JSON.stringify(manifest));
-
-        // Створюємо тег link і додаємо його в head
-        const linkManifest = document.createElement('link');
-        linkManifest.rel = 'manifest';
-        linkManifest.href = manifestURL;
-        document.head.appendChild(linkManifest);
-
-
-        // 2. Створення та реєстрація Сервіс-воркера
-        if ('serviceWorker' in navigator) {
-            const swCode = `
-                // Простий сервіс-воркер, необхідний для PWA.
-                // Він не кешує нічого, просто перенаправляє запити в мережу.
-                self.addEventListener('install', (event) => {
-                    // Пропускаємо очікування, щоб новий SW активувався одразу
-                    self.skipWaiting();
-                });
-
-                self.addEventListener('activate', (event) => {
-                    // При активації одразу беремо контроль над сторінкою
-                    clients.claim();
-                });
-
-                self.addEventListener('fetch', (event) => {
-                    // Завжди йдемо в мережу, бо нам потрібна онлайн-версія Spotify
-                    event.respondWith(fetch(event.request).catch(() => {
-                        // Якщо мережі немає, можна повернути просту офлайн-сторінку,
-                        // але для Spotify це не має сенсу.
-                        return new Response(
-                            '<h1>Немає підключення до Інтернету</h1><p>Для використання Spotify Web потрібен Інтернет.</p>',
-                            { headers: { 'Content-Type': 'text/html' } }
-                        );
-                    }));
-                });
-            `;
-
-            // Створюємо Blob з коду сервіс-воркера
-            const swBlob = new Blob([swCode], { type: 'application/javascript' });
-            // Створюємо URL для Blob
-            const swURL = URL.createObjectURL(swBlob);
-
-            // Реєструємо сервіс-воркер
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register(swURL)
-                    .then(registration => {
-                        console.log('Service Worker зареєстровано успішно:', registration);
-                    })
-                    .catch(error => {
-                        console.error('Помилка реєстрації Service Worker:', error);
-                    });
-            });
+  <script>
+    // Маніфест
+    const manifest = {
+      "name": "Spotify Web Player (PWA)",
+      "short_name": "Spotify Web",
+      "start_url": ".",
+      "display": "standalone",
+      "background_color": "#121212",
+      "theme_color": "#1DB954",
+      "description": "Spotify Web Player як PWA-додаток.",
+      "icons": [
+        {
+          "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Ccircle cx='96' cy='96' r='90' fill='%231DB954'/%3E%3Cpath d='M55 125 A 50 50 0 0 1 135 105 M65 95 A 45 45 0 0 1 145 75 M75 65 A 40 40 0 0 1 155 45' stroke='white' stroke-width='12' fill='none'/%3E%3C/svg%3E",
+          "sizes": "192x192",
+          "type": "image/svg+xml"
         }
-    </script>
+      ]
+    };
+
+    const manifestURL = 'data:application/json;base64,' + btoa(JSON.stringify(manifest));
+    const link = document.createElement('link');
+    link.rel = 'manifest';
+    link.href = manifestURL;
+    document.head.appendChild(link);
+
+    // Сервіс-воркер
+    if ('serviceWorker' in navigator) {
+      const sw = `
+        self.addEventListener('install', e => self.skipWaiting());
+        self.addEventListener('activate', e => clients.claim());
+        self.addEventListener('fetch', e => {
+          e.respondWith(fetch(e.request).catch(() => new Response(
+            '<h1>Офлайн</h1><p>Для роботи потрібен Інтернет.</p>', 
+            { headers: { 'Content-Type': 'text/html' } }
+          )));
+        });
+      `;
+      const blob = new Blob([sw], { type: 'application/javascript' });
+      const swURL = URL.createObjectURL(blob);
+      navigator.serviceWorker.register(swURL);
+    }
+
+    // Кнопка для відкриття Spotify
+    document.getElementById('openSpotify').addEventListener('click', () => {
+      window.location.href = 'https://open.spotify.com';
+    });
+  </script>
+
 </body>
 </html>
